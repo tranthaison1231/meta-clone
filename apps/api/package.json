@@ -1,0 +1,32 @@
+{
+  "name": "@chinese-chess/api",
+  "description": "This template demonstrates how to make a simple HTTP API with Node.js and Typescript running on AWS Lambda and API Gateway using the Serverless Framework v3",
+  "version": "1.0.0",
+  "private": true,
+  "main": "index.js",
+  "scripts": {
+    "dev": "serverless offline start",
+    "deploy": "serverless deploy",
+    "check": "tsc --noEmit",
+    "lint": "eslint ."
+  },
+  "devDependencies": {
+    "@types/aws-lambda": "^8.10.126",
+    "@types/node": "^20.8.10",
+    "esbuild": "^0.19.5",
+    "serverless": "^3.36.0",
+    "serverless-esbuild": "^1.48.5",
+    "serverless-offline": "^13.2.1",
+    "serverless-prune-plugin": "^2.0.2",
+    "ts-loader": "^9.5.0",
+    "ts-node": "^10.9.1",
+    "typescript": "^5.2.2",
+    "@chinese-chess/eslint-config-custom": "workspace:*",
+    "@chinese-chess/tsconfig": "workspace:*"
+  },
+  "dependencies": {
+    "@aws-sdk/client-apigatewaymanagementapi": "^3.445.0",
+    "@chinese-chess/utils": "workspace:*",
+    "@chinese-chess/db": "workspace:*"
+  }
+}

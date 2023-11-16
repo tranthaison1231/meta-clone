@@ -1,0 +1,16 @@
+{
+  "extends": "@chinese-chess/tsconfig/base.json",
+  "compilerOptions": {
+    "target": "es2017",
+    "lib": ["ES2020"],
+    "module": "NodeNext",
+    "outDir": "dist",
+    "rootDir": "./",
+    "sourceMap": true,
+    "baseUrl": ".",
+    "paths": {
+      "@/*": ["src/*"]
+    }
+  },
+  "include": ["src/**/*"]
+}
