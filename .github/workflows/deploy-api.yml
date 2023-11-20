@@ -41,4 +41,4 @@ jobs:
           rm -rf .env
           touch .env
           echo "DSN=${{ secrets.DSN }}" >> .env
-          make deploy
+          pnpm run deploy
