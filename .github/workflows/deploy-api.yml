@@ -42,5 +42,5 @@ jobs:
           cd apps/api
           rm -rf .env
           touch .env
-          echo "DSN=124124" >> .env
+          echo "DSN=${{ secrets.DSN }}" >> .env
           pnpm run deploy

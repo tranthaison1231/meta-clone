@@ -13,9 +13,7 @@ import (
 var DB *gorm.DB
 
 func ConnectDB() {
-	if err := godotenv.Load(); err != nil {
-		log.Fatal("failed to load env", err)
-	}
+	godotenv.Load()
 	var err error
 	DB, err = gorm.Open(mysql.Open(os.Getenv("DSN")), &gorm.Config{})
 	if err != nil {
