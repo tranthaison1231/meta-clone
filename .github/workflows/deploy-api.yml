@@ -25,8 +25,8 @@ jobs:
         with:
           node-version: ${{ matrix.node-version }}
           cache: 'pnpm'
-      - name: Install serverless global
-        run: pnpm install -g serverless@latest
+      - name: Install package
+        run: pnpm install
       - name: Setup go ${{ matrix.go-version }}
         uses: actions/setup-go@v4
         with:
@@ -38,5 +38,4 @@ jobs:
           aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
       - name: Deploy
-        run: cd apps/api && touch .env && echo "DSN=${{ secrets.DSN }}" >> .env && make deploy
-      
+        run: pnpm run deploy:api     

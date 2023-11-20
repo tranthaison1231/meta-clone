@@ -13,7 +13,7 @@
     "format": "turbo run format",
     "check": "turbo run check --parallel",
     "dev:web": "turbo run dev --filter=web",
-    "dev:api": "cd apps/api && make dev",
+    "dev:api": "turbo run dev --filter=api",
     "deploy:api": "turbo run deploy --filter=api",
     "db:seed": "turbo run seed --filter=db"
   },
