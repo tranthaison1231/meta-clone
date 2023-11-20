@@ -1,19 +1,25 @@
 package handlers
 
 import (
+	"api/model"
 	"net/http"
+	"strings"
 
 	"github.com/gin-gonic/gin"
 	"github.com/go-playground/validator/v10"
+	"gorm.io/gorm"
 )
 
-type SignInRequest struct {
-	Email    string `json:"email" validate:"required,email"`
-	Password string `json:"password" validate:"required"`
+type AuthController struct {
+	DB *gorm.DB
 }
 
-func SignIn(c *gin.Context) {
-	var req SignInRequest
+func InitAuthController(DB *gorm.DB) AuthController {
+	return AuthController{DB}
+}
+
+func (ac *AuthController) SignIn(c *gin.Context) {
+	var req model.SignInRequest
 	if err := c.ShouldBindJSON(&req); err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
@@ -29,16 +35,52 @@ func SignIn(c *gin.Context) {
 	})
 }
 
-func SignUp(c *gin.Context) {
+func (ac *AuthController) SignUp(c *gin.Context) {
+	var req model.SignUpRequest
+	if err := c.ShouldBindJSON(&req); err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		return
+	}
+	v := validator.New()
+	err := v.Struct(req)
+	if err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		return
+	}
+	newUser := model.User{
+		Email:    strings.ToLower(req.Email),
+		Password: req.Password,
+		Gender:   req.Gender,
+	}
+	result := ac.DB.Create(&newUser)
+
+	if result.Error != nil && strings.Contains(result.Error.Error(), "duplicate key value violates unique") {
+		c.JSON(http.StatusConflict, gin.H{"status": "fail", "message": "User with that email already exists"})
+		return
+	} else if result.Error != nil {
+		c.JSON(http.StatusBadGateway, gin.H{"status": "error", "message": "Something bad happened"})
+		return
+	}
+
 	c.JSON(http.StatusOK, gin.H{
 		"token": "123456",
 	})
 }
 
-func GetMe(c *gin.Context) {
-	c.JSON(http.StatusOK, gin.H{
-		"id":     "123456",
-		"name":   "Son Tran",
-		"avatar": "https://scontent.fhan2-4.fna.fbcdn.net/v/t39.30808-1/275227304_2189265651227084_6306293141393566490_n.jpg?stp=dst-jpg_p100x100&_nc_cat=100&ccb=1-7&_nc_sid=5f2048&_nc_eui2=AeGSrLdIzPJQLWlPGZnNs2k60UBRHL1Rt6nRQFEcvVG3qchcOQx5CR7QUYLj9gnSwxmMdT1TVOXg8lKn0RSMS2cU&_nc_ohc=iOcN-3H4vTkAX_84_ws&_nc_ad=z-m&_nc_cid=0&_nc_ht=scontent.fhan2-4.fna&oh=00_AfB3O50uwv_-Omrjj1WgK2sKF9Y2yeAAG-HKNd1Vcn6Ymg&oe=655DD252",
-	})
+func (ac *AuthController) GetMe(c *gin.Context) {
+	var user model.User
+	result := ac.DB.First(&user, "email = ?", strings.ToLower("ttson.1711@gmail.com"))
+
+	if result.Error != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"status": "fail", "message": "Internal server error"})
+		return
+	}
+
+	userResponse := &model.UserResponse{
+		ID:     user.ID,
+		Email:  user.Email,
+		Gender: user.Gender,
+	}
+
+	c.JSON(http.StatusOK, gin.H{"status": "success", "data": gin.H{"user": userResponse}})
 }

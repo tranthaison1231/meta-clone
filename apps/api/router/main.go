@@ -7,6 +7,7 @@ import (
 	"net/http"
 	"os"
 
+	"api/db"
 	"api/handlers"
 
 	"github.com/aws/aws-lambda-go/events"
@@ -23,15 +24,18 @@ var (
 )
 
 func init() {
+	db.ConnectDB()
+
 	port := os.Getenv("PORT")
 	fmt.Println("PORT:", port)
 	r := gin.Default()
 
 	r.Use(cors.Default())
 
-	r.POST("/sign-in", handlers.SignIn)
-	r.POST("/sign-up", handlers.SignUp)
-	r.GET("/me", handlers.GetMe)
+	var authController = handlers.InitAuthController(db.DB)
+	r.POST("/sign-in", authController.SignIn)
+	r.POST("/sign-up", authController.SignUp)
+	r.GET("/me", authController.GetMe)
 	r.GET("/me/groups", handlers.GetMyGroups)
 	r.GET("/me/contacts", handlers.GetMyContacts)
 	r.GET("/contacts/:contactID/messages", handlers.GetMessagesByContact)

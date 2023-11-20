@@ -30,5 +30,7 @@
 git clone https://github.com/tranthaison1231/messenger-clone.git
 pnpm install
 cd apps/web && ln -s ../../.env .env
+cd apps/api && ln -s ../../.env .env
 pnpm run dev
 ```
+
