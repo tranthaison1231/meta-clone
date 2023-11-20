@@ -7,8 +7,11 @@ import (
 	"net/http"
 	"os"
 
-	"api/db"
-	"api/handlers"
+	"github.com/tranthaison1231/messenger-clone/api/handlers"
+
+	"github.com/tranthaison1231/messenger-clone/api/middlewares"
+
+	"github.com/tranthaison1231/messenger-clone/api/db"
 
 	"github.com/aws/aws-lambda-go/events"
 	"github.com/aws/aws-lambda-go/lambda"
@@ -35,11 +38,14 @@ func init() {
 	var authController = handlers.InitAuthController(db.DB)
 	r.POST("/sign-in", authController.SignIn)
 	r.POST("/sign-up", authController.SignUp)
-	r.GET("/me", authController.GetMe)
-	r.GET("/me/groups", handlers.GetMyGroups)
-	r.GET("/me/contacts", handlers.GetMyContacts)
-	r.GET("/contacts/:contactID/messages", handlers.GetMessagesByContact)
-	r.POST("/contacts/:contactID/messages", handlers.SendMessageToContact)
+
+	auth := r.Group("", middlewares.Auth)
+
+	auth.GET("/me", authController.GetMe)
+	auth.GET("/me/groups", handlers.GetMyGroups)
+	auth.GET("/me/contacts", handlers.GetMyContacts)
+	auth.GET("/contacts/:contactID/messages", handlers.GetMessagesByContact)
+	auth.POST("/contacts/:contactID/messages", handlers.SendMessageToContact)
 
 	if port != "" {
 		server = &http.Server{

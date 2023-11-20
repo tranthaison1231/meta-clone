@@ -1,9 +1,10 @@
 package handlers
 
 import (
-	"api/model"
 	"net/http"
 	"strings"
+
+	"github.com/tranthaison1231/messenger-clone/api/models"
 
 	"github.com/gin-gonic/gin"
 	"github.com/go-playground/validator/v10"
@@ -19,7 +20,7 @@ func InitAuthController(DB *gorm.DB) AuthController {
 }
 
 func (ac *AuthController) SignIn(c *gin.Context) {
-	var req model.SignInRequest
+	var req models.SignInRequest
 	if err := c.ShouldBindJSON(&req); err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
@@ -30,13 +31,22 @@ func (ac *AuthController) SignIn(c *gin.Context) {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
 	}
+
+	var user models.User
+	result := ac.DB.First(&user, "email = ?", strings.ToLower(req.Email))
+
+	if result.Error != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"status": "fail", "message": "User not found"})
+		return
+	}
+
 	c.JSON(http.StatusOK, gin.H{
 		"token": "123456",
 	})
 }
 
 func (ac *AuthController) SignUp(c *gin.Context) {
-	var req model.SignUpRequest
+	var req models.SignUpRequest
 	if err := c.ShouldBindJSON(&req); err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
@@ -47,7 +57,7 @@ func (ac *AuthController) SignUp(c *gin.Context) {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
 	}
-	newUser := model.User{
+	newUser := models.User{
 		Email:    strings.ToLower(req.Email),
 		Password: req.Password,
 		Gender:   req.Gender,
@@ -68,7 +78,7 @@ func (ac *AuthController) SignUp(c *gin.Context) {
 }
 
 func (ac *AuthController) GetMe(c *gin.Context) {
-	var user model.User
+	var user models.User
 	result := ac.DB.First(&user, "email = ?", strings.ToLower("ttson.1711@gmail.com"))
 
 	if result.Error != nil {
@@ -76,7 +86,7 @@ func (ac *AuthController) GetMe(c *gin.Context) {
 		return
 	}
 
-	userResponse := &model.UserResponse{
+	userResponse := &models.UserResponse{
 		ID:     user.ID,
 		Email:  user.Email,
 		Gender: user.Gender,

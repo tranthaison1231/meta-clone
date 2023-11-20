@@ -1,9 +1,11 @@
 package main
 
 import (
-	"api/db"
-	"api/model"
 	"fmt"
+
+	"github.com/tranthaison1231/messenger-clone/api/models"
+
+	"github.com/tranthaison1231/messenger-clone/api/db"
 )
 
 func init() {
@@ -11,6 +13,6 @@ func init() {
 }
 
 func main() {
-	db.DB.AutoMigrate(&model.User{})
+	db.DB.AutoMigrate(&models.User{})
 	fmt.Println("👍 Migration complete")
 }
