@@ -8,8 +8,6 @@ on:
       - '.github/workflows/deploy-api.yml'
 jobs:
   Deploy:
-    env: 
-      DSN: ${{ secrets.DSN }}
     runs-on: [ubuntu-latest]
     strategy:
       matrix:
@@ -38,4 +36,9 @@ jobs:
           aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
       - name: Deploy
-        run: pnpm run deploy:api     
+        run: |
+          cd apps/api
+          rm -rf .env
+          touch .env
+          echo "DSN=${{ secrets.DSN }}" >> .env
+          make deploy
