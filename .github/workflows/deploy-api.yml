@@ -38,7 +38,7 @@ jobs:
           aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
       - name: Copy file environment
-        run: touch .env && echo "DSN=${{ secrets.DSN }}" >> .env
+        run: cd apps/api && touch .env && echo "DSN=${{ secrets.DSN }}" >> .env
       - name: Deploy
         run: cd apps/api && make deploy
       
