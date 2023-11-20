@@ -37,11 +37,8 @@ jobs:
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
       - name: Deploy
         run: |
-          rm -rf .env
-          touch .env
-          echo "DSN=${{ secrets.DSN }}" >> .env
           cd apps/api
           rm -rf .env
           touch .env
-          echo "DSN=${{ secrets.DSN }}" >> .env
+          echo "DSN=124124" >> .env
           pnpm run deploy
