@@ -9,8 +9,7 @@ on:
 jobs:
   Deploy:
     env: 
-      DATABASE_URL: ${{ secrets.DATABASE_URL }}
-      IS_OFFLINE: ${{ secrets.IS_OFFLINE }}
+      DSN: ${{ secrets.DSN }}
     runs-on: [ubuntu-latest]
     strategy:
       matrix:
