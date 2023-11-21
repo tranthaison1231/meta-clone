@@ -5,7 +5,8 @@
   "main": "index.js",
   "scripts": {
     "dev": "make dev",
-    "deploy": "make deploy"
+    "deploy": "make deploy",
+    "migration": "make migration"
   },
   "keywords": [],
   "author": "Son Tran",

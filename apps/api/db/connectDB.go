@@ -15,7 +15,9 @@ var DB *gorm.DB
 func ConnectDB() {
 	godotenv.Load()
 	var err error
-	DB, err = gorm.Open(mysql.Open(os.Getenv("DSN")), &gorm.Config{})
+	DB, err = gorm.Open(mysql.Open(os.Getenv("DSN")), &gorm.Config{
+		TranslateError: true,
+	})
 	if err != nil {
 		log.Fatal("failed to open db connection", err)
 	}

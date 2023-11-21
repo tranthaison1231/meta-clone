@@ -79,14 +79,15 @@ func (ac *AuthController) SignUp(c *gin.Context) {
 		Email:    strings.ToLower(req.Email),
 		Password: string(pwd),
 		Gender:   req.Gender,
+		Avatar:   req.Avatar,
 	}
 	result := ac.DB.Create(&newUser)
 
-	if result.Error != nil && strings.Contains(result.Error.Error(), "duplicate key value violates unique") {
+	if result.Error != nil && result.Error == gorm.ErrDuplicatedKey {
 		c.JSON(http.StatusConflict, gin.H{"status": "fail", "message": "User with that email already exists"})
 		return
 	} else if result.Error != nil {
-		c.JSON(http.StatusBadGateway, gin.H{"status": "fail", "message": "Something bad happened"})
+		c.JSON(http.StatusBadGateway, gin.H{"status": "fail", "message": result.Error.Error()})
 		return
 	}
 	token, err := services.GenerateToken(&newUser)
@@ -107,6 +108,7 @@ func (ac *AuthController) GetMe(c *gin.Context) {
 		ID:     user.ID,
 		Email:  user.Email,
 		Gender: user.Gender,
+		Avatar: user.Avatar,
 	}
 
 	c.JSON(http.StatusOK, gin.H{"status": "success", "data": gin.H{"user": userResponse}})
