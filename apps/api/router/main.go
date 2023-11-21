@@ -2,12 +2,13 @@ package main
 
 import (
 	"context"
-	"fmt"
 	"log"
 	"net/http"
 	"os"
 
+	"github.com/tranthaison1231/messenger-clone/api/conf"
 	"github.com/tranthaison1231/messenger-clone/api/handlers"
+	"github.com/tranthaison1231/messenger-clone/api/services"
 
 	"github.com/tranthaison1231/messenger-clone/api/middlewares"
 
@@ -28,9 +29,10 @@ var (
 
 func init() {
 	db.ConnectDB()
+	conf.Conf = conf.DefaultConfig()
+	services.SecretKey = []byte(conf.Conf.JwtSecret)
 
 	port := os.Getenv("PORT")
-	fmt.Println("PORT:", port)
 	r := gin.Default()
 
 	r.Use(cors.Default())

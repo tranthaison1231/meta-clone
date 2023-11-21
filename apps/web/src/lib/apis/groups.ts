@@ -2,7 +2,11 @@ import { BASE_URL } from '$lib/services/request';
 
 export const groupsApi = {
 	getAll: async () => {
-		const rest = await fetch(`${BASE_URL}/me/groups`);
+		const rest = await fetch(`${BASE_URL}/me/groups`, {
+			headers: {
+				Authorization: `Bearer ${localStorage.getItem('token')}`
+			}
+		});
 		return rest.json();
 	}
 };

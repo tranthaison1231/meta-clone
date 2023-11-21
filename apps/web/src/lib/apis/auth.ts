@@ -12,7 +12,11 @@ export const authApi = {
 		return rest.json();
 	},
 	getMe: async () => {
-		const rest = await fetch(`${BASE_URL}/me`);
+		const rest = await fetch(`${BASE_URL}/me`, {
+			headers: {
+				Authorization: `Bearer ${localStorage.getItem('token')}`
+			}
+		});
 		return rest.json();
 	}
 };

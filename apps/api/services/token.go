@@ -1,16 +1,32 @@
 package services
 
 import (
+	"time"
+
 	"github.com/golang-jwt/jwt/v4"
 	"github.com/pkg/errors"
+	"github.com/tranthaison1231/messenger-clone/api/conf"
+	"github.com/tranthaison1231/messenger-clone/api/models"
 )
 
 var SecretKey []byte
 
 type UserClaims struct {
 	Email string `json:"email"`
-	PwdTS int64  `json:"pwd_ts"`
 	jwt.RegisteredClaims
+}
+
+func GenerateToken(user *models.User) (tokenString string, err error) {
+	claim := UserClaims{
+		Email: user.Email,
+		RegisteredClaims: jwt.RegisteredClaims{
+			ExpiresAt: jwt.NewNumericDate(time.Now().Add(time.Duration(conf.Conf.TokenExpiresIn) * time.Hour)),
+			IssuedAt:  jwt.NewNumericDate(time.Now()),
+			NotBefore: jwt.NewNumericDate(time.Now()),
+		}}
+	token := jwt.NewWithClaims(jwt.SigningMethodHS256, claim)
+	tokenString, err = token.SignedString(SecretKey)
+	return tokenString, err
 }
 
 func ParseToken(tokenString string) (*UserClaims, error) {

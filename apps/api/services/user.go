@@ -8,7 +8,8 @@ import (
 
 func GetUserByMail(mail string) (*models.User, error) {
 	var user models.User
-	result := db.DB.Where("mail = ?", mail).First(&user)
+	result := db.DB.Where("email = ?", mail).First(&user)
+
 	if result.Error != nil {
 		return nil, result.Error
 	}

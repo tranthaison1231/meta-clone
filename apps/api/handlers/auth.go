@@ -5,6 +5,8 @@ import (
 	"strings"
 
 	"github.com/tranthaison1231/messenger-clone/api/models"
+	"github.com/tranthaison1231/messenger-clone/api/services"
+	"golang.org/x/crypto/bcrypt"
 
 	"github.com/gin-gonic/gin"
 	"github.com/go-playground/validator/v10"
@@ -32,16 +34,26 @@ func (ac *AuthController) SignIn(c *gin.Context) {
 		return
 	}
 
-	var user models.User
-	result := ac.DB.First(&user, "email = ?", strings.ToLower(req.Email))
+	user, err := services.GetUserByMail(req.Email)
 
-	if result.Error != nil {
-		c.JSON(http.StatusBadRequest, gin.H{"status": "fail", "message": "User not found"})
+	if err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"status": "fail", "message": err.Error()})
+		return
+	}
+
+	if err := user.ValidatePwdStaticHash(req.Password); err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"status": "fail", "message": "You entered an invalid password"})
+		return
+	}
+
+	token, err := services.GenerateToken(user)
+	if err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"status": "fail", "message": err.Error()})
 		return
 	}
 
 	c.JSON(http.StatusOK, gin.H{
-		"token": "123456",
+		"token": token,
 	})
 }
 
@@ -57,9 +69,15 @@ func (ac *AuthController) SignUp(c *gin.Context) {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
 	}
+	pwd, err := bcrypt.GenerateFromPassword([]byte(req.Password), bcrypt.DefaultCost)
+	if err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"status": "fail", "message": err.Error()})
+		return
+	}
+
 	newUser := models.User{
 		Email:    strings.ToLower(req.Email),
-		Password: req.Password,
+		Password: string(pwd),
 		Gender:   req.Gender,
 	}
 	result := ac.DB.Create(&newUser)
@@ -68,23 +86,22 @@ func (ac *AuthController) SignUp(c *gin.Context) {
 		c.JSON(http.StatusConflict, gin.H{"status": "fail", "message": "User with that email already exists"})
 		return
 	} else if result.Error != nil {
-		c.JSON(http.StatusBadGateway, gin.H{"status": "error", "message": "Something bad happened"})
+		c.JSON(http.StatusBadGateway, gin.H{"status": "fail", "message": "Something bad happened"})
+		return
+	}
+	token, err := services.GenerateToken(&newUser)
+	if err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"status": "fail", "message": err.Error()})
 		return
 	}
 
 	c.JSON(http.StatusOK, gin.H{
-		"token": "123456",
+		"token": token,
 	})
 }
 
 func (ac *AuthController) GetMe(c *gin.Context) {
-	var user models.User
-	result := ac.DB.First(&user, "email = ?", strings.ToLower("ttson.1711@gmail.com"))
-
-	if result.Error != nil {
-		c.JSON(http.StatusBadRequest, gin.H{"status": "fail", "message": "Internal server error"})
-		return
-	}
+	user := c.MustGet("user").(*models.User)
 
 	userResponse := &models.UserResponse{
 		ID:     user.ID,

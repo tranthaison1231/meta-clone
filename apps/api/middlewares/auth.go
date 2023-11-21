@@ -1,13 +1,16 @@
 package middlewares
 
 import (
+	"strings"
+
 	"github.com/tranthaison1231/messenger-clone/api/services"
 
 	"github.com/gin-gonic/gin"
 )
 
 func Auth(c *gin.Context) {
-	token := c.GetHeader("Authorization")
+	token := strings.Split(c.GetHeader("Authorization"), " ")[1]
+
 	userClaims, err := services.ParseToken(token)
 	if err != nil {
 		c.JSON(401, gin.H{
