@@ -3,7 +3,7 @@ clean:
 dev: 
 	env PORT=8080 go run router/main.go
 migration: 
-	go run migrate/main.go
+	go run migrations/main.go
 build: clean
 	env GOOS=linux GOARCH=amd64 CGO_ENABLED=0 go build -ldflags="-s -w" -o bin/api router/main.go
 	zip bin/api.zip bin/api
