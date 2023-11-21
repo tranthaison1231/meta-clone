@@ -1,6 +1,7 @@
 package middlewares
 
 import (
+	"net/http"
 	"strings"
 
 	"github.com/tranthaison1231/messenger-clone/api/services"
@@ -11,7 +12,7 @@ import (
 func Auth(c *gin.Context) {
 	authHeader := c.GetHeader("Authorization")
 	if authHeader == "" {
-		c.JSON(401, gin.H{
+		c.JSON(http.StatusUnauthorized, gin.H{
 			"status": "fail",
 			"error":  "No authorization header provided",
 		})
@@ -23,7 +24,7 @@ func Auth(c *gin.Context) {
 
 	userClaims, err := services.ParseToken(token)
 	if err != nil {
-		c.JSON(401, gin.H{
+		c.JSON(http.StatusUnauthorized, gin.H{
 			"status": "fail",
 			"error":  err.Error(),
 		})
@@ -32,7 +33,7 @@ func Auth(c *gin.Context) {
 	}
 	user, err := services.GetUserByMail(userClaims.Email)
 	if err != nil {
-		c.JSON(401, gin.H{
+		c.JSON(http.StatusUnauthorized, gin.H{
 			"status": "fail",
 			"error":  err.Error(),
 		})

@@ -3,12 +3,14 @@ package main
 import (
 	"fmt"
 
+	"github.com/joho/godotenv"
 	"github.com/tranthaison1231/messenger-clone/api/models"
 
 	"github.com/tranthaison1231/messenger-clone/api/db"
 )
 
 func init() {
+	godotenv.Load()
 	db.ConnectDB()
 }
 

@@ -7,7 +7,7 @@ import (
 
 func GetChats(userID uint) (*[]models.Chat, error) {
 	var chats []models.Chat
-	err := db.DB.Model(&models.Chat{}).Where("owner_id = ?", userID).Find(&chats).Error
+	err := db.DB.Model(&models.Chat{}).Preload("LastMessage").Where("owner_id = ?", userID).Find(&chats).Error
 
 	if err != nil {
 		return nil, err
@@ -32,4 +32,14 @@ func AddMemberToChat(userID uint, memberID uint) (*models.Chat, error) {
 		return nil, err
 	}
 	return &chat, nil
+}
+
+func UpdateLastMessage(chatID uint64, message models.Message) error {
+	var chat models.Chat
+	db.DB.First(&chat)
+	chat.LastMessage = message
+
+	err := db.DB.Save(&chat).Error
+
+	return err
 }

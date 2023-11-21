@@ -1,33 +1,19 @@
 package models
 
 import (
-	"time"
-
 	"github.com/pkg/errors"
 	"golang.org/x/crypto/bcrypt"
-	"gorm.io/gorm"
 )
 
 type User struct {
-	gorm.Model
-	ID       uint   `gorm:"primary_key;autoIncrement"`
-	Email    string `gorm:"uniqueIndex;not null;type:varchar(255)"`
-	Salt     string `gorm:"not null"`
-	Avatar   string `gorm:"type:text"`
-	Password string `gorm:"not null"`
-	Gender   string `gorm:"not null"`
-	// Chats     []*Chat   `gorm:"many2many:chat_users;"`
-	CreatedAt time.Time
-	UpdatedAt time.Time
-}
-
-type UserResponse struct {
-	ID        uint      `json:"id,omitempty"`
-	Email     string    `json:"email,omitempty"`
-	Gender    string    `json:"gender,omitempty"`
-	Avatar    string    `json:"avatar,omitempty"`
-	CreatedAt time.Time `json:"created_at,omitempty"`
-	UpdatedAt time.Time `json:"updated_at,omitempty"`
+	Base
+	Email       string      `gorm:"uniqueIndex;not null;type:varchar(255)" json:"email"`
+	Salt        string      `gorm:"not null" json:"-"`
+	Avatar      string      `gorm:"type:text" json:"avatar"`
+	Password    string      `gorm:"not null" json:"-"`
+	Gender      string      `gorm:"not null" json:"gender"`
+	Chats       []*Chat     `gorm:"many2many:chat_users;" json:"chats"`
+	Communities []Community `gorm:"many2many:user_communities;" json:"communities"`
 }
 
 type SignInRequest struct {

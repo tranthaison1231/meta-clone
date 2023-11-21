@@ -5,7 +5,6 @@ import (
 	"log"
 	"os"
 
-	"github.com/joho/godotenv"
 	"gorm.io/driver/mysql"
 	"gorm.io/gorm"
 )
@@ -13,10 +12,12 @@ import (
 var DB *gorm.DB
 
 func ConnectDB() {
-	godotenv.Load()
 	var err error
-	DB, err = gorm.Open(mysql.Open(os.Getenv("DSN")), &gorm.Config{
-		TranslateError: true,
+	dsn := fmt.Sprintf("%s&parseTime=True", os.Getenv("DSN"))
+
+	DB, err = gorm.Open(mysql.Open(dsn), &gorm.Config{
+		TranslateError:                           true,
+		DisableForeignKeyConstraintWhenMigrating: true,
 	})
 	if err != nil {
 		log.Fatal("failed to open db connection", err)

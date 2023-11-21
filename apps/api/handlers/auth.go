@@ -4,13 +4,13 @@ import (
 	"net/http"
 	"strings"
 
+	"github.com/go-playground/validator/v10"
 	"github.com/tranthaison1231/messenger-clone/api/db"
 	"github.com/tranthaison1231/messenger-clone/api/models"
 	"github.com/tranthaison1231/messenger-clone/api/services"
 	"golang.org/x/crypto/bcrypt"
 
 	"github.com/gin-gonic/gin"
-	"github.com/go-playground/validator/v10"
 	"gorm.io/gorm"
 )
 
@@ -90,21 +90,13 @@ func SignUp(c *gin.Context) {
 	}
 
 	c.JSON(http.StatusOK, gin.H{
-		"token": token,
+		"status": "success",
+		"token":  token,
 	})
 }
 
 func GetMe(c *gin.Context) {
 	user := c.MustGet("user").(*models.User)
 
-	userResponse := &models.UserResponse{
-		ID:        user.ID,
-		Email:     user.Email,
-		Gender:    user.Gender,
-		Avatar:    user.Avatar,
-		CreatedAt: user.CreatedAt,
-		UpdatedAt: user.UpdatedAt,
-	}
-
-	c.JSON(http.StatusOK, gin.H{"status": "success", "data": gin.H{"user": userResponse}})
+	c.JSON(http.StatusOK, gin.H{"status": "success", "data": gin.H{"user": user}})
 }

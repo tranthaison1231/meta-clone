@@ -6,6 +6,7 @@ import (
 	"net/http"
 	"os"
 
+	"github.com/joho/godotenv"
 	"github.com/tranthaison1231/messenger-clone/api/conf"
 	"github.com/tranthaison1231/messenger-clone/api/handlers"
 	"github.com/tranthaison1231/messenger-clone/api/services"
@@ -28,6 +29,8 @@ var (
 )
 
 func init() {
+	godotenv.Load()
+
 	db.ConnectDB()
 	conf.Conf = conf.DefaultConfig()
 	services.SecretKey = []byte(conf.Conf.JwtSecret)
@@ -51,8 +54,9 @@ func init() {
 	auth.POST("/chats", handlers.CreateChat)
 	auth.POST("/chats/:chatID/join", handlers.AddMemberToChat)
 	auth.GET("/communities", handlers.GetCommunities)
-	auth.GET("/chats/:chatID/messages", handlers.GetMessagesByContact)
-	auth.POST("/chats/:chatID/messages", handlers.SendMessageToContact)
+	auth.POST("/communities", handlers.CreateCommunity)
+	auth.GET("/chats/:chatID/messages", handlers.GetMessages)
+	auth.POST("/chats/:chatID/messages", handlers.SendMessage)
 
 	if port != "" {
 		server = &http.Server{
@@ -63,7 +67,6 @@ func init() {
 	} else {
 		ginLambda = ginadapter.New(r)
 	}
-
 }
 
 func Handler(ctx context.Context, req events.APIGatewayProxyRequest) (events.APIGatewayProxyResponse, error) {
