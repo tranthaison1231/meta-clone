@@ -9,6 +9,16 @@ import (
 )
 
 func Auth(c *gin.Context) {
+	authHeader := c.GetHeader("Authorization")
+	if authHeader == "" {
+		c.JSON(401, gin.H{
+			"status": "fail",
+			"error":  "No authorization header provided",
+		})
+		c.Abort()
+		return
+	}
+
 	token := strings.Split(c.GetHeader("Authorization"), " ")[1]
 
 	userClaims, err := services.ParseToken(token)

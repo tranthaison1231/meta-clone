@@ -35,19 +35,24 @@ func init() {
 	port := os.Getenv("PORT")
 	r := gin.Default()
 
-	r.Use(cors.Default())
+	r.Use(cors.New(cors.Config{
+		AllowOrigins:     []string{"*"},
+		AllowHeaders:     []string{"Content-Type", "Content-Length", "Accept-Encoding", "X-CSRF-Token", "Authorization", "accept", "origin", "Cache-Control", "X-Requested-With"},
+		AllowCredentials: true,
+	}))
 
-	var authController = handlers.InitAuthController(db.DB)
-	r.POST("/sign-in", authController.SignIn)
-	r.POST("/sign-up", authController.SignUp)
+	r.POST("/sign-in", handlers.SignIn)
+	r.POST("/sign-up", handlers.SignUp)
 
 	auth := r.Group("", middlewares.Auth)
 
-	auth.GET("/me", authController.GetMe)
-	auth.GET("/me/groups", handlers.GetMyGroups)
-	auth.GET("/me/contacts", handlers.GetMyContacts)
-	auth.GET("/contacts/:contactID/messages", handlers.GetMessagesByContact)
-	auth.POST("/contacts/:contactID/messages", handlers.SendMessageToContact)
+	auth.GET("/me", handlers.GetMe)
+	auth.GET("/chats", handlers.GetChats)
+	auth.POST("/chats", handlers.CreateChat)
+	auth.POST("/chats/:chatID/join", handlers.AddMemberToChat)
+	auth.GET("/communities", handlers.GetCommunities)
+	auth.GET("/chats/:chatID/messages", handlers.GetMessagesByContact)
+	auth.POST("/chats/:chatID/messages", handlers.SendMessageToContact)
 
 	if port != "" {
 		server = &http.Server{

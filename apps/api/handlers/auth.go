@@ -4,6 +4,7 @@ import (
 	"net/http"
 	"strings"
 
+	"github.com/tranthaison1231/messenger-clone/api/db"
 	"github.com/tranthaison1231/messenger-clone/api/models"
 	"github.com/tranthaison1231/messenger-clone/api/services"
 	"golang.org/x/crypto/bcrypt"
@@ -13,15 +14,7 @@ import (
 	"gorm.io/gorm"
 )
 
-type AuthController struct {
-	DB *gorm.DB
-}
-
-func InitAuthController(DB *gorm.DB) AuthController {
-	return AuthController{DB}
-}
-
-func (ac *AuthController) SignIn(c *gin.Context) {
+func SignIn(c *gin.Context) {
 	var req models.SignInRequest
 	if err := c.ShouldBindJSON(&req); err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
@@ -57,7 +50,7 @@ func (ac *AuthController) SignIn(c *gin.Context) {
 	})
 }
 
-func (ac *AuthController) SignUp(c *gin.Context) {
+func SignUp(c *gin.Context) {
 	var req models.SignUpRequest
 	if err := c.ShouldBindJSON(&req); err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
@@ -81,7 +74,7 @@ func (ac *AuthController) SignUp(c *gin.Context) {
 		Gender:   req.Gender,
 		Avatar:   req.Avatar,
 	}
-	result := ac.DB.Create(&newUser)
+	result := db.DB.Create(&newUser)
 
 	if result.Error != nil && result.Error == gorm.ErrDuplicatedKey {
 		c.JSON(http.StatusConflict, gin.H{"status": "fail", "message": "User with that email already exists"})
@@ -101,14 +94,16 @@ func (ac *AuthController) SignUp(c *gin.Context) {
 	})
 }
 
-func (ac *AuthController) GetMe(c *gin.Context) {
+func GetMe(c *gin.Context) {
 	user := c.MustGet("user").(*models.User)
 
 	userResponse := &models.UserResponse{
-		ID:     user.ID,
-		Email:  user.Email,
-		Gender: user.Gender,
-		Avatar: user.Avatar,
+		ID:        user.ID,
+		Email:     user.Email,
+		Gender:    user.Gender,
+		Avatar:    user.Avatar,
+		CreatedAt: user.CreatedAt,
+		UpdatedAt: user.UpdatedAt,
 	}
 
 	c.JSON(http.StatusOK, gin.H{"status": "success", "data": gin.H{"user": userResponse}})
