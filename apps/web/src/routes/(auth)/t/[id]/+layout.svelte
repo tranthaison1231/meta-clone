@@ -1,6 +1,8 @@
 <script>
 	import { BellOff, MonitorDown, MoreHorizontal } from 'lucide-svelte';
 	import MoreHorizontalModal from './MoreHorizontalModal.svelte';
+	import { useQuery } from '@sveltestack/svelte-query';
+	import { chatsApi } from '$lib/apis/chats';
 
 	const CONTACTS = [
 		{
@@ -19,6 +21,10 @@
 			}
 		}
 	];
+
+	const result = useQuery(['chats'], () => chatsApi.getAll());
+
+	$: console.log($result);
 </script>
 
 <div class="border-r-1 w-90 relative h-screen py-2">
