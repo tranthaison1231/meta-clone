@@ -1,4 +1,6 @@
 # Meta Clone
+- Link messenger web: https://meta-clone-messenger-web.vercel.app/
+- Link facebook web: https://meta-clone-facebook-web.vercel.app/
 
 ## Technology
 
@@ -15,8 +17,9 @@
 - ✅ Serverless with AWS Lambda Zip, API Gateway, Cloudfront
 
 ### Frontend
-- ✅ Sveltekit 
-- ✅ UI Library with shacdn-svelte
+- ✅ Sveltekit ( Messenger )
+- ✅ Nuxt ( Facebook )
+- ✅ UI Library with shacdn-ui
 - ✅ Deploy on Vercel 
 - ✅ Emoji picker with emoji-mart
 
