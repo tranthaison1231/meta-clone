@@ -1,6 +1,6 @@
 module.exports = {
 	root: true,
-	extends: ['@messenger-clone/eslint-config-custom', 'plugin:svelte/recommended'],
+	extends: ['@meta-clone/eslint-config-custom', 'plugin:svelte/recommended'],
 	parserOptions: {
 		sourceType: 'module',
 		ecmaVersion: 2020,

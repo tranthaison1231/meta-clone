@@ -4,9 +4,9 @@ import (
 	"fmt"
 
 	"github.com/joho/godotenv"
-	"github.com/tranthaison1231/messenger-clone/api/models"
+	"github.com/tranthaison1231/meta-clone/api/models"
 
-	"github.com/tranthaison1231/messenger-clone/api/db"
+	"github.com/tranthaison1231/meta-clone/api/db"
 )
 
 func init() {

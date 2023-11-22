@@ -7,13 +7,13 @@ import (
 	"os"
 
 	"github.com/joho/godotenv"
-	"github.com/tranthaison1231/messenger-clone/api/conf"
-	"github.com/tranthaison1231/messenger-clone/api/handlers"
-	"github.com/tranthaison1231/messenger-clone/api/services"
+	"github.com/tranthaison1231/meta-clone/api/conf"
+	"github.com/tranthaison1231/meta-clone/api/handlers"
+	"github.com/tranthaison1231/meta-clone/api/services"
 
-	"github.com/tranthaison1231/messenger-clone/api/middlewares"
+	"github.com/tranthaison1231/meta-clone/api/middlewares"
 
-	"github.com/tranthaison1231/messenger-clone/api/db"
+	"github.com/tranthaison1231/meta-clone/api/db"
 
 	"github.com/aws/aws-lambda-go/events"
 	"github.com/aws/aws-lambda-go/lambda"

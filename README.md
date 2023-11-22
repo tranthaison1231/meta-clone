@@ -1,4 +1,4 @@
-# Messenger Clone
+# Meta Clone
 
 ## Technology
 
@@ -27,9 +27,10 @@
 ## Start project 
 
 ```
-git clone https://github.com/tranthaison1231/messenger-clone.git
+git clone https://github.com/tranthaison1231/meta-clone.git
 pnpm install
-cd apps/web && ln -s ../../.env .env
+cd apps/messenger-web && ln -s ../../.env .env
+cd apps/facebook-web && ln -s ../../.env .env
 cd apps/api && ln -s ../../.env .env
 pnpm run dev
 ```

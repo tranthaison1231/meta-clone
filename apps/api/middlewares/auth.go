@@ -3,8 +3,8 @@ package middlewares
 import (
 	"strings"
 
-	h "github.com/tranthaison1231/messenger-clone/api/helpers"
-	"github.com/tranthaison1231/messenger-clone/api/services"
+	h "github.com/tranthaison1231/meta-clone/api/helpers"
+	"github.com/tranthaison1231/meta-clone/api/services"
 
 	"github.com/gin-gonic/gin"
 )

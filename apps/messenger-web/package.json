@@ -1,5 +1,5 @@
 {
-	"name": "@messenger-clone/web",
+	"name": "@meta-clone/messenger-web",
 	"version": "0.0.0",
 	"type": "module",
 	"scripts": {
@@ -12,7 +12,7 @@
 		"format": "prettier . --write ."
 	},
 	"devDependencies": {
-		"@messenger-clone/eslint-config-custom": "workspace:*",
+		"@meta-clone/eslint-config-custom": "workspace:*",
 		"@sveltejs/adapter-static": "^2.0.3",
 		"@sveltejs/kit": "^1.27.6",
 		"@tauri-apps/cli": "^1.5.6",
@@ -37,7 +37,7 @@
 	},
 	"dependencies": {
 		"@emoji-mart/data": "^1.1.2",
-		"@messenger-clone/utils": "workspace:*",
+		"@meta-clone/utils": "workspace:*",
 		"@sveltestack/svelte-query": "^1.6.0",
 		"bits-ui": "^0.9.8",
 		"clsx": "^2.0.0",

@@ -5,9 +5,9 @@ import (
 
 	"github.com/gin-gonic/gin"
 	"github.com/go-playground/validator/v10"
-	h "github.com/tranthaison1231/messenger-clone/api/helpers"
-	"github.com/tranthaison1231/messenger-clone/api/models"
-	"github.com/tranthaison1231/messenger-clone/api/services"
+	h "github.com/tranthaison1231/meta-clone/api/helpers"
+	"github.com/tranthaison1231/meta-clone/api/models"
+	"github.com/tranthaison1231/meta-clone/api/services"
 )
 
 type Message struct {

@@ -4,10 +4,10 @@ import (
 	"strings"
 
 	"github.com/go-playground/validator/v10"
-	"github.com/tranthaison1231/messenger-clone/api/db"
-	h "github.com/tranthaison1231/messenger-clone/api/helpers"
-	"github.com/tranthaison1231/messenger-clone/api/models"
-	"github.com/tranthaison1231/messenger-clone/api/services"
+	"github.com/tranthaison1231/meta-clone/api/db"
+	h "github.com/tranthaison1231/meta-clone/api/helpers"
+	"github.com/tranthaison1231/meta-clone/api/models"
+	"github.com/tranthaison1231/meta-clone/api/services"
 	"golang.org/x/crypto/bcrypt"
 
 	"github.com/gin-gonic/gin"

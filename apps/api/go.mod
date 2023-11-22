@@ -1,4 +1,4 @@
-module github.com/tranthaison1231/messenger-clone/api
+module github.com/tranthaison1231/meta-clone/api
 
 go 1.21.4
 

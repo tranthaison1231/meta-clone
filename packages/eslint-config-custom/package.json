@@ -1,5 +1,5 @@
 {
-  "name": "@messenger-clone/eslint-config-custom",
+  "name": "@meta-clone/eslint-config-custom",
   "version": "0.0.0",
   "main": "index.js",
   "license": "MIT",

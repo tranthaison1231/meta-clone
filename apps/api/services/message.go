@@ -1,8 +1,8 @@
 package services
 
 import (
-	"github.com/tranthaison1231/messenger-clone/api/db"
-	"github.com/tranthaison1231/messenger-clone/api/models"
+	"github.com/tranthaison1231/meta-clone/api/db"
+	"github.com/tranthaison1231/meta-clone/api/models"
 )
 
 func GetMessages(chatID int64) (*[]models.Message, error) {

@@ -2,9 +2,9 @@ package handlers
 
 import (
 	"github.com/gin-gonic/gin"
-	h "github.com/tranthaison1231/messenger-clone/api/helpers"
-	"github.com/tranthaison1231/messenger-clone/api/models"
-	"github.com/tranthaison1231/messenger-clone/api/services"
+	h "github.com/tranthaison1231/meta-clone/api/helpers"
+	"github.com/tranthaison1231/meta-clone/api/models"
+	"github.com/tranthaison1231/meta-clone/api/services"
 )
 
 type Community struct {
