@@ -16,7 +16,7 @@
 		taintedMessage: false,
 		onUpdate: async ({ form }) => {
 			if (form.valid) {
-				const data = await $loginMutate.mutateAsync(form.data);
+				const { data } = await $loginMutate.mutateAsync(form.data);
 				if (data.token) {
 					goto('/');
 					setToken(data.token);
@@ -46,7 +46,9 @@
 				{...$constraints.password}
 			/>
 			{#if $errors.password}<span class="mt-1 w-full text-red-500">{$errors.password}</span>{/if}
-			<Button class="btn mt-6 w-fit rounded-full" type="submit">Continue</Button>
+			<a href="/signup" class="hover:text-blue my-6 underline">Create new account</a>
+
+			<Button class="btn w-fit rounded-full" type="submit">Continue</Button>
 		</form>
 	</div>
 </div>

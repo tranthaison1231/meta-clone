@@ -1,6 +1,2 @@
-export interface User {
-	email: string;
-	name: string;
-	id: string;
-	avatar: string;
-}
+export * from './auth'
+export * from './user'

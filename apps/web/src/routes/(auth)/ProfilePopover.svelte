@@ -14,6 +14,8 @@
 	};
 
 	const result = useQuery(['me'], () => authApi.getMe());
+
+	$: me = $result.data?.data?.user;
 </script>
 
 <Popover.Root
@@ -27,9 +29,9 @@
 				'w-full items-center gap-2 rounded-lg p-2 hover:bg-gray-100': isSidebarOpen
 			})}
 		>
-			<img src={$result?.data?.data?.user.avatar} class="h-8 w-8 rounded-full" alt="avatar" />
+			<img src={me?.avatar} class="h-8 w-8 rounded-full" alt="avatar" />
 			{#if isSidebarOpen}
-				<p>{$result?.data?.data?.user.email}</p>
+				<p>{me?.email}</p>
 			{/if}
 		</div>
 	</Popover.Trigger>
