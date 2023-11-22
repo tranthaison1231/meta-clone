@@ -15,3 +15,13 @@ func GetUserByMail(mail string) (*models.User, error) {
 	}
 	return &user, nil
 }
+
+func GetUserByID(id uint) (*models.User, error) {
+	var user models.User
+	result := db.DB.Where("id = ?", id).First(&user)
+
+	if result.Error != nil {
+		return nil, result.Error
+	}
+	return &user, nil
+}
