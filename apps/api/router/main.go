@@ -28,6 +28,22 @@ var (
 	port      string
 )
 
+func initRoutes(r *gin.Engine) {
+	r.POST("/sign-in", handlers.SignIn)
+	r.POST("/sign-up", handlers.SignUp)
+
+	auth := r.Group("", middlewares.Auth)
+
+	auth.GET("/me", handlers.GetMe)
+	auth.GET("/chats", handlers.GetChats)
+	auth.POST("/chats", handlers.CreateChat)
+	auth.POST("/chats/:chatID/join", handlers.AddMemberToChat)
+	auth.GET("/communities", handlers.GetCommunities)
+	auth.POST("/communities", handlers.CreateCommunity)
+	auth.GET("/chats/:chatID/messages", handlers.GetMessages)
+	auth.POST("/chats/:chatID/messages", handlers.SendMessage)
+}
+
 func init() {
 	godotenv.Load()
 
@@ -44,19 +60,7 @@ func init() {
 		AllowCredentials: true,
 	}))
 
-	r.POST("/sign-in", handlers.SignIn)
-	r.POST("/sign-up", handlers.SignUp)
-
-	auth := r.Group("", middlewares.Auth)
-
-	auth.GET("/me", handlers.GetMe)
-	auth.GET("/chats", handlers.GetChats)
-	auth.POST("/chats", handlers.CreateChat)
-	auth.POST("/chats/:chatID/join", handlers.AddMemberToChat)
-	auth.GET("/communities", handlers.GetCommunities)
-	auth.POST("/communities", handlers.CreateCommunity)
-	auth.GET("/chats/:chatID/messages", handlers.GetMessages)
-	auth.POST("/chats/:chatID/messages", handlers.SendMessage)
+	initRoutes(r)
 
 	if port != "" {
 		server = &http.Server{

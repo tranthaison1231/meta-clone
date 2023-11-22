@@ -1,10 +1,9 @@
 package handlers
 
 import (
-	"net/http"
-
 	"github.com/gin-gonic/gin"
 	"github.com/go-playground/validator/v10"
+	h "github.com/tranthaison1231/messenger-clone/api/helpers"
 	"github.com/tranthaison1231/messenger-clone/api/models"
 	"github.com/tranthaison1231/messenger-clone/api/services"
 )
@@ -26,10 +25,10 @@ func GetChats(c *gin.Context) {
 	chats, err := services.GetChats(user.ID)
 
 	if err != nil {
-		c.JSON(http.StatusBadRequest, gin.H{"status": "fail", "message": err.Error()})
+		h.Fail400(c, err.Error())
 	}
 
-	c.JSON(http.StatusOK, gin.H{
+	h.Success(c, gin.H{
 		"chats": chats,
 	})
 }
@@ -37,13 +36,13 @@ func GetChats(c *gin.Context) {
 func CreateChat(c *gin.Context) {
 	var req models.CreateChatRequest
 	if err := c.ShouldBindJSON(&req); err != nil {
-		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		h.Fail400(c, err.Error())
 		return
 	}
 	v := validator.New()
 	err := v.Struct(req)
 	if err != nil {
-		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		h.Fail400(c, err.Error())
 		return
 	}
 	user := c.MustGet("user").(*models.User)
@@ -54,11 +53,11 @@ func CreateChat(c *gin.Context) {
 	})
 
 	if err != nil {
-		c.JSON(http.StatusBadRequest, gin.H{"status": "fail", "message": err.Error()})
+		h.Fail400(c, err.Error())
 		return
 	}
 
-	c.JSON(http.StatusOK, gin.H{
+	h.Success(c, gin.H{
 		"chat": chat,
 	})
 }
@@ -66,13 +65,13 @@ func CreateChat(c *gin.Context) {
 func AddMemberToChat(c *gin.Context) {
 	var req models.AddMemberToChatRequest
 	if err := c.ShouldBindJSON(&req); err != nil {
-		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		h.Fail400(c, err.Error())
 		return
 	}
 	v := validator.New()
 	err := v.Struct(req)
 	if err != nil {
-		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		h.Fail400(c, err.Error())
 		return
 	}
 	user := c.MustGet("user").(*models.User)
@@ -80,11 +79,11 @@ func AddMemberToChat(c *gin.Context) {
 	chat, err := services.AddMemberToChat(user.ID, req.UserID)
 
 	if err != nil {
-		c.JSON(http.StatusBadRequest, gin.H{"status": "fail", "message": err.Error()})
+		h.Fail400(c, err.Error())
 		return
 	}
 
-	c.JSON(http.StatusOK, gin.H{
+	h.Success(c, gin.H{
 		"chat": chat,
 	})
 }

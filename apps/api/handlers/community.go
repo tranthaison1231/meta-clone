@@ -1,9 +1,8 @@
 package handlers
 
 import (
-	"net/http"
-
 	"github.com/gin-gonic/gin"
+	h "github.com/tranthaison1231/messenger-clone/api/helpers"
 	"github.com/tranthaison1231/messenger-clone/api/models"
 	"github.com/tranthaison1231/messenger-clone/api/services"
 )
@@ -19,10 +18,10 @@ func GetCommunities(c *gin.Context) {
 	communities, err := services.GetCommunities(user.ID)
 
 	if err != nil {
-		c.JSON(http.StatusBadRequest, gin.H{"status": "fail", "message": err.Error()})
+		h.Fail400(c, err.Error())
 	}
 
-	c.JSON(http.StatusOK, gin.H{
+	h.Success(c, gin.H{
 		"communities": communities,
 	})
 }
@@ -31,7 +30,7 @@ func CreateCommunity(c *gin.Context) {
 	var req models.CreateCommunityRequest
 
 	if err := c.ShouldBindJSON(&req); err != nil {
-		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		h.Fail400(c, err.Error())
 		return
 	}
 
@@ -42,11 +41,11 @@ func CreateCommunity(c *gin.Context) {
 	})
 
 	if err != nil {
-		c.JSON(http.StatusBadRequest, gin.H{"status": "fail", "message": err.Error()})
+		h.Fail400(c, err.Error())
 		return
 	}
 
-	c.JSON(http.StatusOK, gin.H{
+	h.Success(c, gin.H{
 		"community": community,
 	})
 }
