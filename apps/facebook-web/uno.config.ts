@@ -1,8 +1,8 @@
-import { defineConfig, presetUno } from 'unocss';
+import { defineConfig, presetAttributify, presetUno } from 'unocss';
 import presetShadcn from './preset.shadcn';
 
 export default defineConfig({
-  presets: [presetUno(), presetShadcn()],
+  presets: [presetUno(), presetAttributify(), presetShadcn()],
   shortcuts: [
     {
       'flex-center': 'flex justify-center items-center',
