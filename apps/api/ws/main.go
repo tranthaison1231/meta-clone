@@ -11,8 +11,7 @@ import (
 )
 
 type Body struct {
-	action  string
-	payload interface{}
+	Action string `json:"action"`
 }
 
 func Handler(ctx context.Context, event events.APIGatewayWebsocketProxyRequest) (events.APIGatewayProxyResponse, error) {
@@ -21,7 +20,8 @@ func Handler(ctx context.Context, event events.APIGatewayWebsocketProxyRequest) 
 		return events.APIGatewayProxyResponse{}, err
 	}
 
-	body := Body{}
+	var body Body
+
 	err = json.Unmarshal([]byte(event.Body), &body)
 	if err != nil {
 		return events.APIGatewayProxyResponse{}, err
@@ -34,8 +34,8 @@ func Handler(ctx context.Context, event events.APIGatewayWebsocketProxyRequest) 
 		return handlers.Disconnect(ctx, event)
 	case "$default":
 		fmt.Print(event.Body)
-		fmt.Println(body.action)
-		switch body.action {
+		fmt.Println(body.Action)
+		switch body.Action {
 		case "SEND_MESSAGE":
 			return handlers.SendMessageSocket(ctx, event)
 		default:
