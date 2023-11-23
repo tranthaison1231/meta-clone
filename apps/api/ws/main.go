@@ -11,7 +11,8 @@ import (
 )
 
 type Body struct {
-	action string
+	action  string
+	payload interface{}
 }
 
 func Handler(ctx context.Context, event events.APIGatewayWebsocketProxyRequest) (events.APIGatewayProxyResponse, error) {
