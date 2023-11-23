@@ -24,7 +24,7 @@ func Handler(ctx context.Context, event events.APIGatewayWebsocketProxyRequest) 
 
 	err = json.Unmarshal([]byte(event.Body), &body)
 	if err != nil {
-		return events.APIGatewayProxyResponse{}, err
+		fmt.Println(err.Error())
 	}
 
 	switch event.RequestContext.RouteKey {
