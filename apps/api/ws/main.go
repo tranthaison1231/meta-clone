@@ -3,6 +3,7 @@ package main
 import (
 	"context"
 	"encoding/json"
+	"fmt"
 
 	"github.com/aws/aws-lambda-go/events"
 	"github.com/aws/aws-lambda-go/lambda"
@@ -28,6 +29,7 @@ func Handler(ctx context.Context, event events.APIGatewayWebsocketProxyRequest) 
 	case "$disconnect":
 		return handlers.Disconnect(ctx, event)
 	case "$default":
+		fmt.Println(body.action)
 		switch body.action {
 		case "SEND_MESSAGE":
 			return handlers.SendMessageSocket(ctx, event)
