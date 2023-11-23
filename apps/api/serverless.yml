@@ -4,6 +4,17 @@ frameworkVersion: "3"
 provider:
   environment:
     DSN: ${env:DSN}
+    APIG_ENDPOINT:
+      Fn::Join:
+        - ""
+        - - https://
+          - Ref: WebsocketsApi
+          - .execute-api.
+          - Ref: AWS::Region
+          - .amazonaws.com/
+          - ${self:provider.stage}
+  websocketsApiName: websockets-api
+  websocketsApiRouteSelectionExpression: $request.body.action
   name: aws
   runtime: go1.x
   region: ap-southeast-1
