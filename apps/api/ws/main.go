@@ -28,6 +28,7 @@ func Handler(ctx context.Context, event events.APIGatewayWebsocketProxyRequest) 
 	case "$disconnect":
 		return handlers.Disconnect(ctx, event)
 	case "$default":
+		println(body)
 		switch body.action {
 		case "SEND_MESSAGE":
 			return handlers.SendMessageSocket(ctx, event)
