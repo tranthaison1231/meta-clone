@@ -21,8 +21,7 @@ func Handler(ctx context.Context, event events.APIGatewayWebsocketProxyRequest) 
 	}
 
 	var body Body
-
-	err = json.Unmarshal([]byte(event.Body), &body)
+	err = json.Unmarshal([]byte(`{"action": "SEND_MESSAGE"}`), &body)
 	if err != nil {
 		fmt.Println(err.Error())
 	}
