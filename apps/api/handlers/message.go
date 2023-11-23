@@ -1,8 +1,14 @@
 package handlers
 
 import (
+	"context"
+	"encoding/json"
+	"net/http"
 	"strconv"
 
+	"github.com/aws/aws-lambda-go/events"
+	"github.com/aws/aws-sdk-go-v2/aws"
+	"github.com/aws/aws-sdk-go-v2/service/apigatewaymanagementapi"
 	"github.com/gin-gonic/gin"
 	"github.com/go-playground/validator/v10"
 	h "github.com/tranthaison1231/meta-clone/api/helpers"
@@ -65,4 +71,45 @@ func SendMessage(c *gin.Context) {
 	h.Success(c, gin.H{
 		"message": message,
 	})
+}
+
+type Response[T any] struct {
+	Action   string `json:"action"`
+	Response T      `json:"response"`
+}
+
+type MessageRequestPayload struct {
+	Message string `json:"message"`
+}
+
+func SendMessageSocket(ctx context.Context, event events.APIGatewayWebsocketProxyRequest) (events.APIGatewayProxyResponse, error) {
+	api, err := h.NewAPIGatewayManagementAPI(ctx)
+	if err != nil {
+		return events.APIGatewayProxyResponse{}, err
+	}
+
+	newMessage := Response[MessageRequestPayload]{
+		Action: "SEND_MESSAGE",
+		Response: MessageRequestPayload{
+			Message: "Xin chao",
+		},
+	}
+
+	data, err := json.Marshal(newMessage)
+	if err != nil {
+		return events.APIGatewayProxyResponse{}, err
+	}
+
+	input := &apigatewaymanagementapi.PostToConnectionInput{
+		ConnectionId: aws.String(event.RequestContext.ConnectionID),
+		Data:         data,
+	}
+
+	if _, err = api.PostToConnection(ctx, input); err != nil {
+		return events.APIGatewayProxyResponse{}, err
+	}
+
+	return events.APIGatewayProxyResponse{
+		StatusCode: http.StatusOK,
+	}, nil
 }
