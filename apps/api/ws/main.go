@@ -15,13 +15,10 @@ type Body struct {
 }
 
 func Handler(ctx context.Context, event events.APIGatewayWebsocketProxyRequest) (events.APIGatewayProxyResponse, error) {
-	_, err := json.Marshal(event)
-	if err != nil {
-		return events.APIGatewayProxyResponse{}, err
-	}
+	bodyStr := []byte(event.Body)
 
 	var body Body
-	err = json.Unmarshal([]byte(`{"action": "SEND_MESSAGE"}`), &body)
+	err := json.Unmarshal(bodyStr, &body)
 	if err != nil {
 		fmt.Println(err.Error())
 	}
