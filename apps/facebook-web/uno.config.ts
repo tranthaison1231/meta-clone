@@ -1,4 +1,4 @@
-import { defineConfig, presetAttributify, presetUno } from 'unocss';
+import { defineConfig, presetAttributify, presetUno, transformerDirectives } from 'unocss';
 import presetShadcn from './preset.shadcn';
 
 export default defineConfig({
@@ -9,6 +9,7 @@ export default defineConfig({
       'flex-col-center': 'flex flex-col justify-center items-center',
     },
   ],
+  transformers: [transformerDirectives()],
   preflights: [
     {
       getCSS: () => `
