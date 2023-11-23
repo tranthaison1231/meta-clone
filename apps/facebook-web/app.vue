@@ -1,5 +1,9 @@
+<script setup lang="ts">
+import '@unocss/reset/tailwind.css'
+</script>
+
 <template>
-  <div>
-    <NuxtWelcome />
-  </div>
+  <NuxtLayout>
+    <NuxtPage />
+  </NuxtLayout>
 </template>
