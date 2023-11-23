@@ -3,6 +3,7 @@ package handlers
 import (
 	"context"
 	"encoding/json"
+	"fmt"
 	"net/http"
 	"strconv"
 
@@ -83,6 +84,8 @@ type MessageRequestPayload struct {
 }
 
 func SendMessageSocket(ctx context.Context, event events.APIGatewayWebsocketProxyRequest) (events.APIGatewayProxyResponse, error) {
+	fmt.Print("SendMessageSocket", event.Body)
+
 	api, err := h.NewAPIGatewayManagementAPI(ctx)
 	if err != nil {
 		return events.APIGatewayProxyResponse{}, err
