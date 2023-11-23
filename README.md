@@ -13,7 +13,9 @@
 
 ### Backend
 - ✅ Server with Gin ( Golang Server )
-- ✅ Database with MySQL and PlanetScale
+- ✅ Database with Postgresql and Neon
+- ⌛ Caching with Redis 
+- ⌛ Limit connection with Redis
 - ✅ Serverless with AWS Lambda Zip, API Gateway, Cloudfront
 
 ### Frontend
