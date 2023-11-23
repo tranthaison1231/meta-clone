@@ -3,6 +3,7 @@ package main
 import (
 	"context"
 	"encoding/json"
+	"fmt"
 
 	"github.com/aws/aws-lambda-go/events"
 	"github.com/aws/aws-lambda-go/lambda"
@@ -14,6 +15,8 @@ func Handler(ctx context.Context, event events.APIGatewayWebsocketProxyRequest) 
 	if err != nil {
 		return events.APIGatewayProxyResponse{}, err
 	}
+
+	fmt.Print(event.RequestContext.RouteKey)
 
 	switch event.RequestContext.RouteKey {
 	case "$connect":

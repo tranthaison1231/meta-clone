@@ -8,7 +8,7 @@ import (
 
 	"github.com/aws/aws-lambda-go/events"
 	"github.com/aws/aws-sdk-go-v2/aws"
-	"github.com/aws/aws-sdk-go-v2/service/apigatewaymanagementapi"
+	g "github.com/aws/aws-sdk-go-v2/service/apigatewaymanagementapi"
 	"github.com/gin-gonic/gin"
 	"github.com/go-playground/validator/v10"
 	h "github.com/tranthaison1231/meta-clone/api/helpers"
@@ -100,7 +100,7 @@ func SendMessageSocket(ctx context.Context, event events.APIGatewayWebsocketProx
 		return events.APIGatewayProxyResponse{}, err
 	}
 
-	input := &apigatewaymanagementapi.PostToConnectionInput{
+	input := &g.PostToConnectionInput{
 		ConnectionId: aws.String(event.RequestContext.ConnectionID),
 		Data:         data,
 	}
