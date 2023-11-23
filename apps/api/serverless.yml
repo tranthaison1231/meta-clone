@@ -48,6 +48,21 @@ functions:
     events:
       - websocket:
           route: $default
+  onConnect:
+    handler: bin/ws
+    package:
+      artifact: bin/ws.zip
+    events:
+      - websocket:
+          route: $connect
+  onDisconnect:
+    handler: bin/ws
+    package:
+      artifact: bin/ws.zip
+    events:
+      - websocket:
+          route: $disconnect
+
 
 package:
   individually: true
