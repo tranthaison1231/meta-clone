@@ -29,7 +29,13 @@ functions:
               - X-Amz-Security-Token
               - X-Amz-User-Agent
             allowCredentials: false
-
+  ws: 
+    handler: bin/ws
+    package:
+      artifact: bin/ws.zip
+    events:
+      - websocket:
+          route: $default
 
 package:
   individually: true
