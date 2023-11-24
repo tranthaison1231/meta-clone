@@ -1,11 +1,14 @@
 export const getToken = () => {
-  return localStorage.getItem('token');
+  const token = useCookie('token');
+  return token.value;
 };
 
 export const setToken = (value: string) => {
-  localStorage.setItem('token', value);
+  const token = useCookie('token');
+  token.value = value;
 };
 
 export const removeToken = () => {
-  localStorage.removeItem('token');
+  const token = useCookie('token');
+  token.value = '';
 };

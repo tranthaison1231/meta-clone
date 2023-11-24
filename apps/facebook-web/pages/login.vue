@@ -3,6 +3,12 @@
   import { request } from '~/lib/request'
   import { configure } from 'vee-validate';
   import type { z } from 'zod';
+  import { setToken } from '~/lib/storage';
+
+  definePageMeta({
+      middleware: 'auth'
+  });
+  const router = useRouter()
 
   const { mutateAsync } = useMutation({
     mutationFn: (data: z.infer<typeof loginSchema>) => request.post('/sign-in', data),
@@ -19,8 +25,9 @@
   const [email, password] = useFieldModel(['email', 'password']);
 
   const onSubmit = handleSubmit(async (values) => {
-    await mutateAsync(values)
-    navigateTo('/')
+    const res = await mutateAsync(values)
+    setToken(res.data.token)
+    router.push('/')
   })
 </script>
 
