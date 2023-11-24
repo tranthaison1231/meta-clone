@@ -1,6 +1,10 @@
 <script setup lang="ts">
   import { request } from '~/lib/request';
 
+  useHead({
+    title: 'Facebook'
+  })
+
   definePageMeta({
     middleware: 'auth'
   });
@@ -30,7 +34,7 @@
         <div> Menu </div>
         <div> Message </div>
         <div> Notification </div>
-        <img class="h-10 w-10 rounded-full" :src="data?.data.user.avatar" />
+        <ProfilePopover :avatar="data?.data.user.avatar" />
       </div>
     </div>
   </header>
