@@ -101,3 +101,37 @@ func GetMe(c *gin.Context) {
 		"user": user,
 	})
 }
+
+func UpdateMe(c *gin.Context) {
+	var req models.UpdateUserRequest
+	if err := c.ShouldBindJSON(&req); err != nil {
+		h.Fail400(c, err.Error())
+		return
+	}
+	v := validator.New()
+	err := v.Struct(req)
+	if err != nil {
+		h.Fail400(c, err.Error())
+		return
+	}
+
+	user := c.MustGet("user").(*models.User)
+
+	if req.FirstName != "" {
+		user.FirstName = req.FirstName
+	}
+	if req.LastName != "" {
+		user.LastName = req.LastName
+	}
+	if req.Avatar != "" {
+		user.Avatar = req.Avatar
+	}
+	if req.Gender != "" {
+		user.Gender = req.Gender
+	}
+	db.DB.Save(&user)
+
+	h.Success(c, gin.H{
+		"user": user,
+	})
+}

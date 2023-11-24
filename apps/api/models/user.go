@@ -7,6 +7,8 @@ import (
 
 type User struct {
 	Base
+	FirstName   string      `gorm:"type:varchar(255)" json:"first_name"`
+	LastName    string      `gorm:"type:varchar(255)" json:"last_name"`
 	Email       string      `gorm:"uniqueIndex;not null;type:varchar(255)" json:"email"`
 	Salt        string      `gorm:"not null" json:"-"`
 	Avatar      string      `gorm:"type:text" json:"avatar"`
@@ -25,8 +27,15 @@ type Gender string
 
 type SignUpRequest struct {
 	SignInRequest
-	Gender string `json:"gender" validate:"required"`
+	Gender string `json:"gender" validate:"required" enum:"male,female"`
 	Avatar string `json:"avatar"`
+}
+
+type UpdateUserRequest struct {
+	FirstName string `json:"first_name"`
+	LastName  string `json:"last_name"`
+	Avatar    string `json:"avatar"`
+	Gender    string `json:"gender" enum:"male,female"`
 }
 
 func (u *User) ValidatePwdStaticHash(password string) error {
