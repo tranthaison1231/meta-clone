@@ -7,13 +7,15 @@ import (
 
 type User struct {
 	Base
-	Email       string      `gorm:"uniqueIndex;not null;type:varchar(255)" json:"email"`
-	Salt        string      `gorm:"not null" json:"-"`
-	Avatar      string      `gorm:"type:text" json:"avatar"`
-	Password    string      `gorm:"not null" json:"-"`
-	Gender      string      `gorm:"not null" json:"gender"`
-	Chats       []*Chat     `gorm:"many2many:chat_users;" json:"chats"`
-	Communities []Community `gorm:"many2many:user_communities;" json:"communities"`
+	Email          string          `gorm:"uniqueIndex;not null;type:varchar(255)" json:"email"`
+	Salt           string          `gorm:"not null" json:"-"`
+	Avatar         string          `gorm:"type:text" json:"avatar"`
+	Password       string          `gorm:"not null" json:"-"`
+	Gender         string          `gorm:"not null" json:"gender"`
+	Chats          []*Chat         `gorm:"many2many:chat_users;" json:"chats"`
+	Communities    []Community     `gorm:"many2many:user_communities;" json:"communities"`
+	Friends        []*User         `gorm:"many2many:user_friends" json:"friends"`
+	FriendRequests []FriendRequest `json:"friend_requests"`
 }
 
 type SignInRequest struct {
@@ -27,6 +29,15 @@ type SignUpRequest struct {
 	SignInRequest
 	Gender string `json:"gender" validate:"required"`
 	Avatar string `json:"avatar"`
+}
+
+type GetUserFriendRequest struct {
+	UserID uint `json:"user_id" validate:"required"`
+}
+
+type GetUserResponse struct {
+	User
+	FriendStatus string `json:"friend_status"`
 }
 
 func (u *User) ValidatePwdStaticHash(password string) error {

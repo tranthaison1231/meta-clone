@@ -1,5 +1,10 @@
 import { BASE_URL } from '$lib/services/request';
-import type { SignInRequest, SignUpRequest } from '$lib/types';
+import type { SignInRequest, SignUpRequest, User } from '$lib/types';
+import type { BaseResponseType } from '$lib/types/response';
+
+export interface GetMeResponse {
+	user: User
+}
 
 export const authApi = {
 	login: async ({ email, password }: SignInRequest) => {
@@ -18,7 +23,7 @@ export const authApi = {
 				Authorization: `Bearer ${localStorage.getItem('token')}`
 			}
 		});
-		return rest.json();
+		return await rest.json() as BaseResponseType<GetMeResponse>;
 	},
 	signUp: async ({email, gender, password, avatar }: SignUpRequest) => {
 		const rest = await fetch(`${BASE_URL}/sign-up`, {

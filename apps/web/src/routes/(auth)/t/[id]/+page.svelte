@@ -1,4 +1,5 @@
 <script>
+	import { useQuery } from '@sveltestack/svelte-query';
 	import {
 		Image,
 		MoreHorizontal,
