@@ -4,7 +4,19 @@ frameworkVersion: "3"
 provider:
   environment:
     DSN: ${env:DSN}
+    APIG_ENDPOINT:
+      Fn::Join:
+        - ""
+        - - https://
+          - Ref: WebsocketsApi
+          - .execute-api.
+          - Ref: AWS::Region
+          - .amazonaws.com/
+          - ${self:provider.stage}
+  websocketsApiName: websockets-api
+  websocketsApiRouteSelectionExpression: $request.body.action
   name: aws
+  stage: dev
   runtime: go1.x
   region: ap-southeast-1
   versionFunctions: false
@@ -29,6 +41,27 @@ functions:
               - X-Amz-Security-Token
               - X-Amz-User-Agent
             allowCredentials: false
+  ws: 
+    handler: bin/ws
+    package:
+      artifact: bin/ws.zip
+    events:
+      - websocket:
+          route: $default
+  onConnect:
+    handler: bin/ws
+    package:
+      artifact: bin/ws.zip
+    events:
+      - websocket:
+          route: $connect
+  onDisconnect:
+    handler: bin/ws
+    package:
+      artifact: bin/ws.zip
+    events:
+      - websocket:
+          route: $disconnect
 
 
 package:

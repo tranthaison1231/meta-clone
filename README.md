@@ -1,4 +1,6 @@
-# Messenger Clone
+# Meta Clone
+- Link messenger web: https://meta-clone-messenger-web.vercel.app/
+- Link facebook web: https://meta-clone-facebook-web.vercel.app/
 
 ## Technology
 
@@ -11,12 +13,15 @@
 
 ### Backend
 - ✅ Server with Gin ( Golang Server )
-- ✅ Database with MySQL and PlanetScale
+- ✅ Database with Postgresql and Neon
+- ⌛ Caching with Redis 
+- ⌛ Limit connection with Redis
 - ✅ Serverless with AWS Lambda Zip, API Gateway, Cloudfront
 
 ### Frontend
-- ✅ Sveltekit 
-- ✅ UI Library with shacdn-svelte
+- ✅ Sveltekit ( Messenger )
+- ✅ Nuxt ( Facebook )
+- ✅ UI Library with shacdn-ui
 - ✅ Deploy on Vercel 
 - ✅ Emoji picker with emoji-mart
 
@@ -27,9 +32,10 @@
 ## Start project 
 
 ```
-git clone https://github.com/tranthaison1231/messenger-clone.git
+git clone https://github.com/tranthaison1231/meta-clone.git
 pnpm install
-cd apps/web && ln -s ../../.env .env
+cd apps/messenger-web && ln -s ../../.env .env
+cd apps/facebook-web && ln -s ../../.env .env
 cd apps/api && ln -s ../../.env .env
 pnpm run dev
 ```

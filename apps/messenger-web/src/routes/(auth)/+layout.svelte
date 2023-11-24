@@ -3,7 +3,7 @@
 	import { cn } from '$lib/utils/cn';
 	import { MessageCircle, MessageSquare, PanelLeft, Store, Trash, Users } from 'lucide-svelte';
 	import ProfilePopover from './ProfilePopover.svelte';
-	import Groups from './Groups.svelte';
+	import Communities from './Communities.svelte';
 
 	let isSidebarOpen = false;
 
@@ -58,7 +58,7 @@
 			</a>
 		{/each}
 		<hr class="my-6 h-0.5 w-full bg-gray-100" />
-		<Groups />
+		<Communities />
 		<div
 			class={cn('absolute bottom-0 flex flex-col items-center space-y-3 p-2', {
 				'w-full cursor-pointer flex-row items-center justify-between gap-4': isSidebarOpen

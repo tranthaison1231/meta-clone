@@ -3,11 +3,11 @@ package services
 import (
 	"fmt"
 
-	"github.com/pkg/errors"
-	"github.com/tranthaison1231/messenger-clone/api/models"
-
 	"github.com/jinzhu/copier"
-	"github.com/tranthaison1231/messenger-clone/api/db"
+	"github.com/pkg/errors"
+	"github.com/tranthaison1231/meta-clone/api/models"
+
+	"github.com/tranthaison1231/meta-clone/api/db"
 )
 
 func GetUserByMail(mail string) (*models.User, error) {
@@ -153,3 +153,12 @@ func AcceptFriend(userId uint, friendId uint) (string, error) {
 }
 
 // func DenyFriend(userId uint, friendId uint)
+func GetUserByID(id uint) (*models.User, error) {
+	var user models.User
+	result := db.DB.Where("id = ?", id).First(&user)
+
+	if result.Error != nil {
+		return nil, result.Error
+	}
+	return &user, nil
+}

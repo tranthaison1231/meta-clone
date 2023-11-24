@@ -1,0 +1,35 @@
+{
+  "name": "@meta-clone/facebook-web",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "build": "nuxt build",
+    "dev": "nuxt dev",
+    "generate": "nuxt generate",
+    "preview": "nuxt preview",
+    "postinstall": "nuxt prepare"
+  },
+  "devDependencies": {
+    "@nuxt/devtools": "latest",
+    "@unocss/nuxt": "^0.57.7",
+    "@unocss/preset-mini": "^0.57.7",
+    "@vueuse/nuxt": "^10.6.1",
+    "nuxt": "^3.8.2",
+    "unocss": "^0.57.7",
+    "vue": "^3.3.8",
+    "vue-router": "^4.2.5"
+  },
+  "dependencies": {
+    "@hebilicious/vue-query-nuxt": "^0.2.1",
+    "@tanstack/vue-query": "^5.8.4",
+    "@vee-validate/nuxt": "^4.11.8",
+    "@vee-validate/zod": "^4.11.8",
+    "@vueuse/core": "^10.6.1",
+    "axios": "^1.6.2",
+    "class-variance-authority": "^0.7.0",
+    "clsx": "^2.0.0",
+    "lucide-vue-next": "^0.292.0",
+    "tailwind-merge": "^2.0.0",
+    "tailwindcss-animate": "^1.0.7"
+  }
+}

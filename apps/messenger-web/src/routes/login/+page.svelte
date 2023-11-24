@@ -16,10 +16,10 @@
 		taintedMessage: false,
 		onUpdate: async ({ form }) => {
 			if (form.valid) {
-				const { data } = await $loginMutate.mutateAsync(form.data);
-				if (data.token) {
+				const result = await $loginMutate.mutateAsync(form.data);
+				if (result.data?.token) {
 					goto('/');
-					setToken(data.token);
+					setToken(result.data?.token);
 				}
 			}
 		}

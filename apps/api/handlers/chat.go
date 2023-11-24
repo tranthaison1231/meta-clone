@@ -1,11 +1,13 @@
 package handlers
 
 import (
+	"strconv"
+
 	"github.com/gin-gonic/gin"
 	"github.com/go-playground/validator/v10"
-	h "github.com/tranthaison1231/messenger-clone/api/helpers"
-	"github.com/tranthaison1231/messenger-clone/api/models"
-	"github.com/tranthaison1231/messenger-clone/api/services"
+	h "github.com/tranthaison1231/meta-clone/api/helpers"
+	"github.com/tranthaison1231/meta-clone/api/models"
+	"github.com/tranthaison1231/meta-clone/api/services"
 )
 
 type Message struct {
@@ -74,9 +76,9 @@ func AddMemberToChat(c *gin.Context) {
 		h.Fail400(c, err.Error())
 		return
 	}
-	user := c.MustGet("user").(*models.User)
+	chatID, err := strconv.ParseUint(c.Param("chatID"), 10, 64)
 
-	chat, err := services.AddMemberToChat(user.ID, req.UserID)
+	chat, err := services.AddMemberToChat(chatID, req.UserID)
 
 	if err != nil {
 		h.Fail400(c, err.Error())

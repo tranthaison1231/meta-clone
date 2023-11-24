@@ -5,8 +5,8 @@ import (
 
 	"github.com/golang-jwt/jwt/v4"
 	"github.com/pkg/errors"
-	"github.com/tranthaison1231/messenger-clone/api/conf"
-	"github.com/tranthaison1231/messenger-clone/api/models"
+	"github.com/tranthaison1231/meta-clone/api/conf"
+	"github.com/tranthaison1231/meta-clone/api/models"
 )
 
 var SecretKey []byte
