@@ -80,14 +80,14 @@ func GetUserFriends(c *gin.Context) {
 }
 
 func GetUsers(c *gin.Context) {
+	requestParams := h.ConstructPaginateRequest(c)
+
 	currentUser := c.MustGet("user").(*models.User)
 
-	users, err := services.GetUsers(currentUser)
+	users, err := services.GetUsers(requestParams, currentUser)
 
 	if err != nil {
 		h.Fail400(c, err.Error())
 	}
-	h.Success(c, gin.H{
-		"users": users,
-	})
+	h.Success(c, users)
 }

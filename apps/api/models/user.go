@@ -18,6 +18,12 @@ type User struct {
 	FriendRequests []FriendRequest `json:"friend_requests"`
 }
 
+type UserFriend struct {
+	Base
+	UserID   string `gorm:"not null" json:"user_id"`
+	FriendID string `gorm:"not null" json:"friend_id"`
+}
+
 type SignInRequest struct {
 	Email    string `json:"email" validate:"required,email"`
 	Password string `json:"password" validate:"required"`

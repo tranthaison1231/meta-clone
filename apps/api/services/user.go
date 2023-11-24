@@ -5,6 +5,7 @@ import (
 
 	"github.com/jinzhu/copier"
 	"github.com/pkg/errors"
+	h "github.com/tranthaison1231/meta-clone/api/helpers"
 	"github.com/tranthaison1231/meta-clone/api/models"
 
 	"github.com/tranthaison1231/meta-clone/api/db"
@@ -20,14 +21,16 @@ func GetUserByMail(mail string) (*models.User, error) {
 	return &user, nil
 }
 
-func GetUsers(currentUser *models.User) (*[]models.GetUserResponse, error) {
+func GetUsers(request *models.BasePaginationRequest, currentUser *models.User) (*models.BasePaginationResponse[models.GetUserResponse], error) {
 	var users []models.User
 
-	err := db.DB.Preload("Friends").Preload("FriendRequests").Where("id <> ?", currentUser.ID).Find(&users).Error
+	query := db.DB.Preload("FriendRequests").Where("id <> ?", currentUser.ID).Find(&users)
 
-	if err != nil {
+	if err := query.Error; err != nil {
 		return nil, err
 	}
+
+	pagination := h.Paginate(models.User{}, query, request)
 
 	var getUserResponse []models.GetUserResponse
 	for _, user := range users {
@@ -49,16 +52,23 @@ func GetUsers(currentUser *models.User) (*[]models.GetUserResponse, error) {
 			}
 		}
 
-		for _, friend := range user.Friends {
-			if friend.ID == currentUser.ID {
-				response.FriendStatus = "Friend"
-			}
+		var userFriend models.UserFriend
+
+		query := db.DB.Raw("SELECT * FROM user_friends WHERE user_id = ? AND friend_id = ?", user.ID, currentUser.ID).Scan(&userFriend)
+
+		if query.RowsAffected == 1 {
+			response.FriendStatus = "Friend"
 		}
 
 		getUserResponse = append(getUserResponse, response)
 	}
 
-	return &getUserResponse, nil
+	return &models.BasePaginationResponse[models.GetUserResponse]{
+		Items:       getUserResponse,
+		CurrentPage: pagination.CurrentPage,
+		Count:       pagination.Count,
+		TotalPages:  pagination.TotalPages,
+	}, nil
 }
 
 func GetUserFriends(userId uint) (*[]models.User, error) {

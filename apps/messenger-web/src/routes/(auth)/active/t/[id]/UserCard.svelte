@@ -1,6 +1,7 @@
 <script lang="ts">
 	import { usersApi } from '$lib/apis/user';
 	import DefaultAvatar from '$lib/assets/images/default-avatar.jpeg';
+	import { notification } from '$lib/components/ui/notification';
 	import { me } from '$lib/stores/me';
 	import { FriendStatus } from '$lib/types';
 	import { useMutation } from '@sveltestack/svelte-query';
@@ -9,10 +10,29 @@
 	export let email: string,
 		avatar: string | undefined = undefined,
 		userId: number,
-		friendStatus: FriendStatus | undefined = undefined;
+		friendStatus: FriendStatus | undefined = undefined,
+		refetchUserList: (() => void) | undefined = undefined;
 
-	const addFriendMutate = useMutation(usersApi.addFriend);
-	const acceptFriendMutate = useMutation(usersApi.acceptFriend);
+	const addFriendMutate = useMutation(usersApi.addFriend, {
+		onSuccess() {
+			refetchUserList?.();
+		},
+		onError(error) {
+			notification.error({
+				title: (error as Error).message
+			});
+		}
+	});
+	const acceptFriendMutate = useMutation(usersApi.acceptFriend, {
+		onSuccess() {
+			refetchUserList?.();
+		},
+		onError(error) {
+			notification.error({
+				title: (error as Error).message
+			});
+		}
+	});
 
 	const onAddFriend = async () => {
 		if ($me?.id) {
@@ -38,7 +58,7 @@
 >
 	<div class="flex items-center gap-2">
 		<span>
-			<img src={avatar ?? DefaultAvatar} alt="avatar" class="rounded-full" width="45px" />
+			<img src={avatar ?? DefaultAvatar} alt="avatar" class="h-12 w-12 rounded-full object-cover" />
 		</span>
 		<span>
 			{email}
@@ -57,9 +77,7 @@
 			</button>
 		</div>
 	{:else if friendStatus === FriendStatus.Pending}
-		<button on:click={onAddFriend}>
-			<UserCheck2 class="text-slate-400 hover:text-slate-500" />
-		</button>
+		<UserCheck2 class="text-slate-400 hover:text-slate-500" />
 	{:else}
 		<button on:click={onAddFriend}>
 			<UserPlus2 class="text-slate-400 hover:text-slate-500" />
