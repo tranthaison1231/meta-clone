@@ -3,6 +3,16 @@
   import { request } from '~/lib/request'
   import { configure } from 'vee-validate';
   import type { z } from 'zod';
+  import { setToken } from '~/lib/storage';
+
+  useHead({
+    title: 'Facebook - log in or sign up'
+  })
+
+  definePageMeta({
+      middleware: 'auth'
+  });
+  const router = useRouter()
 
   const { mutateAsync } = useMutation({
     mutationFn: (data: z.infer<typeof loginSchema>) => request.post('/sign-in', data),
@@ -19,8 +29,9 @@
   const [email, password] = useFieldModel(['email', 'password']);
 
   const onSubmit = handleSubmit(async (values) => {
-    await mutateAsync(values)
-    navigateTo('/')
+    const res = await mutateAsync(values)
+    setToken(res.data.token)
+    router.push('/')
   })
 </script>
 
@@ -31,16 +42,19 @@
         <h1 class="text-primary text-6xl font-bold">facebook</h1>
         <p class="text-3xl mt-4">Facebook helps you connect and share with the people in your life.</p>
       </div>
-      <form class="p-4 bg-white rounded-xl w-104 h-fit" @submit="onSubmit">
-        <Input placeholder="Email address or phone number" v-model="email" />
-        <span class="mt-1 w-full text-red-500">{{ errors.email }}</span>
-        <Input placeholder="Password" class="my-3" v-model="password" type="password" />
-        <span class="mt-1 w-full text-red-500">{{ errors.password }}</span>
-        <Button class="w-full text-xl" type="submit">Log in</Button>
-        <a class="text-primary hover:underline mt-3 block text-center"> Forgotten password? </a>
-        <hr class="my-4" />
-        <Button variant="success" class="w-full text-xl my-2" type="button">Create new account</Button>
-      </form>
+      <div>
+        <form class="p-4 bg-white shadow-md rounded-xl w-104 h-fit flex flex-col items-center" @submit="onSubmit">
+          <Input placeholder="Email address or phone number" v-model="email" />
+          <span class="my-1 w-full text-red-500">{{ errors.email }}</span>
+          <Input placeholder="Password" class="my-3" v-model="password" type="password" />
+          <span class="my-1 w-full text-red-500">{{ errors.password }}</span>
+          <Button class="w-full text-xl" type="submit">Log in</Button>
+          <a class="text-primary hover:underline mt-3 block text-center"> Forgotten password? </a>
+          <hr class="my-4" />
+          <Button variant="success" class="w-fit text-base my-2" type="button">Create new account</Button>
+        </form>
+        <p class="mt-3 text-center text-sm"><span class="font-bold">Create a Page </span> for a celebrity, brand or business.</p>
+      </div>
     </div>
   </div>
 </template>

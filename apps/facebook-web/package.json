@@ -21,14 +21,15 @@
   },
   "dependencies": {
     "@hebilicious/vue-query-nuxt": "^0.2.1",
-    "@tanstack/vue-query": "^5.8.4",
+    "@tanstack/vue-query": "^5.8.6",
     "@vee-validate/nuxt": "^4.11.8",
     "@vee-validate/zod": "^4.11.8",
     "@vueuse/core": "^10.6.1",
     "axios": "^1.6.2",
     "class-variance-authority": "^0.7.0",
     "clsx": "^2.0.0",
-    "lucide-vue-next": "^0.292.0",
+    "lucide-vue-next": "^0.293.0",
+    "radix-vue": "^1.2.1",
     "tailwind-merge": "^2.0.0",
     "tailwindcss-animate": "^1.0.7"
   }

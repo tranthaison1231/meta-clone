@@ -33,7 +33,7 @@ type Gender string
 
 type SignUpRequest struct {
 	SignInRequest
-	Gender string `json:"gender" validate:"required"`
+	Gender string `json:"gender" validate:"required" enum:"male,female"`
 	Avatar string `json:"avatar"`
 }
 
@@ -44,6 +44,13 @@ type GetUserFriendRequest struct {
 type GetUserResponse struct {
 	User
 	FriendStatus string `json:"friend_status"`
+}
+
+type UpdateUserRequest struct {
+	FirstName string `json:"first_name"`
+	LastName  string `json:"last_name"`
+	Avatar    string `json:"avatar"`
+	Gender    string `json:"gender" enum:"male,female"`
 }
 
 func (u *User) ValidatePwdStaticHash(password string) error {
