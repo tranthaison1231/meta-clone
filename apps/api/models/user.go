@@ -7,6 +7,8 @@ import (
 
 type User struct {
 	Base
+	FirstName      string          `gorm:"type:varchar(255)" json:"first_name"`
+	LastName       string          `gorm:"type:varchar(255)" json:"last_name"`
 	Email          string          `gorm:"uniqueIndex;not null;type:varchar(255)" json:"email"`
 	Salt           string          `gorm:"not null" json:"-"`
 	Avatar         string          `gorm:"type:text" json:"avatar"`
