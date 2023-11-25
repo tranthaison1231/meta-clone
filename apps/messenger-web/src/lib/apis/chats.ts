@@ -1,12 +1,8 @@
-import { BASE_URL } from '$lib/services/request';
+import { request } from '$lib/services/request';
 
 export const chatsApi = {
 	getAll: async () => {
-		const rest = await fetch(`${BASE_URL}/chats`, {
-			headers: {
-				Authorization: `Bearer ${localStorage.getItem('token')}`
-			}
-		});
-		return rest.json();
+		const data = await request(`/chats`);
+		return data;
 	}
 };

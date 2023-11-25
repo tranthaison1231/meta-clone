@@ -1,14 +1,13 @@
 <script lang="ts">
+	import { goto } from '$app/navigation';
 	import { authApi } from '$lib/apis/auth';
 	import logo from '$lib/assets/images/logo.svg';
 	import Button from '$lib/components/ui/button/button.svelte';
 	import FormItem from '$lib/components/ui/form/FormItem.svelte';
+	import { notification } from '$lib/components/ui/notification';
 	import { signUpSchema } from '$lib/utils/schema';
 	import { useMutation } from '@sveltestack/svelte-query';
 	import { superForm, superValidateSync } from 'sveltekit-superforms/client';
-	import { omit } from 'lodash-es';
-	import { notification } from '$lib/components/ui/notification';
-	import { goto } from '$app/navigation';
 
 	const signUpMutate = useMutation(authApi.signUp);
 
@@ -19,10 +18,9 @@
 		onUpdate: async ({ form }) => {
 			if (form.valid) {
 				try {
-					await $signUpMutate.mutateAsync(omit(form.data, ['confirmPassword']));
-
-					// window.location.assign('/login');
-					goto('/login')
+					const { confirmPassword, ...signUpDto } = form.data;
+					await $signUpMutate.mutateAsync(signUpDto);
+					goto('/login');
 				} catch (error) {
 					notification.error({ title: (error as Error).message });
 				}

@@ -2,7 +2,7 @@
 	import { BellOff, Divide, MonitorDown, MoreHorizontal } from 'lucide-svelte';
 	import { useQuery } from '@sveltestack/svelte-query';
 	import { chatsApi } from '$lib/apis/chats';
-	import { usersApi } from '$lib/apis/user';
+	import { usersApi } from '$lib/apis/users';
 	import UserCard from './UserCard.svelte';
 	import Spinner from '$lib/components/ui/wrapper/Spinner.svelte';
 	import { me } from '$lib/stores/me';
@@ -37,7 +37,7 @@
 							email={user.email}
 							avatar={user.avatar}
 							userId={user.id}
-							friendStatus={user.friend_status}
+							friendStatus={user.friendStatus}
 							refetchUserList={$getUsersResult.refetch}
 						/>
 					{/each}

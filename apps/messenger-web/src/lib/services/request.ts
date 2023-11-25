@@ -1,43 +1,25 @@
-import axios from 'axios';
-import { getToken, removeToken, setToken } from './storage';
+import { getToken } from './storage';
 
 export const BASE_URL = import.meta.env.VITE_API_URL;
 
-export const request = axios.create({
-  baseURL: BASE_URL,
-  timeout: 30000,
-});
+const { fetch: originalFetch } = window;
 
-request.interceptors.request.use((config) => {
-  const token = getToken();
-  if (token) {
-    config.headers.Authorization = `Bearer ${token}`;
-  }
-  return config;
-});
+export const request = async (...args: Parameters<typeof originalFetch>) => {
+	let [input, init] = args;
+	input = input.toString().startsWith('http') ? input : `${BASE_URL}${input}`;
+	const token = getToken();
 
-request.interceptors.response.use(
-  (response) => {
-    return response.data;
-  },
-  async (error) => {
-    if (error.response.status === 401) {
-      try {
-        const accessToken = await axios.put('/refresh-token', null, {
-          baseURL: BASE_URL,
-          withCredentials: true,
-          headers: {
-            Authorization: `Bearer ${getToken()}`,
-          },
-        });
-        error.config.headers.Authorization = `Bearer ${accessToken.data.accessToken}`;
-        setToken(accessToken.data.accessToken);
-        return request(error.config);
-      } catch (error) {
-        removeToken();
-        window.location.href = '/login';
-      }
-    }
-    return Promise.reject(error);
-  }
-);
+	if (token) {
+		init = {
+			...init,
+			headers: {
+				...init?.headers,
+				Authorization: `Bearer ${token}`
+			}
+		};
+	}
+
+	const res = await originalFetch(input, init);
+	const data = await res.json();
+	return data;
+};

@@ -99,9 +99,6 @@ importers:
       '@sveltestack/svelte-query':
         specifier: ^1.6.0
         version: 1.6.0
-      axios:
-        specifier: ^1.6.2
-        version: 1.6.2
       bits-ui:
         specifier: ^0.9.8
         version: 0.9.8(svelte@4.2.7)
@@ -114,18 +111,12 @@ importers:
       linkify-html:
         specifier: ^4.1.3
         version: 4.1.3(linkifyjs@4.1.2)
-      lodash-es:
-        specifier: ^4.17.21
-        version: 4.17.21
       lucide-svelte:
-        specifier: ^0.292.0
-        version: 0.292.0(svelte@4.2.7)
+        specifier: ^0.293.0
+        version: 0.293.0(svelte@4.2.7)
       open-graph-scraper:
         specifier: ^6.3.2
         version: 6.3.2
-      stream:
-        specifier: ^0.0.2
-        version: 0.0.2
       tailwind-merge:
         specifier: ^2.0.0
         version: 2.0.0
@@ -173,17 +164,17 @@ importers:
         specifier: ^3.2.4
         version: 3.2.4(prettier@3.1.0)(typescript@5.3.2)
       prettier-plugin-svelte:
-        specifier: ^3.1.1
-        version: 3.1.1(prettier@3.1.0)(svelte@4.2.7)
+        specifier: ^3.1.2
+        version: 3.1.2(prettier@3.1.0)(svelte@4.2.7)
       prettier-plugin-tailwindcss:
         specifier: ^0.5.7
-        version: 0.5.7(prettier-plugin-organize-attributes@1.0.0)(prettier-plugin-organize-imports@3.2.4)(prettier-plugin-svelte@3.1.1)(prettier@3.1.0)
+        version: 0.5.7(prettier-plugin-organize-attributes@1.0.0)(prettier-plugin-organize-imports@3.2.4)(prettier-plugin-svelte@3.1.2)(prettier@3.1.0)
       svelte:
         specifier: latest
         version: 4.2.7
       svelte-check:
-        specifier: ^3.6.1
-        version: 3.6.1(postcss@8.4.31)(svelte@4.2.7)
+        specifier: ^3.6.2
+        version: 3.6.2(postcss@8.4.31)(svelte@4.2.7)
       sveltekit-superforms:
         specifier: ^1.10.2
         version: 1.10.2(@sveltejs/kit@1.27.6)(svelte@4.2.7)(zod@3.22.4)
@@ -5617,10 +5608,6 @@ packages:
   /electron-to-chromium@1.4.576:
     resolution: {integrity: sha512-yXsZyXJfAqzWk1WKryr0Wl0MN2D47xodPvEEwlVePBnhU5E7raevLQR+E6b9JAD3GfL/7MbAL9ZtWQQPcLx7wA==}
 
-  /emitter-component@1.1.2:
-    resolution: {integrity: sha512-QdXO3nXOzZB4pAjM0n6ZE+R9/+kPpECA/XSELIcc54NeYVnBqIk+4DFiBgK+8QbV3mdvTG6nedl7dTYgO+5wDw==}
-    dev: false
-
   /emoji-mart@5.5.2:
     resolution: {integrity: sha512-Sqc/nso4cjxhOwWJsp9xkVm8OF5c+mJLZJFoFfzRuKO+yWiN7K8c96xmtughYb0d/fZ8UC6cLIQ/p4BR6Pv3/A==}
     dev: false
@@ -6618,7 +6605,7 @@ packages:
     engines: {node: ^12.20.0 || ^14.13.1 || >=16.0.0}
     dependencies:
       dir-glob: 3.0.1
-      fast-glob: 3.3.1
+      fast-glob: 3.3.2
       ignore: 5.2.4
       merge2: 1.4.1
       slash: 4.0.0
@@ -7388,10 +7375,6 @@ packages:
     dependencies:
       p-locate: 5.0.0
 
-  /lodash-es@4.17.21:
-    resolution: {integrity: sha512-mKnC+QJ9pWVzv+C4/U3rRsHapFfHvQFoFB92e52xeyGMcX6/OlIl78je1u8vePzYZSkkogMPJ2yjxxsb89cxyw==}
-    dev: false
-
   /lodash.debounce@4.0.8:
     resolution: {integrity: sha512-FT1yDzDYEoYWhnSGnpE/4Kj1fLZkDFyqRb7fNt6FdYOSxlUWAtp42Eh6Wb0rGIv/m9Bgo7x4GhQbm5Ys4SG5ow==}
 
@@ -7499,8 +7482,8 @@ packages:
       es5-ext: 0.10.62
     dev: true
 
-  /lucide-svelte@0.292.0(svelte@4.2.7):
-    resolution: {integrity: sha512-bnTpg9pbm6pQDc+YiLK2yxtRFk2Cc+hbzwjAPaV85k56x10CJ9LsXjon6wRrlNTSdxJR7GOsRjz0A5ZNu3Z7dg==}
+  /lucide-svelte@0.293.0(svelte@4.2.7):
+    resolution: {integrity: sha512-nQ6QO6anjjiVoipw3dNptzI6NWuiArlhysVtRpoAWICSQVMR3ybwVf6piUUqbjGe+RfGufLzCl93C/yhsS+p4w==}
     peerDependencies:
       svelte: '>=3 <5'
     dependencies:
@@ -9031,8 +9014,8 @@ packages:
       typescript: 5.3.2
     dev: true
 
-  /prettier-plugin-svelte@3.1.1(prettier@3.1.0)(svelte@4.2.7):
-    resolution: {integrity: sha512-jLzaHfToav527/I5h2BMQfN3G5gylrJm54zFFyoXvUtfscI47877ftacUb+Eyse/3bXrhY+MtkyiuvruiHc+kg==}
+  /prettier-plugin-svelte@3.1.2(prettier@3.1.0)(svelte@4.2.7):
+    resolution: {integrity: sha512-7xfMZtwgAWHMT0iZc8jN4o65zgbAQ3+O32V6W7pXrqNvKnHnkoyQCGCbKeUyXKZLbYE0YhFRnamfxfkEGxm8qA==}
     peerDependencies:
       prettier: ^3.0.0
       svelte: ^3.2.0 || ^4.0.0-next.0 || ^5.0.0-next.0
@@ -9041,7 +9024,7 @@ packages:
       svelte: 4.2.7
     dev: true
 
-  /prettier-plugin-tailwindcss@0.5.7(prettier-plugin-organize-attributes@1.0.0)(prettier-plugin-organize-imports@3.2.4)(prettier-plugin-svelte@3.1.1)(prettier@3.1.0):
+  /prettier-plugin-tailwindcss@0.5.7(prettier-plugin-organize-attributes@1.0.0)(prettier-plugin-organize-imports@3.2.4)(prettier-plugin-svelte@3.1.2)(prettier@3.1.0):
     resolution: {integrity: sha512-4v6uESAgwCni6YF6DwJlRaDjg9Z+al5zM4JfngcazMy4WEf/XkPS5TEQjbD+DZ5iNuG6RrKQLa/HuX2SYzC3kQ==}
     engines: {node: '>=14.21.3'}
     peerDependencies:
@@ -9096,7 +9079,7 @@ packages:
       prettier: 3.1.0
       prettier-plugin-organize-attributes: 1.0.0(prettier@3.1.0)
       prettier-plugin-organize-imports: 3.2.4(prettier@3.1.0)(typescript@5.3.2)
-      prettier-plugin-svelte: 3.1.1(prettier@3.1.0)(svelte@4.2.7)
+      prettier-plugin-svelte: 3.1.2(prettier@3.1.0)(svelte@4.2.7)
     dev: true
 
   /prettier@3.1.0:
@@ -9889,12 +9872,6 @@ packages:
       is-stream: 1.1.0
     dev: true
 
-  /stream@0.0.2:
-    resolution: {integrity: sha512-gCq3NDI2P35B2n6t76YJuOp7d6cN/C7Rt0577l91wllh0sY9ZBuw9KaSGqH/b0hzn3CWWJbpbW0W0WvQ1H/Q7g==}
-    dependencies:
-      emitter-component: 1.1.2
-    dev: false
-
   /streamx@2.15.5:
     resolution: {integrity: sha512-9thPGMkKC2GctCzyCUjME3yR03x2xNo0GPKGkRw2UMYN+gqWa9uqpyNWhmsNCutU5zHmkUum0LsCRQTXUgUCAg==}
     dependencies:
@@ -10064,15 +10041,15 @@ packages:
     resolution: {integrity: sha512-ot0WnXS9fgdkgIcePe6RHNk1WA8+muPa6cSjeR3V8K27q9BB1rTE3R1p7Hv0z1ZyAc8s6Vvv8DIyWf681MAt0w==}
     engines: {node: '>= 0.4'}
 
-  /svelte-check@3.6.1(postcss@8.4.31)(svelte@4.2.7):
-    resolution: {integrity: sha512-v+mmXKp+hZ+mZ/n9MQpAe+0q/GhRKXmhQOkWYAdRozXRkPiuLOdhsjp9KtNBpP0TRqvvrB0cwWL5HUjCLpI46g==}
+  /svelte-check@3.6.2(postcss@8.4.31)(svelte@4.2.7):
+    resolution: {integrity: sha512-E6iFh4aUCGJLRz6QZXH3gcN/VFfkzwtruWSRmlKrLWQTiO6VzLsivR6q02WYLGNAGecV3EocqZuCDrC2uttZ0g==}
     hasBin: true
     peerDependencies:
       svelte: ^3.55.0 || ^4.0.0-next.0 || ^4.0.0 || ^5.0.0-next.0
     dependencies:
       '@jridgewell/trace-mapping': 0.3.20
       chokidar: 3.5.3
-      fast-glob: 3.3.1
+      fast-glob: 3.3.2
       import-fresh: 3.3.0
       picocolors: 1.0.0
       sade: 1.8.1
@@ -10983,7 +10960,7 @@ packages:
       chalk: 4.1.2
       chokidar: 3.5.3
       commander: 8.3.0
-      fast-glob: 3.3.1
+      fast-glob: 3.3.2
       fs-extra: 11.1.1
       lodash.debounce: 4.0.8
       lodash.pick: 4.4.0

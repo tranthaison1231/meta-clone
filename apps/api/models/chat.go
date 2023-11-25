@@ -4,8 +4,8 @@ type Chat struct {
 	Base
 	Name        string  `gorm:"not null;type:varchar(255)" json:"name"`
 	Members     []*User `gorm:"many2many:chat_users;" json:"members"`
-	OwnerID     uint    `gorm:"not null" json:"owner_id"`
-	LastMessage Message `gorm:"foreignKey:ChatID" json:"last_message"`
+	OwnerID     uint    `gorm:"not null" json:"ownerId"`
+	LastMessage Message `gorm:"foreignKey:ChatID" json:"lastMessage"`
 }
 
 type CreateChatRequest struct {
@@ -13,5 +13,5 @@ type CreateChatRequest struct {
 }
 
 type AddMemberToChatRequest struct {
-	UserID uint `json:"user_id" validate:"required"`
+	UserID uint `json:"userId" validate:"required"`
 }

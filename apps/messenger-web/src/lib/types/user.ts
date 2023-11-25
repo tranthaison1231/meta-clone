@@ -9,13 +9,13 @@ export interface User {
 	updated_at: string;
 	gender: string;
 	friends: User[] | null;
-	friend_requests: FriendRequest[] | null;
+	friendRequests: FriendRequest[] | null;
 }
 
 export interface FriendRequest {
 	id: number;
-	user_id: number;
-	friend_id: number;
+	userId: number;
+	friendId: number;
 }
 
 export enum FriendStatus {
@@ -26,7 +26,7 @@ export enum FriendStatus {
 }
 
 export interface GetUsersResponse {
-	users: User & { friend_status: FriendStatus }[];
+	users: User & { friendStatus: FriendStatus }[];
 }
 
 export interface GetUserFriendsInputDto extends BasePaginationRequest {
@@ -34,8 +34,8 @@ export interface GetUserFriendsInputDto extends BasePaginationRequest {
 }
 
 export interface AddFriendInputDto {
-	user_id: number;
-	friend_id: number;
+	userId: number;
+	friendId: number;
 }
 
 export type AcceptFriendInputDto = AddFriendInputDto;

@@ -1,8 +1,6 @@
 package services
 
 import (
-	"fmt"
-
 	"github.com/jinzhu/copier"
 	"github.com/pkg/errors"
 	h "github.com/tranthaison1231/meta-clone/api/helpers"
@@ -54,7 +52,7 @@ func GetUsers(request *models.BasePaginationRequest, currentUser *models.User) (
 
 		var userFriend models.UserFriend
 
-		query := db.DB.Raw("SELECT * FROM user_friends WHERE user_id = ? AND friend_id = ?", user.ID, currentUser.ID).Scan(&userFriend)
+		query := db.DB.Raw("SELECT * FROM user_friends WHERE userId = ? AND friendId = ?", user.ID, currentUser.ID).Scan(&userFriend)
 
 		if query.RowsAffected == 1 {
 			response.FriendStatus = "Friend"
@@ -67,7 +65,7 @@ func GetUsers(request *models.BasePaginationRequest, currentUser *models.User) (
 		Items:       getUserResponse,
 		CurrentPage: pagination.CurrentPage,
 		Count:       pagination.Count,
-		TotalPages:  pagination.TotalPages,
+		TotalPage:   pagination.TotalPage,
 	}, nil
 }
 
@@ -86,7 +84,7 @@ func AddFriend(userId uint, friendId uint) (*models.FriendRequest, error) {
 	var friendRequest models.FriendRequest
 	var user models.User
 
-	result := db.DB.Where("user_id = ? AND friend_id = ? OR user_id = ? AND friend_id = ?", userId, friendId, friendId, userId).Find(&friendRequest)
+	result := db.DB.Where("user_id = ? AND friend_id = ? OR userId = ? AND friendId = ?", userId, friendId, friendId, userId).Find(&friendRequest)
 
 	if err := result.Error; err != nil {
 		return nil, err
@@ -108,19 +106,19 @@ func AddFriend(userId uint, friendId uint) (*models.FriendRequest, error) {
 		}
 	}
 
-	new_friend_request := models.FriendRequest{
+	newFriendRequest := models.FriendRequest{
 		UserID:   userId,
 		FriendID: friendId,
 	}
 
-	err := db.DB.Create(&new_friend_request).Error
+	err := db.DB.Create(&newFriendRequest).Error
 
 	if err != nil {
 		return nil, err
 
 	}
 
-	return &new_friend_request, nil
+	return &newFriendRequest, nil
 }
 
 func AcceptFriend(userId uint, friendId uint) (string, error) {
@@ -129,8 +127,6 @@ func AcceptFriend(userId uint, friendId uint) (string, error) {
 	var friend models.User
 
 	result := db.DB.Where("user_id = ? AND friend_id = ?", userId, friendId).First(&friendRequest)
-
-	fmt.Println("=======", userId, friendId)
 
 	if err := result.Error; err != nil {
 		return "", err
@@ -162,7 +158,6 @@ func AcceptFriend(userId uint, friendId uint) (string, error) {
 	return "Added Friend", nil
 }
 
-// func DenyFriend(userId uint, friendId uint)
 func GetUserByID(id uint) (*models.User, error) {
 	var user models.User
 	result := db.DB.Where("id = ?", id).First(&user)

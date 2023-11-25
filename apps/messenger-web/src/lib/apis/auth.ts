@@ -1,32 +1,28 @@
-import { BASE_URL } from '$lib/services/request';
+import { request } from '$lib/services/request';
 import type { SignInRequest, SignUpRequest, User } from '$lib/types';
 import type { BaseResponseType } from '$lib/types/response';
 
 export interface GetMeResponse {
-	user: User
+	user: User;
 }
 
 export const authApi = {
 	login: async ({ email, password }: SignInRequest) => {
-		const rest = await fetch(`${BASE_URL}/sign-in`, {
+		const data = await request(`/sign-in`, {
 			method: 'POST',
 			body: JSON.stringify({
 				email: email,
 				password: password
 			})
 		});
-		return rest.json();
+		return data;
 	},
 	getMe: async () => {
-		const rest = await fetch(`${BASE_URL}/me`, {
-			headers: {
-				Authorization: `Bearer ${localStorage.getItem('token')}`
-			}
-		});
-		return await rest.json() as BaseResponseType<GetMeResponse>;
+		const data: BaseResponseType<GetMeResponse> = await request(`/me`);
+		return data;
 	},
-	signUp: async ({email, gender, password, avatar }: SignUpRequest) => {
-		const rest = await fetch(`${BASE_URL}/sign-up`, {
+	signUp: async ({ email, gender, password, avatar }: SignUpRequest) => {
+		const data = await request('/sign-up', {
 			method: 'POST',
 			body: JSON.stringify({
 				email,
@@ -35,6 +31,6 @@ export const authApi = {
 				avatar
 			})
 		});
-		return rest.json();
+		return data;
 	}
 };

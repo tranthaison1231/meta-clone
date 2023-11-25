@@ -7,8 +7,8 @@ import (
 
 type User struct {
 	Base
-	FirstName      string          `gorm:"type:varchar(255)" json:"first_name"`
-	LastName       string          `gorm:"type:varchar(255)" json:"last_name"`
+	FirstName      string          `gorm:"type:varchar(255)" json:"firstName"`
+	LastName       string          `gorm:"type:varchar(255)" json:"lastName"`
 	Email          string          `gorm:"uniqueIndex;not null;type:varchar(255)" json:"email"`
 	Salt           string          `gorm:"not null" json:"-"`
 	Avatar         string          `gorm:"type:text" json:"avatar"`
@@ -17,13 +17,13 @@ type User struct {
 	Chats          []*Chat         `gorm:"many2many:chat_users;" json:"chats"`
 	Communities    []Community     `gorm:"many2many:user_communities;" json:"communities"`
 	Friends        []*User         `gorm:"many2many:user_friends" json:"friends"`
-	FriendRequests []FriendRequest `json:"friend_requests"`
+	FriendRequests []FriendRequest `json:"friendRequests"`
 }
 
 type UserFriend struct {
 	Base
-	UserID   string `gorm:"not null" json:"user_id"`
-	FriendID string `gorm:"not null" json:"friend_id"`
+	UserID   string `gorm:"not null" json:"userId"`
+	FriendID string `gorm:"not null" json:"friendId"`
 }
 
 type SignInRequest struct {
@@ -40,17 +40,17 @@ type SignUpRequest struct {
 }
 
 type GetUserFriendRequest struct {
-	UserID uint `json:"user_id" validate:"required"`
+	UserID uint `json:"userId" validate:"required"`
 }
 
 type GetUserResponse struct {
 	User
-	FriendStatus string `json:"friend_status"`
+	FriendStatus string `json:"friendStatus"`
 }
 
 type UpdateUserRequest struct {
-	FirstName string `json:"first_name"`
-	LastName  string `json:"last_name"`
+	FirstName string `json:"firstName"`
+	LastName  string `json:"lastName"`
 	Avatar    string `json:"avatar"`
 	Gender    string `json:"gender" enum:"male,female"`
 }

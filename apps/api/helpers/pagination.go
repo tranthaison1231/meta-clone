@@ -28,7 +28,7 @@ func setRequestDefaultValue(request *models.BasePaginationRequest) {
 type PaginateResult struct {
 	CurrentPage int
 	Count       int
-	TotalPages  int
+	TotalPage   int
 }
 
 func ConstructPaginateRequest(c *gin.Context) *models.BasePaginationRequest {
@@ -64,14 +64,11 @@ func Paginate(model interface{}, query *gorm.DB, request *models.BasePaginationR
 	var totalItems int64
 	db.DB.Model(&model).Count(&totalItems)
 
-	totalPages := int(math.Ceil(float64(totalItems) / float64(limit)))
-
-	fmt.Println("totalItems", totalItems)
-	fmt.Println("totalPages", totalPages)
+	totalPage := int(math.Ceil(float64(totalItems) / float64(limit)))
 
 	return &PaginateResult{
 		CurrentPage: page,
 		Count:       int(result.RowsAffected),
-		TotalPages:  int(totalPages),
+		TotalPage:   int(totalPage),
 	}
 }

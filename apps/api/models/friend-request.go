@@ -2,13 +2,13 @@ package models
 
 type FriendRequest struct {
 	Base
-	UserID   uint `json:"user_id"`
-	FriendID uint `json:"friend_id"`
+	UserID   uint `json:"userId"`
+	FriendID uint `json:"friendId"`
 }
 
 type AddFriendRequest struct {
-	UserID   uint `json:"user_id" validate:"required"`
-	FriendID uint `json:"friend_id" validate:"required"`
+	UserID   uint `json:"userId" validate:"required"`
+	FriendID uint `json:"friendId" validate:"required"`
 }
 
 type AcceptFriendRequest struct {

@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { usersApi } from '$lib/apis/user';
+	import { usersApi } from '$lib/apis/users';
 	import DefaultAvatar from '$lib/assets/images/default-avatar.jpeg';
 	import { notification } from '$lib/components/ui/notification';
 	import { me } from '$lib/stores/me';
@@ -37,8 +37,8 @@
 	const onAddFriend = async () => {
 		if ($me?.id) {
 			await $addFriendMutate.mutate({
-				friend_id: userId,
-				user_id: $me?.id
+				friendId: userId,
+				userId: $me?.id
 			});
 		}
 	};
@@ -46,8 +46,8 @@
 	const onAcceptFriend = async () => {
 		if ($me?.id) {
 			await $acceptFriendMutate.mutate({
-				friend_id: $me?.id,
-				user_id: userId
+				friendId: $me?.id,
+				userId: userId
 			});
 		}
 	};
