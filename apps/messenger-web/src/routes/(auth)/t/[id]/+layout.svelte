@@ -21,10 +21,6 @@
 			}
 		}
 	];
-
-	const result = useQuery(['chats'], () => chatsApi.getAll());
-
-	$: console.log($result);
 </script>
 
 <div class="border-r-1 w-90 relative h-screen py-2">

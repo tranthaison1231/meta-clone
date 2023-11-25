@@ -43,6 +43,12 @@ func initRoutes(r *gin.Engine) {
 	auth.POST("/communities", handlers.CreateCommunity)
 	auth.GET("/chats/:chatID/messages", handlers.GetMessages)
 	auth.POST("/chats/:chatID/messages", handlers.SendMessage)
+
+	// User
+	auth.POST("/users/add-friend", handlers.AddFriend)
+	auth.POST("/users/accept-friend", handlers.AcceptFriend)
+	auth.GET("/users/:userID/friends", handlers.GetUserFriends)
+	auth.GET("/users", handlers.GetUsers)
 }
 
 func init() {

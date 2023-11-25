@@ -5,6 +5,7 @@
 	import { LogOut } from 'lucide-svelte';
 	import { useQuery } from '@sveltestack/svelte-query';
 	import { authApi } from '$lib/apis/auth';
+	import { me } from '$lib/stores/me';
 
 	export let isSidebarOpen = false;
 
@@ -13,7 +14,12 @@
 		goto('/login');
 	};
 
-	const result = useQuery(['me'], () => authApi.getMe());
+	const result = useQuery(['me'], () => authApi.getMe(), {
+		onSuccess({ data }) {
+			me.set(data.user);
+		}
+	});
+	$: profile = $result.data?.data?.user;
 </script>
 
 <Popover.Root
@@ -27,9 +33,9 @@
 				'w-full items-center gap-2 rounded-lg p-2 hover:bg-gray-100': isSidebarOpen
 			})}
 		>
-			<img src={$result?.data?.data?.user.avatar} class="h-8 w-8 rounded-full" alt="avatar" />
+			<img src={profile?.avatar} class="h-8 w-8 rounded-full" alt="avatar" />
 			{#if isSidebarOpen}
-				<p>{$result?.data?.data?.user.email}</p>
+				<p>{profile?.email}</p>
 			{/if}
 		</div>
 	</Popover.Trigger>

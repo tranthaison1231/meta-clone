@@ -7,15 +7,23 @@ import (
 
 type User struct {
 	Base
-	FirstName   string      `gorm:"type:varchar(255)" json:"first_name"`
-	LastName    string      `gorm:"type:varchar(255)" json:"last_name"`
-	Email       string      `gorm:"uniqueIndex;not null;type:varchar(255)" json:"email"`
-	Salt        string      `gorm:"not null" json:"-"`
-	Avatar      string      `gorm:"type:text" json:"avatar"`
-	Password    string      `gorm:"not null" json:"-"`
-	Gender      string      `gorm:"not null" json:"gender"`
-	Chats       []*Chat     `gorm:"many2many:chat_users;" json:"chats"`
-	Communities []Community `gorm:"many2many:user_communities;" json:"communities"`
+	FirstName      string          `gorm:"type:varchar(255)" json:"first_name"`
+	LastName       string          `gorm:"type:varchar(255)" json:"last_name"`
+	Email          string          `gorm:"uniqueIndex;not null;type:varchar(255)" json:"email"`
+	Salt           string          `gorm:"not null" json:"-"`
+	Avatar         string          `gorm:"type:text" json:"avatar"`
+	Password       string          `gorm:"not null" json:"-"`
+	Gender         string          `gorm:"not null" json:"gender"`
+	Chats          []*Chat         `gorm:"many2many:chat_users;" json:"chats"`
+	Communities    []Community     `gorm:"many2many:user_communities;" json:"communities"`
+	Friends        []*User         `gorm:"many2many:user_friends" json:"friends"`
+	FriendRequests []FriendRequest `json:"friend_requests"`
+}
+
+type UserFriend struct {
+	Base
+	UserID   string `gorm:"not null" json:"user_id"`
+	FriendID string `gorm:"not null" json:"friend_id"`
 }
 
 type SignInRequest struct {
@@ -29,6 +37,15 @@ type SignUpRequest struct {
 	SignInRequest
 	Gender string `json:"gender" validate:"required" enum:"male,female"`
 	Avatar string `json:"avatar"`
+}
+
+type GetUserFriendRequest struct {
+	UserID uint `json:"user_id" validate:"required"`
+}
+
+type GetUserResponse struct {
+	User
+	FriendStatus string `json:"friend_status"`
 }
 
 type UpdateUserRequest struct {
