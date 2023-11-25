@@ -7,14 +7,10 @@
 	import Spinner from '$lib/components/ui/wrapper/Spinner.svelte';
 	import { me } from '$lib/stores/me';
 
-	const getUsersResult = useQuery(['get-all-users'], () => usersApi.getAll({ page: 1, limit: 20 }));
-	const getFriendsResult = useQuery(
-		['get-friends'],
-		() => usersApi.getFriends({ userId: $me?.id }),
-		{
-			enabled: !!$me?.id
-		}
-	);
+	const getUsersResult = useQuery(['users'], () => usersApi.getAll({ page: 1, limit: 20 }));
+	const getFriendsResult = useQuery(['friends'], () => usersApi.getFriends({ userId: $me?.id }), {
+		enabled: !!$me?.id
+	});
 
 	$: users = $getUsersResult.data?.items ?? [];
 	$: friends = $getFriendsResult.data?.items ?? [];
