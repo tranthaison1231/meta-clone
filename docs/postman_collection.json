@@ -1,272 +1,364 @@
 {
-  "info": {
-    "_postman_id": "d1a34a96-aa70-4bad-8b9b-5365a0ecdedc",
-    "name": "Meta Clone",
-    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
-    "_exporter_id": "9202600"
-  },
-  "item": [
-    {
-      "name": "sign-in",
-      "request": {
-        "auth": {
-          "type": "bearer",
-          "bearer": [
-            {
-              "key": "token",
-              "value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InR0c29uLjE3MTFAZ21haWwuY29tIiwiZXhwIjoxNzAwNjcxNzY2LCJuYmYiOjE3MDA0OTg5NjYsImlhdCI6MTcwMDQ5ODk2Nn0.SQWZFwj0VcVUPpyzsDlNrqR2HsuwdbEySGiTK52XPdM",
-              "type": "string"
-            }
-          ]
-        },
-        "method": "POST",
-        "header": [],
-        "body": {
-          "mode": "raw",
-          "raw": "{\n    \"email\": \"ttson.1712@gmail.com\",\n    \"password\": \"!Enouvo1234\"\n}",
-          "options": {
-            "raw": {
-              "language": "json"
-            }
-          }
-        },
-        "url": {
-          "raw": "{{domain}}/sign-in",
-          "host": ["{{domain}}"],
-          "path": ["sign-in"]
-        }
-      },
-      "response": []
-    },
-    {
-      "name": "sign-up",
-      "request": {
-        "auth": {
-          "type": "bearer",
-          "bearer": [
-            {
-              "key": "token",
-              "value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InR0c29uLjE3MTFAZ21haWwuY29tIiwiZXhwIjoxNzAwNjcxOTIwLCJuYmYiOjE3MDA0OTkxMjAsImlhdCI6MTcwMDQ5OTEyMH0._dhgrOS49aDRxls3aQdakN4HY1xnMcaVjJAKCt71gDc",
-              "type": "string"
-            }
-          ]
-        },
-        "method": "POST",
-        "header": [],
-        "body": {
-          "mode": "raw",
-          "raw": "{\n    \"email\": \"ttson.1740@gmail.com\",\n    \"password\": \"!Enouvo1234\",\n    \"gender\": \"male\",\n    \"avatar\": \"https://scontent.fdad1-4.fna.fbcdn.net/v/t39.30808-1/275227304_2189265651227084_6306293141393566490_n.jpg?stp=dst-jpg_p100x100&_nc_cat=100&ccb=1-7&_nc_sid=5f2048&_nc_eui2=AeGSrLdIzPJQLWlPGZnNs2k60UBRHL1Rt6nRQFEcvVG3qchcOQx5CR7QUYLj9gnSwxmMdT1TVOXg8lKn0RSMS2cU&_nc_ohc=XLxB5m-e4NsAX-twP8h&_nc_ad=z-m&_nc_cid=0&_nc_ht=scontent.fdad1-4.fna&oh=00_AfA60aAHGUiT0TOA-_JuK6rSfwqQ_1jhYe424bVORFdtAA&oe=6561C6D2\"\n}",
-          "options": {
-            "raw": {
-              "language": "json"
-            }
-          }
-        },
-        "url": {
-          "raw": "{{domain}}/sign-up",
-          "host": ["{{domain}}"],
-          "path": ["sign-up"]
-        }
-      },
-      "response": []
-    },
-    {
-      "name": "me",
-      "request": {
-        "auth": {
-          "type": "bearer",
-          "bearer": [
-            {
-              "key": "token",
-              "value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InR0c29uLjE3NDBAZ21haWwuY29tIiwiZXhwIjoxNzAwODA5NTIzLCJuYmYiOjE3MDA2MzY3MjMsImlhdCI6MTcwMDYzNjcyM30.mA6woz-5FdmuG-c9vC50V9EpR_mHuJBt8Rupmr2r6PY",
-              "type": "string"
-            }
-          ]
-        },
-        "method": "GET",
-        "header": [],
-        "url": {
-          "raw": "{{domain}}/me",
-          "host": ["{{domain}}"],
-          "path": ["me"]
-        }
-      },
-      "response": []
-    },
-    {
-      "name": "communities",
-      "request": {
-        "auth": {
-          "type": "bearer",
-          "bearer": [
-            {
-              "key": "token",
-              "value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InR0c29uLjE3MjBAZ21haWwuY29tIiwiZXhwIjoxNzAwNzEzNDYxLCJuYmYiOjE3MDA1NDA2NjEsImlhdCI6MTcwMDU0MDY2MX0.MuuGwEnS2zpaiOciMltdRkctggyqHN6-zi4iGPiGhiI",
-              "type": "string"
-            }
-          ]
-        },
-        "method": "GET",
-        "header": [],
-        "url": {
-          "raw": "{{domain}}/communities",
-          "host": ["{{domain}}"],
-          "path": ["communities"]
-        }
-      },
-      "response": []
-    },
-    {
-      "name": "chats",
-      "request": {
-        "auth": {
-          "type": "bearer",
-          "bearer": [
-            {
-              "key": "token",
-              "value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InR0c29uLjE3NDBAZ21haWwuY29tIiwiZXhwIjoxNzAwODA5NTIzLCJuYmYiOjE3MDA2MzY3MjMsImlhdCI6MTcwMDYzNjcyM30.mA6woz-5FdmuG-c9vC50V9EpR_mHuJBt8Rupmr2r6PY",
-              "type": "string"
-            }
-          ]
-        },
-        "method": "GET",
-        "header": [],
-        "url": {
-          "raw": "{{domain}}/chats",
-          "host": ["{{domain}}"],
-          "path": ["chats"]
-        }
-      },
-      "response": []
-    },
-    {
-      "name": "chats",
-      "request": {
-        "auth": {
-          "type": "bearer",
-          "bearer": [
-            {
-              "key": "token",
-              "value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InR0c29uLjE3NDBAZ21haWwuY29tIiwiZXhwIjoxNzAwNzkyMDY3LCJuYmYiOjE3MDA2MTkyNjcsImlhdCI6MTcwMDYxOTI2N30.hYAjrsS0ihOJIDIaURx17DlzE9nkTpSNexoLq8lliaU",
-              "type": "string"
-            }
-          ]
-        },
-        "method": "POST",
-        "header": [],
-        "body": {
-          "mode": "raw",
-          "raw": "{\n    \"name\": \"Linh Mõm\"\n}",
-          "options": {
-            "raw": {
-              "language": "json"
-            }
-          }
-        },
-        "url": {
-          "raw": "{{domain}}/chats",
-          "host": ["{{domain}}"],
-          "path": ["chats"]
-        }
-      },
-      "response": []
-    },
-    {
-      "name": "communities",
-      "request": {
-        "auth": {
-          "type": "bearer",
-          "bearer": [
-            {
-              "key": "token",
-              "value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InR0c29uLjE3NDBAZ21haWwuY29tIiwiZXhwIjoxNzAwNzkyMDY3LCJuYmYiOjE3MDA2MTkyNjcsImlhdCI6MTcwMDYxOTI2N30.hYAjrsS0ihOJIDIaURx17DlzE9nkTpSNexoLq8lliaU",
-              "type": "string"
-            }
-          ]
-        },
-        "method": "POST",
-        "header": [],
-        "body": {
-          "mode": "raw",
-          "raw": "{\n    \"name\": \"Hội anh frontend\",\n    \"logo\": \"https://scontent.fhan2-3.fna.fbcdn.net/v/t39.30808-6/240655429_4059163764195718_3652059374269714525_n.jpg?stp=c55.0.100.100a_dst-jpg_p100x100&_nc_cat=108&ccb=1-7&_nc_sid=5f2048&_nc_eui2=AeFdIzJYJ1lnZSnh84ndpySKcZIZbYEk2QZxkhltgSTZBqEF4YbLhpD02R-QD0VvBiMrNHp0JmID_73pKS5TjahN&_nc_ohc=VMbmfEnksiAAX9plttL&_nc_ad=z-m&_nc_cid=0&_nc_ht=scontent.fhan2-3.fna&oh=00_AfAoqDpTgjTqM9hoODvLcaUaKL7kDjHMIS7JMU4UZ6R1vA&oe=6562340E\"\n}",
-          "options": {
-            "raw": {
-              "language": "json"
-            }
-          }
-        },
-        "url": {
-          "raw": "{{domain}}/communities",
-          "host": ["{{domain}}"],
-          "path": ["communities"]
-        }
-      },
-      "response": []
-    },
-    {
-      "name": "chats/:chatid/messages",
-      "request": {
-        "auth": {
-          "type": "bearer",
-          "bearer": [
-            {
-              "key": "token",
-              "value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InR0c29uLjE3NDBAZ21haWwuY29tIiwiZXhwIjoxNzAwODA5NTIzLCJuYmYiOjE3MDA2MzY3MjMsImlhdCI6MTcwMDYzNjcyM30.mA6woz-5FdmuG-c9vC50V9EpR_mHuJBt8Rupmr2r6PY",
-              "type": "string"
-            }
-          ]
-        },
-        "method": "POST",
-        "header": [],
-        "body": {
-          "mode": "raw",
-          "raw": "{\n    \"content\": \"Bạn dạo ni sao rồi\"\n}",
-          "options": {
-            "raw": {
-              "language": "json"
-            }
-          }
-        },
-        "url": {
-          "raw": "{{domain}}/chats/5/messages",
-          "host": ["{{domain}}"],
-          "path": ["chats", "5", "messages"]
-        }
-      },
-      "response": []
-    },
-    {
-      "name": "/chats/:chatID/join",
-      "request": {
-        "auth": {
-          "type": "bearer",
-          "bearer": [
-            {
-              "key": "token",
-              "value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InR0c29uLjE3NDBAZ21haWwuY29tIiwiZXhwIjoxNzAwODA5NTIzLCJuYmYiOjE3MDA2MzY3MjMsImlhdCI6MTcwMDYzNjcyM30.mA6woz-5FdmuG-c9vC50V9EpR_mHuJBt8Rupmr2r6PY",
-              "type": "string"
-            }
-          ]
-        },
-        "method": "POST",
-        "header": [],
-        "body": {
-          "mode": "raw",
-          "raw": "{\n    \"user_id\": 2\n}",
-          "options": {
-            "raw": {
-              "language": "json"
-            }
-          }
-        },
-        "url": {
-          "raw": "{{domain}}/chats/5/join",
-          "host": ["{{domain}}"],
-          "path": ["chats", "5", "join"]
-        }
-      },
-      "response": []
-    }
-  ]
+	"info": {
+		"_postman_id": "d1a34a96-aa70-4bad-8b9b-5365a0ecdedc",
+		"name": "Meta Clone",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "9202600"
+	},
+	"item": [
+		{
+			"name": "sign-in",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InR0c29uLjE3NDBAZ21haWwuY29tIiwiZXhwIjoxNzAxMDkzMTM1LCJuYmYiOjE3MDA5MjAzMzUsImlhdCI6MTcwMDkyMDMzNX0.mcHIDd94ppDckRPrTB3AUNwy3ev-QV_xCSTNN5tOco4",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"email\": \"ttson.1740@gmail.com\",\n    \"password\": \"!Enouvo1234\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{domain}}/sign-in",
+					"host": [
+						"{{domain}}"
+					],
+					"path": [
+						"sign-in"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "sign-up",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InR0c29uLjE3MTFAZ21haWwuY29tIiwiZXhwIjoxNzAwNjcxOTIwLCJuYmYiOjE3MDA0OTkxMjAsImlhdCI6MTcwMDQ5OTEyMH0._dhgrOS49aDRxls3aQdakN4HY1xnMcaVjJAKCt71gDc",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"email\": \"ttson.1750@gmail.com\",\n    \"password\": \"!Enouvo1234\",\n    \"gender\": \"male\",\n    \"avatar\": \"https://scontent.fdad1-4.fna.fbcdn.net/v/t39.30808-1/275227304_2189265651227084_6306293141393566490_n.jpg?stp=dst-jpg_p100x100&_nc_cat=100&ccb=1-7&_nc_sid=5f2048&_nc_eui2=AeGSrLdIzPJQLWlPGZnNs2k60UBRHL1Rt6nRQFEcvVG3qchcOQx5CR7QUYLj9gnSwxmMdT1TVOXg8lKn0RSMS2cU&_nc_ohc=XLxB5m-e4NsAX-twP8h&_nc_ad=z-m&_nc_cid=0&_nc_ht=scontent.fdad1-4.fna&oh=00_AfA60aAHGUiT0TOA-_JuK6rSfwqQ_1jhYe424bVORFdtAA&oe=6561C6D2\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{domain}}/sign-up",
+					"host": [
+						"{{domain}}"
+					],
+					"path": [
+						"sign-up"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "me",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InR0c29uLjE3NDBAZ21haWwuY29tIiwiZXhwIjoxNzAxMDkzMTM1LCJuYmYiOjE3MDA5MjAzMzUsImlhdCI6MTcwMDkyMDMzNX0.mcHIDd94ppDckRPrTB3AUNwy3ev-QV_xCSTNN5tOco4",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{domain}}/me",
+					"host": [
+						"{{domain}}"
+					],
+					"path": [
+						"me"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "/me",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"firstName\": \"Son\",\n    \"lastName\": \"Tran\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{domain}}/me",
+					"host": [
+						"{{domain}}"
+					],
+					"path": [
+						"me"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "communities",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InR0c29uLjE3NDBAZ21haWwuY29tIiwiZXhwIjoxNzAxMDkzMTM1LCJuYmYiOjE3MDA5MjAzMzUsImlhdCI6MTcwMDkyMDMzNX0.mcHIDd94ppDckRPrTB3AUNwy3ev-QV_xCSTNN5tOco4",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{domain}}/communities",
+					"host": [
+						"{{domain}}"
+					],
+					"path": [
+						"communities"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "chats",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InR0c29uLjE3NDBAZ21haWwuY29tIiwiZXhwIjoxNzAwOTMyMzM5LCJuYmYiOjE3MDA3NTk1MzksImlhdCI6MTcwMDc1OTUzOX0.ZAfGpiuv7a1c48yLUMJTx8tex5tqvEtR8yMF4rgxNm0",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{domain}}/chats",
+					"host": [
+						"{{domain}}"
+					],
+					"path": [
+						"chats"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "chats",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InR0c29uLjE3NDBAZ21haWwuY29tIiwiZXhwIjoxNzAwOTMyMzM5LCJuYmYiOjE3MDA3NTk1MzksImlhdCI6MTcwMDc1OTUzOX0.ZAfGpiuv7a1c48yLUMJTx8tex5tqvEtR8yMF4rgxNm0",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"name\": \"Linh Mõm\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{domain}}/chats",
+					"host": [
+						"{{domain}}"
+					],
+					"path": [
+						"chats"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "communities",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InR0c29uLjE3NDBAZ21haWwuY29tIiwiZXhwIjoxNzAwNzkyMDY3LCJuYmYiOjE3MDA2MTkyNjcsImlhdCI6MTcwMDYxOTI2N30.hYAjrsS0ihOJIDIaURx17DlzE9nkTpSNexoLq8lliaU",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"name\": \"Hội anh frontend\",\n    \"logo\": \"https://scontent.fhan2-3.fna.fbcdn.net/v/t39.30808-6/240655429_4059163764195718_3652059374269714525_n.jpg?stp=c55.0.100.100a_dst-jpg_p100x100&_nc_cat=108&ccb=1-7&_nc_sid=5f2048&_nc_eui2=AeFdIzJYJ1lnZSnh84ndpySKcZIZbYEk2QZxkhltgSTZBqEF4YbLhpD02R-QD0VvBiMrNHp0JmID_73pKS5TjahN&_nc_ohc=VMbmfEnksiAAX9plttL&_nc_ad=z-m&_nc_cid=0&_nc_ht=scontent.fhan2-3.fna&oh=00_AfAoqDpTgjTqM9hoODvLcaUaKL7kDjHMIS7JMU4UZ6R1vA&oe=6562340E\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{domain}}/communities",
+					"host": [
+						"{{domain}}"
+					],
+					"path": [
+						"communities"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "chats/:chatid/messages",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InR0c29uLjE3NDBAZ21haWwuY29tIiwiZXhwIjoxNzAwODA5NTIzLCJuYmYiOjE3MDA2MzY3MjMsImlhdCI6MTcwMDYzNjcyM30.mA6woz-5FdmuG-c9vC50V9EpR_mHuJBt8Rupmr2r6PY",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"content\": \"Bạn dạo ni sao rồi\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{domain}}/chats/1/messages",
+					"host": [
+						"{{domain}}"
+					],
+					"path": [
+						"chats",
+						"1",
+						"messages"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "/chats/:chatID/join",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InR0c29uLjE3NTBAZ21haWwuY29tIiwiZXhwIjoxNzAwOTMyNDQyLCJuYmYiOjE3MDA3NTk2NDIsImlhdCI6MTcwMDc1OTY0Mn0.t4oOrTPLk1PguePeWEoPzh1tr0cXYJ8bCVt4OJdLT0M",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"user_id\": 2\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{domain}}/chats/1/join",
+					"host": [
+						"{{domain}}"
+					],
+					"path": [
+						"chats",
+						"1",
+						"join"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "users",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InR0c29uLjE3NDBAZ21haWwuY29tIiwiZXhwIjoxNzAxMDkzMTM1LCJuYmYiOjE3MDA5MjAzMzUsImlhdCI6MTcwMDkyMDMzNX0.mcHIDd94ppDckRPrTB3AUNwy3ev-QV_xCSTNN5tOco4",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{domain}}/users",
+					"host": [
+						"{{domain}}"
+					],
+					"path": [
+						"users"
+					]
+				}
+			},
+			"response": []
+		}
+	]
 }
-
