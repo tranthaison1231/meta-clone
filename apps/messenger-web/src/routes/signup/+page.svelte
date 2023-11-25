@@ -8,6 +8,7 @@
 	import { superForm, superValidateSync } from 'sveltekit-superforms/client';
 	import { omit } from 'lodash-es';
 	import { notification } from '$lib/components/ui/notification';
+	import { goto } from '$app/navigation';
 
 	const signUpMutate = useMutation(authApi.signUp);
 
@@ -20,7 +21,8 @@
 				try {
 					await $signUpMutate.mutateAsync(omit(form.data, ['confirmPassword']));
 
-					window.location.assign('/login');
+					// window.location.assign('/login');
+					goto('/login')
 				} catch (error) {
 					notification.error({ title: (error as Error).message });
 				}
@@ -41,6 +43,24 @@
 				{...$constraints.email}
 			/>
 		</FormItem>
+		<!-- <FormItem label="First Name" errors={$errors.password} required>
+			<input
+				class="input"
+				placeholder="First Name"
+				type="password"
+				bind:value={$form.password}
+				{...$constraints.password}
+			/>
+		</FormItem>
+		<FormItem label="Last Name" errors={$errors.password} required>
+			<input
+				class="input"
+				placeholder="Last Name"
+				type="password"
+				bind:value={$form.password}
+				{...$constraints.password}
+			/>
+		</FormItem> -->
 		<FormItem label="Password" errors={$errors.password} required>
 			<input
 				class="input"

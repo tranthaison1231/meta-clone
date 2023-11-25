@@ -1,3 +1,5 @@
+import type { BasePaginationRequest } from './response';
+
 export interface User {
 	email: string;
 	name: string;
@@ -7,13 +9,13 @@ export interface User {
 	updated_at: string;
 	gender: string;
 	friends: User[] | null;
-	friend_requests: FriendRequest[] | null
+	friend_requests: FriendRequest[] | null;
 }
 
 export interface FriendRequest {
 	id: number;
 	user_id: number;
-	friend_id: number
+	friend_id: number;
 }
 
 export enum FriendStatus {
@@ -24,7 +26,11 @@ export enum FriendStatus {
 }
 
 export interface GetUsersResponse {
-  users: User & { friend_status: FriendStatus }[]
+	users: User & { friend_status: FriendStatus }[];
+}
+
+export interface GetUserFriendsInputDto extends BasePaginationRequest {
+	userId: number;
 }
 
 export interface AddFriendInputDto {
@@ -32,4 +38,4 @@ export interface AddFriendInputDto {
 	friend_id: number;
 }
 
-export type AcceptFriendInputDto = AddFriendInputDto
+export type AcceptFriendInputDto = AddFriendInputDto;
