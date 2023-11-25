@@ -4,7 +4,6 @@ import (
 	"strconv"
 
 	"github.com/gin-gonic/gin"
-	"github.com/go-playground/validator/v10"
 	h "github.com/tranthaison1231/meta-clone/api/helpers"
 	"github.com/tranthaison1231/meta-clone/api/models"
 	"github.com/tranthaison1231/meta-clone/api/services"
@@ -12,16 +11,8 @@ import (
 
 func AddFriend(c *gin.Context) {
 	var req models.AddFriendRequest
-	if err := c.ShouldBindJSON(&req); err != nil {
-		h.Fail400(c, err.Error())
+	if err := h.CheckBindAndValidate(&req, c); err != nil {
 		return
-	}
-
-	v := validator.New()
-	err := v.Struct(req)
-
-	if err != nil {
-		h.Fail400(c, err.Error())
 	}
 
 	friendRequest, err := services.AddFriend(req.UserID, req.FriendID)
@@ -37,16 +28,8 @@ func AddFriend(c *gin.Context) {
 
 func AcceptFriend(c *gin.Context) {
 	var req models.AcceptFriendRequest
-	if err := c.ShouldBindJSON(&req); err != nil {
-		h.Fail400(c, err.Error())
+	if err := h.CheckBindAndValidate(&req, c); err != nil {
 		return
-	}
-
-	v := validator.New()
-	err := v.Struct(req)
-
-	if err != nil {
-		h.Fail400(c, err.Error())
 	}
 
 	message, err := services.AcceptFriend(req.UserID, req.FriendID)

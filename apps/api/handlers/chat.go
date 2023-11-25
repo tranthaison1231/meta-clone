@@ -4,7 +4,6 @@ import (
 	"strconv"
 
 	"github.com/gin-gonic/gin"
-	"github.com/go-playground/validator/v10"
 	h "github.com/tranthaison1231/meta-clone/api/helpers"
 	"github.com/tranthaison1231/meta-clone/api/models"
 	"github.com/tranthaison1231/meta-clone/api/services"
@@ -37,16 +36,10 @@ func GetChats(c *gin.Context) {
 
 func CreateChat(c *gin.Context) {
 	var req models.CreateChatRequest
-	if err := c.ShouldBindJSON(&req); err != nil {
-		h.Fail400(c, err.Error())
+	if err := h.CheckBindAndValidate(&req, c); err != nil {
 		return
 	}
-	v := validator.New()
-	err := v.Struct(req)
-	if err != nil {
-		h.Fail400(c, err.Error())
-		return
-	}
+
 	user := c.MustGet("user").(*models.User)
 
 	chat, err := services.CreateChat(models.Chat{
@@ -66,16 +59,10 @@ func CreateChat(c *gin.Context) {
 
 func AddMemberToChat(c *gin.Context) {
 	var req models.AddMemberToChatRequest
-	if err := c.ShouldBindJSON(&req); err != nil {
-		h.Fail400(c, err.Error())
+	if err := h.CheckBindAndValidate(&req, c); err != nil {
 		return
 	}
-	v := validator.New()
-	err := v.Struct(req)
-	if err != nil {
-		h.Fail400(c, err.Error())
-		return
-	}
+
 	chatID, err := strconv.ParseUint(c.Param("chatID"), 10, 64)
 
 	chat, err := services.AddMemberToChat(chatID, req.UserID)

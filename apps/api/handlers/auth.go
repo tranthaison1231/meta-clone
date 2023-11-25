@@ -3,7 +3,6 @@ package handlers
 import (
 	"strings"
 
-	"github.com/go-playground/validator/v10"
 	"github.com/tranthaison1231/meta-clone/api/db"
 	h "github.com/tranthaison1231/meta-clone/api/helpers"
 	"github.com/tranthaison1231/meta-clone/api/models"
@@ -16,14 +15,7 @@ import (
 
 func SignIn(c *gin.Context) {
 	var req models.SignInRequest
-	if err := c.ShouldBindJSON(&req); err != nil {
-		h.Fail400(c, err.Error())
-		return
-	}
-	v := validator.New()
-	err := v.Struct(req)
-	if err != nil {
-		h.Fail400(c, err.Error())
+	if err := h.CheckBindAndValidate(&req, c); err != nil {
 		return
 	}
 
@@ -52,16 +44,10 @@ func SignIn(c *gin.Context) {
 
 func SignUp(c *gin.Context) {
 	var req models.SignUpRequest
-	if err := c.ShouldBindJSON(&req); err != nil {
-		h.Fail400(c, err.Error())
+	if err := h.CheckBindAndValidate(&req, c); err != nil {
 		return
 	}
-	v := validator.New()
-	err := v.Struct(req)
-	if err != nil {
-		h.Fail400(c, err.Error())
-		return
-	}
+
 	pwd, err := bcrypt.GenerateFromPassword([]byte(req.Password), bcrypt.DefaultCost)
 	if err != nil {
 		h.Fail400(c, err.Error())
@@ -104,14 +90,7 @@ func GetMe(c *gin.Context) {
 
 func UpdateMe(c *gin.Context) {
 	var req models.UpdateUserRequest
-	if err := c.ShouldBindJSON(&req); err != nil {
-		h.Fail400(c, err.Error())
-		return
-	}
-	v := validator.New()
-	err := v.Struct(req)
-	if err != nil {
-		h.Fail400(c, err.Error())
+	if err := h.CheckBindAndValidate(&req, c); err != nil {
 		return
 	}
 
