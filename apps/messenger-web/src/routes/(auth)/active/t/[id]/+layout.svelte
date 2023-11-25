@@ -2,7 +2,6 @@
 	import { BellOff, Divide, MonitorDown, MoreHorizontal } from 'lucide-svelte';
 	import { useQuery } from '@sveltestack/svelte-query';
 	import { chatsApi } from '$lib/apis/chats';
-	import { each } from 'lodash-es';
 	import { usersApi } from '$lib/apis/user';
 	import UserCard from './UserCard.svelte';
 	import Spinner from '$lib/components/ui/wrapper/Spinner.svelte';
