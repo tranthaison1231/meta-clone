@@ -1,5 +1,14 @@
 <script>
-	import { Image, Phone, PlusCircle, Smile, StickyNote, ThumbsUp, Video } from 'lucide-svelte';
+	import {
+		Image,
+		MoreHorizontal,
+		Phone,
+		PlusCircle,
+		Smile,
+		StickyNote,
+		ThumbsUp,
+		Video
+	} from 'lucide-svelte';
 
 	const user = {
 		id: '2',

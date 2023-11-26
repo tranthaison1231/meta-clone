@@ -1,19 +1,12 @@
 <script>
-	import { BellOff, Divide, MonitorDown, MoreHorizontal } from 'lucide-svelte';
-	import { useQuery } from '@sveltestack/svelte-query';
-	import { chatsApi } from '$lib/apis/chats';
 	import { usersApi } from '$lib/apis/users';
-	import UserCard from './UserCard.svelte';
 	import Spinner from '$lib/components/ui/wrapper/Spinner.svelte';
-	import { me } from '$lib/stores/me';
+	import { useQuery } from '@sveltestack/svelte-query';
+	import UserCard from './UserCard.svelte';
 
 	const getUsersResult = useQuery(['users'], () => usersApi.getAll({ page: 1, limit: 20 }));
-	const getFriendsResult = useQuery(['friends'], () => usersApi.getFriends({ userId: $me?.id }), {
-		enabled: !!$me?.id
-	});
 
 	$: users = $getUsersResult.data?.items ?? [];
-	$: friends = $getFriendsResult.data?.items ?? [];
 </script>
 
 <div class="relative flex h-screen w-90 flex-col gap-8 border-r-1 py-2">
