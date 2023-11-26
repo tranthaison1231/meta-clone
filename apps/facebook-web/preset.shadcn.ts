@@ -1,14 +1,15 @@
-import { h } from '@unocss/preset-mini/utils';
-import type { Preset } from 'unocss';
-import type { PresetMiniOptions, Theme } from 'unocss/preset-mini';
+import { h } from '@unocss/preset-mini/utils'
+import type { Preset } from 'unocss'
+import type { PresetMiniOptions, Theme } from 'unocss/preset-mini'
 
 export interface PresetShadcnOptions extends PresetMiniOptions {}
 
-const handleMatchNumber = (v: string, defaultVal = '0') =>
-  h.bracket.cssvar.global.auto.fraction.number(v || defaultVal)?.replace('%', '');
-const handleMatchRem = (v: string, defaultVal = 'full') => h.bracket.cssvar.global.auto.fraction.rem(v || defaultVal);
+function handleMatchNumber(v: string, defaultVal = '0') {
+  return h.bracket.cssvar.global.auto.fraction.number(v || defaultVal)?.replace('%', '')
+}
+const handleMatchRem = (v: string, defaultVal = 'full') => h.bracket.cssvar.global.auto.fraction.rem(v || defaultVal)
 
-export function presetShadcn(options: PresetShadcnOptions = {}): Preset<Theme> {
+export function presetShadcn(_options: PresetShadcnOptions = {}): Preset<Theme> {
   return {
     name: 'unocss-preset-shadcn',
     preflights: [
@@ -75,7 +76,7 @@ export function presetShadcn(options: PresetShadcnOptions = {}): Preset<Theme> {
       [/^slide-out-to-left-?(.+)?$/, ([, d]) => ({ '--un-exit-translate-x': `-${handleMatchRem(d)}` })],
       [/^slide-out-to-right-?(.+)?$/, ([, d]) => ({ '--un-exit-translate-x': handleMatchRem(d) })],
     ],
-  };
+  }
 }
 
-export default presetShadcn;
+export default presetShadcn

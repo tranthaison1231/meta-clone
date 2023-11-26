@@ -13,7 +13,7 @@
 	transition={flyAndScale}
 	{transitionConfig}
 	class={cn(
-		'bg-popover text-popover-foreground z-50 w-72 rounded-xl border p-4 shadow-md outline-none',
+		'z-50 w-72 rounded-xl border bg-popover p-4 text-popover-foreground shadow-md outline-none',
 		className
 	)}
 	{...$$restProps}

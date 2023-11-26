@@ -5,7 +5,6 @@
 		AlertTriangle,
 		Archive,
 		BellOff,
-		Camera,
 		Check,
 		LogOut,
 		MoreHorizontal,

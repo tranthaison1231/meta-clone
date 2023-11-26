@@ -1,5 +1,5 @@
-import { defineConfig, presetAttributify, presetUno, transformerDirectives } from 'unocss';
-import presetShadcn from './preset.shadcn';
+import { defineConfig, presetAttributify, presetUno, transformerDirectives } from 'unocss'
+import presetShadcn from './preset.shadcn'
 
 export default defineConfig({
   presets: [presetUno(), presetAttributify(), presetShadcn()],
@@ -103,4 +103,4 @@ export default defineConfig({
       sm: 'calc(var(--radius) - 4px)',
     },
   },
-});
+})

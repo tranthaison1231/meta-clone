@@ -1,16 +1,5 @@
 <script>
-	import { useQuery } from '@sveltestack/svelte-query';
-	import {
-		Image,
-		MoreHorizontal,
-		Phone,
-		Plus,
-		PlusCircle,
-		Smile,
-		StickyNote,
-		ThumbsUp,
-		Video
-	} from 'lucide-svelte';
+	import { Image, Phone, PlusCircle, Smile, StickyNote, ThumbsUp, Video } from 'lucide-svelte';
 
 	const user = {
 		id: '2',

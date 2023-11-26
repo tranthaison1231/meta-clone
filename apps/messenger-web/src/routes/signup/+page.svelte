@@ -18,7 +18,7 @@
 		onUpdate: async ({ form }) => {
 			if (form.valid) {
 				try {
-					const { confirmPassword, ...signUpDto } = form.data;
+					const { confirmPassword: _, ...signUpDto } = form.data;
 					await $signUpMutate.mutateAsync(signUpDto);
 					goto('/login');
 				} catch (error) {

@@ -1,8 +1,6 @@
 <script>
-	import { BellOff, MonitorDown, MoreHorizontal } from 'lucide-svelte';
+	import { BellOff, MonitorDown } from 'lucide-svelte';
 	import MoreHorizontalModal from './MoreHorizontalModal.svelte';
-	import { useQuery } from '@sveltestack/svelte-query';
-	import { chatsApi } from '$lib/apis/chats';
 
 	const CONTACTS = [
 		{
@@ -23,7 +21,7 @@
 	];
 </script>
 
-<div class="border-r-1 w-90 relative h-screen py-2">
+<div class="relative h-screen w-90 border-r-1 py-2">
 	<div class="px-4">
 		<h1 class="text-2xl font-bold">Chats</h1>
 		<input class="input" placeholder="Search Messenger" />
@@ -45,7 +43,7 @@
 			</div>
 		{/each}
 	</div>
-	<div class="border-t-1 absolute bottom-0 w-full border px-2 py-3">
+	<div class="absolute bottom-0 w-full border border-t-1 px-2 py-3">
 		<button class="flex w-full justify-center gap-2 rounded-xl px-3 py-2 hover:bg-gray-100">
 			<MonitorDown />
 			Try Messenger for Mac

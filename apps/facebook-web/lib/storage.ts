@@ -1,14 +1,14 @@
-export const getToken = () => {
-  const token = useCookie('token');
-  return token.value;
-};
+export function getToken() {
+  const token = useCookie('token')
+  return token.value
+}
 
-export const setToken = (value: string) => {
-  const token = useCookie('token');
-  token.value = value;
-};
+export function setToken(value: string) {
+  const token = useCookie('token')
+  token.value = value
+}
 
-export const removeToken = () => {
-  const token = useCookie('token');
-  token.value = '';
-};
+export function removeToken() {
+  const token = useCookie('token')
+  token.value = ''
+}

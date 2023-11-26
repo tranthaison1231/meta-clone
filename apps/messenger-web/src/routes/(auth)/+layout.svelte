@@ -39,7 +39,7 @@
 
 <div class="flex">
 	<div
-		class={cn('border-r-1 gap-y relative flex h-screen w-14 flex-col items-center p-2', {
+		class={cn('gap-y relative flex h-screen w-14 flex-col items-center border-r-1 p-2', {
 			'w-60': isSidebarOpen
 		})}
 	>

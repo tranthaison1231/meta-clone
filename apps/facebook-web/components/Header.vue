@@ -1,11 +1,11 @@
 <script setup lang="ts">
-  import { Home, MonitorPlay, Store, Users, Gamepad} from 'lucide-vue-next'
-  defineProps<{
-    user: {
-      avatar: string
-    }
-  }>()
+import { Gamepad, Home, MonitorPlay, Store, Users } from 'lucide-vue-next'
 
+defineProps<{
+  user: {
+    avatar: string
+  }
+}>()
 </script>
 
 <template>
