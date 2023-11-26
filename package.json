@@ -16,12 +16,14 @@
     "dev:facebook-web": "turbo run dev --filter=facebook-web",
     "dev:api": "turbo run dev --filter=api",
     "deploy:api": "turbo run deploy --filter=api",
-    "db:seed": "turbo run seed --filter=db"
+    "db:seed": "turbo run seed --filter=db",
+    "prepare": "husky install"
   },
   "keywords": [],
   "author": "Son Tran",
   "license": "ISC",
   "devDependencies": {
+    "husky": "^8.0.3",
     "turbo": "^1.10.16"
   }
 }

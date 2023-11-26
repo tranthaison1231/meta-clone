@@ -26,6 +26,7 @@
     "tailwindcss-animate": "^1.0.7"
   },
   "devDependencies": {
+    "@antfu/eslint-config": "^2.1.0",
     "@nuxt/devtools": "latest",
     "@unocss/nuxt": "^0.57.7",
     "@unocss/preset-mini": "^0.57.7",
