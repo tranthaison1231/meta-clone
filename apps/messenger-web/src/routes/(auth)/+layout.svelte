@@ -50,7 +50,7 @@
 
 <div class="flex">
 	<div
-		class={cn('gap-y border-r-1 relative flex h-screen w-14 flex-col items-center p-2', {
+		class={cn('relative flex h-screen w-14 flex-col items-center gap-y-1 border-r-1 p-2', {
 			'w-60': isSidebarOpen
 		})}
 	>
