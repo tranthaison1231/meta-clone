@@ -29,7 +29,7 @@
 			<MoreHorizontal />
 		</button>
 	</Popover.Trigger>
-	<Popover.Content class="w-80 px-2 py-1">
+	<Popover.Content class="w-80 px-2 py-1 font-medium">
 		<div class="item">
 			<button class="btn">
 				<Check size={16} />
@@ -91,6 +91,6 @@
 		}
 	}
 	.btn {
-		@apply rounded-full bg-gray-100 p-2;
+		@apply rounded-full bg-gray-200 p-2;
 	}
 </style>
