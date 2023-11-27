@@ -29,6 +29,10 @@
 - Node.js 21+ and pnpm
 - Go 1.21.4
 
+## System Design
+
+![system-design](docs/system-design.png)
+
 ## Start project 
 
 ```
