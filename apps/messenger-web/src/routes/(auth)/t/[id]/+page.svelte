@@ -41,41 +41,41 @@
 	</div>
 	<div class="flex h-[calc(100vh-7rem)] w-full flex-col justify-end px-4 py-2">
 		<div class="message-reverse">
-			<p class="test">yeh có cái khay đồ ăn của nó r</p>
+			<p class="message-box">yeh có cái khay đồ ăn của nó r</p>
 		</div>
 		<div class="message group">
-			<p class="test">yeh có cái khay đồ ăn của nó r</p>
+			<p class="message-box">yeh có cái khay đồ ăn của nó r</p>
 			<ReactMessageModal />
 		</div>
 		<div class="message-reverse">
-			<p class="test">yeh có cái khay đồ ăn của nó r</p>
+			<p class="message-box">yeh có cái khay đồ ăn của nó r</p>
 		</div>
 		<div class="message">
-			<p class="test">yeh có cái khay đồ ăn của nó r</p>
+			<p class="message-box">yeh có cái khay đồ ăn của nó r</p>
 		</div>
 		<div class="message-reverse">
-			<p class="test">yeh có cái khay đồ ăn của nó r</p>
+			<p class="message-box">yeh có cái khay đồ ăn của nó r</p>
 		</div>
 		<div class="message">
-			<p class="test">yeh có cái khay đồ ăn của nó r</p>
+			<p class="message-box">yeh có cái khay đồ ăn của nó r</p>
 		</div>
 		<div class="message-reverse">
-			<p class="test">yeh có cái khay đồ ăn của nó r</p>
+			<p class="message-box">yeh có cái khay đồ ăn của nó r</p>
 		</div>
 		<div class="message">
-			<p class="test">yeh có cái khay đồ ăn của nó r</p>
+			<p class="message-box">yeh có cái khay đồ ăn của nó r</p>
 		</div>
 		<div class="message-reverse">
-			<p class="test">yeh có cái khay đồ ăn của nó r</p>
+			<p class="message-box">yeh có cái khay đồ ăn của nó r</p>
 		</div>
 		<div class="message">
-			<p class="test">yeh có cái khay đồ ăn của nó r</p>
+			<p class="message-box">yeh có cái khay đồ ăn của nó r</p>
 		</div>
 		<div class="message-reverse">
-			<p class="test">yeh có cái khay đồ ăn của nó r</p>
+			<p class="message-box">yeh có cái khay đồ ăn của nó r</p>
 		</div>
 		<div class="message">
-			<p class="test">yeh có cái khay đồ ăn của nó r</p>
+			<p class="message-box">yeh có cái khay đồ ăn của nó r</p>
 		</div>
 	</div>
 	<div class="absolute bottom-0 flex h-14 w-full items-center px-2 py-3">
@@ -110,7 +110,7 @@
 	.message-reverse {
 		@apply flex w-full flex-row-reverse gap-2;
 	}
-	.test {
+	.message-box {
 		@apply h-auto max-w-[250px] break-all rounded-full bg-[#F5F5F5] px-4 py-2;
 	}
 </style>

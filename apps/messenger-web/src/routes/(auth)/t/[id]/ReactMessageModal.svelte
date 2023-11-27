@@ -13,14 +13,15 @@
 		Trash,
 		Video
 	} from 'lucide-svelte';
-	import { twMerge } from 'tailwind-merge';
-	import angry_icon from '$lib/assets/images/angry.svg';
-	import haha_icon from '$lib/assets/images/haha.svg';
-	import sad_icon from '$lib/assets/images/sad.svg';
-	import love_icon from '$lib/assets/images/love.svg';
-	import wow_icon from '$lib/assets/images/wow.svg';
-	import like_icon from '$lib/assets/images/like.svg';
-	import heart_icon from '$lib/assets/images/heart.svg';
+	import {
+		angryIcon,
+		hahaIcon,
+		sadIcon,
+		loveIcon,
+		wowIcon,
+		likeIcon,
+		heartIcon
+	} from '$lib/assets/svgs';
 </script>
 
 <Popover.Root>
@@ -32,43 +33,43 @@
 	<Popover.Content class="w-90 relative h-14 items-center px-2 py-1">
 		<div class="flex items-start justify-between gap-2">
 			<img
-				src={haha_icon}
+				src={hahaIcon}
 				alt="logo"
 				class="icon-animation hover:-translate-y-6 hover:translate-x-1 hover:rotate-12 hover:scale-150
             "
 			/>
 			<img
-				src={angry_icon}
+				src={angryIcon}
 				alt="logo"
 				class="icon-animation hover:-translate-y-6 hover:translate-x-1 hover:rotate-12 hover:scale-150
             "
 			/>
 			<img
-				src={love_icon}
+				src={loveIcon}
 				alt="logo"
 				class="icon-animation hover:-translate-y-6 hover:translate-x-1 hover:rotate-12 hover:scale-150
             "
 			/>
 			<img
-				src={like_icon}
+				src={likeIcon}
 				alt="logo"
 				class="icon-animation hover:-translate-y-6 hover:translate-x-1 hover:rotate-12 hover:scale-150
             "
 			/>
 			<img
-				src={heart_icon}
+				src={heartIcon}
 				alt="logo"
 				class="icon-animation hover:-translate-y-6 hover:translate-x-1 hover:rotate-12 hover:scale-150
             "
 			/>
 			<img
-				src={sad_icon}
+				src={sadIcon}
 				alt="logo"
 				class="icon-animation hover:-translate-y-6 hover:translate-x-1 hover:rotate-12 hover:scale-150
             "
 			/>
 			<img
-				src={wow_icon}
+				src={wowIcon}
 				alt="logo"
 				class="icon-animation hover:-translate-y-6 hover:translate-x-1 hover:rotate-12 hover:scale-150
             "
