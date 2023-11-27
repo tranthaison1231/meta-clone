@@ -72,10 +72,6 @@ func SignUp(c *gin.Context) {
 		h.Fail502(c, result.Error.Error())
 		return
 	}
-	if err != nil {
-		h.Fail400(c, err.Error())
-		return
-	}
 
 	h.Success(c, gin.H{
 		"message": "Created account successfully!",

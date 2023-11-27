@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { goto } from '$app/navigation';
 	import { authApi } from '$lib/apis/auth';
-	import logo from '$lib/assets/images/logo.svg';
+	import { logoIcon } from '$lib/assets/svgs';
 	import Button from '$lib/components/ui/button/button.svelte';
 	import { setToken } from '$lib/services/storage';
 	import { loginSchema } from '$lib/utils/schema';
@@ -28,7 +28,7 @@
 
 <div class="flex w-full items-center justify-center">
 	<div class="flex flex-col items-center">
-		<img src={logo} alt="logo" class="w-20" />
+		<img src={logoIcon} alt="logo" class="w-20" />
 		<h1 class="my-11 text-4xl">Connect with your favourite people</h1>
 		<form method="POST" class="flex w-80 flex-col items-center" use:enhance>
 			<input

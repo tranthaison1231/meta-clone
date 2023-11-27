@@ -17,7 +17,7 @@ definePageMeta({
 })
 </script>
 
-<template v-slot:default="slotProps">
+<template>
   <div grid="~ cols-7" class="gap-20 bg-gray-200 h-[calc(100vh-3.5rem)] p-4">
     <div class="col-span-2">
       <div class="flex gap-2 items-center">

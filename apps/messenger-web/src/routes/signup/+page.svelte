@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { goto } from '$app/navigation';
 	import { authApi } from '$lib/apis/auth';
-	import logo from '$lib/assets/images/logo.svg';
+	import { logoIcon } from '$lib/assets/svgs';
 	import Button from '$lib/components/ui/button/button.svelte';
 	import FormItem from '$lib/components/ui/form/FormItem.svelte';
 	import { notification } from '$lib/components/ui/notification';
@@ -30,7 +30,7 @@
 </script>
 
 <div class="flex h-full w-full flex-col items-center justify-center gap-4">
-	<img src={logo} alt="logo" class="w-20" />
+	<img src={logoIcon} alt="logo" class="w-20" />
 	<h1 class="my-8 text-3xl">Create Your Account</h1>
 	<form method="POST" class="flex w-80 flex-col gap-4" use:enhance>
 		<FormItem label="Email" errors={$errors.email} required>
