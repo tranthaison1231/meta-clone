@@ -25,16 +25,16 @@ func setRequestDefaultValue(request *models.BasePaginationRequest) {
 	}
 }
 
-type PaginateResult struct {
+type PaginateRequestResult struct {
 	CurrentPage int
 	Count       int
 	TotalPage   int
 }
 
 func ConstructPaginateRequest(c *gin.Context) *models.BasePaginationRequest {
-	limit, _ := strconv.ParseInt(c.Param("limit"), 10, 64)
-	page, _ := strconv.ParseInt(c.Param("page"), 10, 64)
-	orderBy := c.Param("order_by")
+	limit, _ := strconv.ParseInt(c.Request.URL.Query().Get("limit"), 10, 64)
+	page, _ := strconv.ParseInt(c.Request.URL.Query().Get("page"), 10, 64)
+	orderBy := c.Request.URL.Query().Get("orderBy")
 
 	return &models.BasePaginationRequest{
 		Page:    int(page),
@@ -43,16 +43,16 @@ func ConstructPaginateRequest(c *gin.Context) *models.BasePaginationRequest {
 	}
 }
 
-func Paginate(model interface{}, query *gorm.DB, request *models.BasePaginationRequest) *PaginateResult {
+func Paginate(model interface{}, query *gorm.DB, request *models.BasePaginationRequest) *PaginateRequestResult {
 	setRequestDefaultValue(request)
 
 	page := request.Page
 	limit := request.Limit
 	orderBy := request.OrderBy
 
-	fmt.Println("request", request)
+	fmt.Println(page, limit, orderBy)
 
-	result := query.Offset(page * limit).Limit(limit)
+	result := query.Offset((page - 1) * limit).Limit(limit)
 
 	if orderBy != "" {
 		orderByField := strings.Split(request.OrderBy, ":")[0]
@@ -66,7 +66,9 @@ func Paginate(model interface{}, query *gorm.DB, request *models.BasePaginationR
 
 	totalPage := int(math.Ceil(float64(totalItems) / float64(limit)))
 
-	return &PaginateResult{
+	result.Find(model)
+
+	return &PaginateRequestResult{
 		CurrentPage: page,
 		Count:       int(result.RowsAffected),
 		TotalPage:   int(totalPage),

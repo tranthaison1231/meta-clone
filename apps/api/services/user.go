@@ -1,6 +1,8 @@
 package services
 
 import (
+	"fmt"
+
 	"github.com/jinzhu/copier"
 	"github.com/pkg/errors"
 	h "github.com/tranthaison1231/meta-clone/api/helpers"
@@ -22,13 +24,13 @@ func GetUserByMail(mail string) (*models.User, error) {
 func GetUsers(request *models.BasePaginationRequest, currentUser *models.User) (*models.BasePaginationResponse[models.GetUserResponse], error) {
 	var users []models.User
 
-	query := db.DB.Preload("FriendRequests").Where("id <> ?", currentUser.ID).Find(&users)
+	query := db.DB.Preload("FriendRequests").Where("id <> ?", currentUser.ID)
 
 	if err := query.Error; err != nil {
 		return nil, err
 	}
 
-	pagination := h.Paginate(models.User{}, query, request)
+	pagination := h.Paginate(&users, query, request)
 
 	var getUserResponse []models.GetUserResponse
 	for _, user := range users {
@@ -52,7 +54,7 @@ func GetUsers(request *models.BasePaginationRequest, currentUser *models.User) (
 
 		var userFriend models.UserFriend
 
-		query := db.DB.Raw("SELECT * FROM user_friends WHERE userId = ? AND friendId = ?", user.ID, currentUser.ID).Scan(&userFriend)
+		query := db.DB.Raw("SELECT * FROM user_friends WHERE user_id = ? AND friend_id = ?", user.ID, currentUser.ID).Scan(&userFriend)
 
 		if query.RowsAffected == 1 {
 			response.FriendStatus = "Friend"
@@ -69,22 +71,31 @@ func GetUsers(request *models.BasePaginationRequest, currentUser *models.User) (
 	}, nil
 }
 
-func GetUserFriends(userId uint) (*[]models.User, error) {
+func GetUserFriends(userId uint, request *models.BasePaginationRequest) (*models.BasePaginationResponse[models.User], error) {
 	var users []models.User
-	err := db.DB.Model(&users).Where("id = ?", userId).Association("Friends").Find(&users)
+	query := db.DB.Model(&users).Joins("LEFT JOIN user_friends ON user_friends.user_id = users.id").Where("friend_id = ?", userId)
 
-	if err != nil {
+	if err := query.Error; err != nil {
 		return nil, err
 	}
 
-	return &users, nil
+	pagination := h.Paginate(&users, query, request)
+
+	fmt.Println("users", users)
+
+	return &models.BasePaginationResponse[models.User]{
+		Items:       users,
+		CurrentPage: pagination.CurrentPage,
+		Count:       pagination.Count,
+		TotalPage:   pagination.TotalPage,
+	}, nil
 }
 
 func AddFriend(userId uint, friendId uint) (*models.FriendRequest, error) {
 	var friendRequest models.FriendRequest
 	var user models.User
 
-	result := db.DB.Where("user_id = ? AND friend_id = ? OR userId = ? AND friendId = ?", userId, friendId, friendId, userId).Find(&friendRequest)
+	result := db.DB.Where("user_id = ? AND friend_id = ? OR user_id = ? AND friend_id = ?", userId, friendId, friendId, userId).Find(&friendRequest)
 
 	if err := result.Error; err != nil {
 		return nil, err
@@ -121,7 +132,7 @@ func AddFriend(userId uint, friendId uint) (*models.FriendRequest, error) {
 	return &newFriendRequest, nil
 }
 
-func AcceptFriend(userId uint, friendId uint) (string, error) {
+func AcceptFriend(userId uint, friendId uint, isRejecting bool) (string, error) {
 	var friendRequest models.FriendRequest
 	var user models.User
 	var friend models.User
@@ -147,13 +158,16 @@ func AcceptFriend(userId uint, friendId uint) (string, error) {
 		return "", err2
 	}
 
-	user.Friends = append(user.Friends, &friend)
-	friend.Friends = append(friend.Friends, &user)
+	fmt.Println(isRejecting)
 
-	db.DB.Save(&user)
-	db.DB.Save(&friend)
-
-	db.DB.Delete(&friendRequest)
+	if isRejecting {
+		db.DB.Delete(&friendRequest)
+	} else {
+		user.Friends = append(user.Friends, &friend)
+		friend.Friends = append(friend.Friends, &user)
+		db.DB.Save(&user)
+		db.DB.Save(&friend)
+	}
 
 	return "Added Friend", nil
 }

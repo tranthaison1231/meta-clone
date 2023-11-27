@@ -21,14 +21,11 @@ export const authApi = {
 		const data: BaseResponseType<GetMeResponse> = await request(`/me`);
 		return data;
 	},
-	signUp: async ({ email, gender, password, avatar }: SignUpRequest) => {
+	signUp: async (input: SignUpRequest) => {
 		const data = await request('/sign-up', {
 			method: 'POST',
 			body: JSON.stringify({
-				email,
-				gender,
-				password,
-				avatar
+				...input
 			})
 		});
 		return data;

@@ -2,8 +2,8 @@ package models
 
 type FriendRequest struct {
 	Base
-	UserID   uint `json:"userId"`
-	FriendID uint `json:"friendId"`
+	UserID   uint `gorm:"not null" json:"userId"`
+	FriendID uint `gorm:"not null" json:"friendId"`
 }
 
 type AddFriendRequest struct {
@@ -13,4 +13,5 @@ type AddFriendRequest struct {
 
 type AcceptFriendRequest struct {
 	AddFriendRequest
+	IsRejecting bool `json:"isRejecting"`
 }

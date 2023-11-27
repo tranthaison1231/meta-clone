@@ -7,6 +7,8 @@ export interface User {
 	avatar: string;
 	created_at: string;
 	updated_at: string;
+	firstName: string;
+	lastName: string;
 	gender: string;
 	friends: User[] | null;
 	friendRequests: FriendRequest[] | null;
@@ -26,7 +28,11 @@ export enum FriendStatus {
 }
 
 export interface GetUsersResponse {
-	users: User & { friendStatus: FriendStatus }[];
+	users: (User & { friendStatus: FriendStatus })[];
+}
+
+export interface GetFriendsResponse {
+	users: User[];
 }
 
 export interface GetUserFriendsInputDto extends BasePaginationRequest {
@@ -38,4 +44,6 @@ export interface AddFriendInputDto {
 	friendId: number;
 }
 
-export type AcceptFriendInputDto = AddFriendInputDto;
+export interface  AcceptFriendInputDto extends AddFriendInputDto  {
+	isRejecting: boolean
+};

@@ -55,11 +55,14 @@ func SignUp(c *gin.Context) {
 	}
 
 	newUser := models.User{
-		Email:    strings.ToLower(req.Email),
-		Password: string(pwd),
-		Gender:   req.Gender,
-		Avatar:   req.Avatar,
+		Email:     strings.ToLower(req.Email),
+		Password:  string(pwd),
+		Gender:    req.Gender,
+		Avatar:    req.Avatar,
+		FirstName: req.FirstName,
+		LastName:  req.LastName,
 	}
+
 	result := db.DB.Create(&newUser)
 
 	if result.Error != nil && result.Error == gorm.ErrDuplicatedKey {
@@ -69,14 +72,13 @@ func SignUp(c *gin.Context) {
 		h.Fail502(c, result.Error.Error())
 		return
 	}
-	token, err := services.GenerateToken(&newUser)
 	if err != nil {
 		h.Fail400(c, err.Error())
 		return
 	}
 
 	h.Success(c, gin.H{
-		"token": token,
+		"message": "Created account successfully!",
 	})
 }
 

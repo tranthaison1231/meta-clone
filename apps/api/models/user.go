@@ -35,8 +35,10 @@ type Gender string
 
 type SignUpRequest struct {
 	SignInRequest
-	Gender string `json:"gender" validate:"required" enum:"male,female"`
-	Avatar string `json:"avatar"`
+	Gender    string `json:"gender" validate:"required" enum:"male,female"`
+	Avatar    string `json:"avatar"`
+	FirstName string `gorm:"type:varchar(255)" json:"firstName"`
+	LastName  string `gorm:"type:varchar(255)" json:"lastName"`
 }
 
 type GetUserFriendRequest struct {

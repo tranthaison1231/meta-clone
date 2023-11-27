@@ -20,7 +20,7 @@
 				try {
 					const { confirmPassword: _, ...signUpDto } = form.data;
 					await $signUpMutate.mutateAsync(signUpDto);
-					goto('/login');
+					goto('/');
 				} catch (error) {
 					notification.error({ title: (error as Error).message });
 				}
@@ -41,24 +41,22 @@
 				{...$constraints.email}
 			/>
 		</FormItem>
-		<!-- <FormItem label="First Name" errors={$errors.password} required>
+		<FormItem label="First Name" errors={$errors.firstName} required>
 			<input
 				class="input"
 				placeholder="First Name"
-				type="password"
-				bind:value={$form.password}
-				{...$constraints.password}
+				bind:value={$form.firstName}
+				{...$constraints.firstName}
 			/>
 		</FormItem>
-		<FormItem label="Last Name" errors={$errors.password} required>
+		<FormItem label="Last Name" errors={$errors.lastName} required>
 			<input
 				class="input"
 				placeholder="Last Name"
-				type="password"
-				bind:value={$form.password}
-				{...$constraints.password}
+				bind:value={$form.lastName}
+				{...$constraints.lastName}
 			/>
-		</FormItem> -->
+		</FormItem>
 		<FormItem label="Password" errors={$errors.password} required>
 			<input
 				class="input"

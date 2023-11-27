@@ -9,6 +9,8 @@ export const loginSchema = z.object({
 export const signUpSchema = z
 	.object({
 		email: z.string().email('Email must be valid'),
+		firstName: z.string(),
+		lastName: z.string(),
 		password: z.string().regex(validator.password, 'Password must be valid'),
 		confirmPassword: z.string(),
 		gender: z.string(),
