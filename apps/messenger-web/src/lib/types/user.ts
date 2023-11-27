@@ -5,8 +5,8 @@ export interface User {
 	name: string;
 	id: number;
 	avatar: string;
-	created_at: string;
-	updated_at: string;
+	createdAt: string;
+	updatedAt: string;
 	firstName: string;
 	lastName: string;
 	gender: string;
@@ -44,6 +44,6 @@ export interface AddFriendInputDto {
 	friendId: number;
 }
 
-export interface  AcceptFriendInputDto extends AddFriendInputDto  {
-	isRejecting: boolean
-};
+export interface AcceptFriendInputDto extends AddFriendInputDto {
+	isRejecting: boolean;
+}
