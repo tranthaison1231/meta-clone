@@ -1,7 +1,6 @@
 package handlers
 
 import (
-	"fmt"
 	"strconv"
 
 	"github.com/gin-gonic/gin"
@@ -48,8 +47,6 @@ func AcceptFriend(c *gin.Context) {
 }
 
 func GetUserFriends(c *gin.Context) {
-	fmt.Println("Page", c.Param("page"), "Limit", c.Param("limit"), c.Params)
-
 	requestParams := h.ConstructPaginateRequest(c)
 
 	userId, err := strconv.ParseInt(c.Param("userID"), 10, 64)

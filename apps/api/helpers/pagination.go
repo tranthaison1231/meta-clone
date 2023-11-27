@@ -7,7 +7,6 @@ import (
 	"strings"
 
 	"github.com/gin-gonic/gin"
-	"github.com/tranthaison1231/meta-clone/api/db"
 	"github.com/tranthaison1231/meta-clone/api/models"
 	"gorm.io/gorm"
 )
@@ -28,7 +27,7 @@ func setRequestDefaultValue(request *models.BasePaginationRequest) {
 type PaginateRequestResult struct {
 	CurrentPage int
 	Count       int
-	TotalPage   int
+	TotalPages  int
 }
 
 func ConstructPaginateRequest(c *gin.Context) *models.BasePaginationRequest {
@@ -50,7 +49,13 @@ func Paginate(model interface{}, query *gorm.DB, request *models.BasePaginationR
 	limit := request.Limit
 	orderBy := request.OrderBy
 
-	fmt.Println(page, limit, orderBy)
+	var totalItems int64
+	query.Count(&totalItems)
+
+	fmt.Println("totalItems", totalItems)
+	fmt.Println("errors", query.Error)
+
+	totalPages := int(math.Ceil(float64(totalItems) / float64(limit)))
 
 	result := query.Offset((page - 1) * limit).Limit(limit)
 
@@ -61,16 +66,11 @@ func Paginate(model interface{}, query *gorm.DB, request *models.BasePaginationR
 		result = query.Order(orderByField + " " + order)
 	}
 
-	var totalItems int64
-	db.DB.Model(&model).Count(&totalItems)
-
-	totalPage := int(math.Ceil(float64(totalItems) / float64(limit)))
-
 	result.Find(model)
 
 	return &PaginateRequestResult{
 		CurrentPage: page,
 		Count:       int(result.RowsAffected),
-		TotalPage:   int(totalPage),
+		TotalPages:  int(totalPages),
 	}
 }

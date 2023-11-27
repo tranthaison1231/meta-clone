@@ -35,6 +35,29 @@ func GetMessages(c *gin.Context) {
 	})
 }
 
+// func GetBatchMessages(c *gin.Context) {
+// 	requestParams := h.ConstructPaginateRequest(c)
+// 	messageId, err := strconv.ParseInt(c.Request.URL.Query().Get("messageId"), 10, 64)
+
+// 	if err != nil {
+// 		h.Fail400(c, err.Error())
+// 	}
+
+// 	isUp, err := strconv.ParseBool(c.Request.URL.Query().Get("isUp"))
+// 	if err != nil {
+// 		h.Fail400(c, err.Error())
+// 	}
+
+// 	// messages, err := services.GetBatchMessages(uint(messageId), isUp, requestParams)
+
+// 	if err != nil {
+// 		h.Fail400(c, err.Error())
+// 		return
+// 	}
+
+// 	h.Success(c, messages)
+// }
+
 func SendMessage(c *gin.Context) {
 	var req models.MessageRequest
 	if err := h.CheckBindAndValidate(&req, c); err != nil {

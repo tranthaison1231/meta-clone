@@ -24,7 +24,7 @@ func GetUserByMail(mail string) (*models.User, error) {
 func GetUsers(request *models.BasePaginationRequest, currentUser *models.User) (*models.BasePaginationResponse[models.GetUserResponse], error) {
 	var users []models.User
 
-	query := db.DB.Preload("FriendRequests").Where("id <> ?", currentUser.ID)
+	query := db.DB.Model(&models.User{}).Where("id <> ?", currentUser.ID)
 
 	if err := query.Error; err != nil {
 		return nil, err
@@ -67,7 +67,7 @@ func GetUsers(request *models.BasePaginationRequest, currentUser *models.User) (
 		Items:       getUserResponse,
 		CurrentPage: pagination.CurrentPage,
 		Count:       pagination.Count,
-		TotalPage:   pagination.TotalPage,
+		TotalPages:  pagination.TotalPages,
 	}, nil
 }
 
@@ -81,13 +81,11 @@ func GetUserFriends(userId uint, request *models.BasePaginationRequest) (*models
 
 	pagination := h.Paginate(&users, query, request)
 
-	fmt.Println("users", users)
-
 	return &models.BasePaginationResponse[models.User]{
 		Items:       users,
 		CurrentPage: pagination.CurrentPage,
 		Count:       pagination.Count,
-		TotalPage:   pagination.TotalPage,
+		TotalPages:  pagination.TotalPages,
 	}, nil
 }
 
