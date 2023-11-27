@@ -1,14 +1,55 @@
 <script>
 	import { BellOff, MonitorDown } from 'lucide-svelte';
 	import MoreHorizontalModal from './MoreHorizontalModal.svelte';
+	import { useQuery } from '@sveltestack/svelte-query';
+	import { chatsApi } from '$lib/apis/chats';
+	import { twMerge } from 'tailwind-merge';
+
+	const CONTACTS_ONLINE = [
+		{
+			user: {
+				id: '1',
+				name: 'Minh Vip',
+				avatar:
+					'https://kenh14cdn.com/thumb_w/660/203336854389633024/2021/5/27/photo2021-05-2712-11-40-1622093561531643326457.jpg',
+				isOnline: true
+			}
+		},
+		{
+			user: {
+				id: '2',
+				name: 'Kiên Mõm',
+				avatar:
+					'https://gamek.mediacdn.vn/133514250583805952/2021/6/25/photo-1-16246064774091716463237.jpg',
+				isOnline: true
+			}
+		},
+		{
+			user: {
+				id: '3',
+				name: 'Đạt Vip',
+				avatar: 'https://nguoinoitieng.tv/images/nnt/97/0/bb39.jpg',
+				isOnline: true
+			}
+		},
+		{
+			user: {
+				id: '4',
+				name: 'Sơn Trần',
+				avatar:
+					'https://t3.ftcdn.net/jpg/05/56/29/10/360_F_556291020_q2ieMiOCKYbtoLITrnt7qcSL1LJYyWrU.jpg',
+				isOnline: false
+			}
+		}
+	];
 
 	const CONTACTS = [
 		{
 			user: {
-				id: '2',
-				name: 'Linh Mõm',
+				id: '1',
+				name: 'Minh Mõm',
 				avatar:
-					'https://scontent.fhan2-4.fna.fbcdn.net/v/t39.30808-1/395517388_3705379936359673_6358498159852438917_n.jpg?stp=dst-jpg_p100x100&_nc_cat=110&ccb=1-7&_nc_sid=5f2048&_nc_eui2=AeEo9Zc9spiAH4sSqlTI4nF9Yc1lCiUst4VhzWUKJSy3hSXGUG3al7W4ZrfT1XeLNsiGb-auNv4vuZStevKYL-7g&_nc_ohc=kLQCIcOS7k4AX84wSpP&_nc_ad=z-m&_nc_cid=0&_nc_ht=scontent.fhan2-4.fna&oh=00_AfCCLn3PT2Q6rSNJpn7Zg68jqu654GUgbq1Ft24IiPJr7Q&oe=655CADAA'
+					'https://kenh14cdn.com/thumb_w/660/203336854389633024/2021/5/27/photo2021-05-2712-11-40-1622093561531643326457.jpg'
 			},
 			lastMessage: {
 				text: 'bạn dạo ni sao r',
@@ -16,40 +57,139 @@
 				sender: {
 					id: '1'
 				}
-			}
+			},
+			isActive: true
+		},
+		{
+			user: {
+				id: '1',
+				name: 'Minh Mõm',
+				avatar:
+					'https://kenh14cdn.com/thumb_w/660/203336854389633024/2021/5/27/photo2021-05-2712-11-40-1622093561531643326457.jpg'
+			},
+			lastMessage: {
+				text: 'bạn dạo ni sao r',
+				timestamp: '1700204276',
+				sender: {
+					id: '1'
+				}
+			},
+			isActive: false,
+			isSeenMessage: false
+		},
+		{
+			user: {
+				id: '1',
+				name: 'Minh Mõm',
+				avatar:
+					'https://kenh14cdn.com/thumb_w/660/203336854389633024/2021/5/27/photo2021-05-2712-11-40-1622093561531643326457.jpg'
+			},
+			lastMessage: {
+				text: 'bạn dạo ni sao r',
+				timestamp: '1700204276',
+				sender: {
+					id: '1'
+				}
+			},
+			isActive: false,
+			isSeenMessage: true
+		},
+		{
+			user: {
+				id: '1',
+				name: 'Minh Mõm',
+				avatar:
+					'https://kenh14cdn.com/thumb_w/660/203336854389633024/2021/5/27/photo2021-05-2712-11-40-1622093561531643326457.jpg'
+			},
+			lastMessage: {
+				text: 'bạn dạo ni sao r',
+				timestamp: '1700204276',
+				sender: {
+					id: '1'
+				}
+			},
+			isActive: false,
+			isSeenMessage: false
+		},
+		{
+			user: {
+				id: '1',
+				name: 'Minh Mõm',
+				avatar:
+					'https://kenh14cdn.com/thumb_w/660/203336854389633024/2021/5/27/photo2021-05-2712-11-40-1622093561531643326457.jpg'
+			},
+			lastMessage: {
+				text: 'bạn dạo ni sao r',
+				timestamp: '1700204276',
+				sender: {
+					id: '1'
+				}
+			},
+			isActive: false,
+			isSeenMessage: true
 		}
 	];
 </script>
 
-<div class="relative h-screen w-90 border-r-1 py-2">
-	<div class="px-4">
-		<h1 class="text-2xl font-bold">Chats</h1>
-		<input class="input" placeholder="Search Messenger" />
+<div class="border-r-1 w-90 relative h-screen py-2 transition-all max-lg:w-20">
+	<div class="px-4 max-lg:hidden">
+		<h1 class="my-4 mb-7 text-2xl font-bold">Chats</h1>
+		<input class="input border-none bg-[#F5F5F5] outline-none" placeholder="Search (Ctrl + K)" />
 	</div>
-	<div class=" mt-1 p-1.5">
-		{#each CONTACTS as { user, lastMessage }}
-			<div class="group flex items-center justify-between gap-3 rounded-xl bg-gray-100 p-2">
-				<div class="flex gap-3">
-					<img src={user.avatar} alt="" class="h-12 w-12 rounded-full" />
-					<div>
-						<p>{user.name}</p>
-						<p class="text-sm text-gray-500">You: {lastMessage.text}</p>
+	<div class="mt-5 px-4 max-lg:hidden">
+		<div class="flex gap-5">
+			{#each CONTACTS_ONLINE as { user }}
+				<div class="flex cursor-pointer flex-col items-center">
+					<div class="relative">
+						<img src={user.avatar} alt="" class=" h-12 w-12 rounded-full object-cover" />
+
+						{#if user.isOnline}
+							<div
+								class="absolute bottom-0 right-0 h-5 w-5 translate-x-1 rounded-full border-4 border-white bg-green-500"
+							/>
+						{/if}
+					</div>
+					<div class="w-10 max-lg:hidden">
+						<p class="break-words text-center text-sm">{user.name}</p>
 					</div>
 				</div>
-				<div class="flex items-center gap-2">
+			{/each}
+		</div>
+	</div>
+	<div class="mt-5">
+		{#each CONTACTS as { user, lastMessage, isActive, isSeenMessage }}
+			<div
+				class={twMerge(
+					'group flex cursor-pointer items-center justify-between gap-3 p-2 hover:bg-[#F5F5F5] max-lg:bg-transparent',
+					isActive && 'bg-[#F5F5F5]'
+				)}
+			>
+				<div class="flex gap-3">
+					<img src={user.avatar} alt="" class="h-12 w-12 rounded-full object-cover" />
+					<div class="max-lg:hidden">
+						<p class="font-bold">{user.name}</p>
+						<p class={twMerge('text-sm font-bold ', isSeenMessage && 'font-normal text-gray-500')}>
+							You: {lastMessage.text}
+						</p>
+					</div>
+				</div>
+				<div class="flex items-center gap-2 max-lg:hidden">
 					<MoreHorizontalModal />
 					<BellOff class="text-gray-500" size={20} />
+					{#if !isSeenMessage}
+						<div class="bg-primary h-3 w-3 rounded-full" />
+					{/if}
 				</div>
 			</div>
 		{/each}
 	</div>
-	<div class="absolute bottom-0 w-full border border-t-1 px-2 py-3">
+	<div class="border-t-1 absolute bottom-0 w-full border px-2 py-3">
 		<button class="flex w-full justify-center gap-2 rounded-xl px-3 py-2 hover:bg-gray-100">
 			<MonitorDown />
 			Try Messenger for Mac
 		</button>
 	</div>
 </div>
-<div class="h-screen w-[calc(100vw-26rem)]">
+<div class="h-screen w-[calc(100vw-26rem)] max-lg:w-[calc(100vw-8.5rem)]">
 	<slot />
 </div>

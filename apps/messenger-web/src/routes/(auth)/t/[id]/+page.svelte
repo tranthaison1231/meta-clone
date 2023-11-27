@@ -9,32 +9,73 @@
 		ThumbsUp,
 		Video
 	} from 'lucide-svelte';
+	import ReactMessageModal from './ReactMessageModal.svelte';
+	import MoreHorizontalModal from './MoreHorizontalModal.svelte';
 
 	const user = {
 		id: '2',
 		name: 'Linh Mõm',
 		avatar:
-			'https://scontent.fhan2-4.fna.fbcdn.net/v/t39.30808-1/395517388_3705379936359673_6358498159852438917_n.jpg?stp=dst-jpg_p100x100&_nc_cat=110&ccb=1-7&_nc_sid=5f2048&_nc_eui2=AeEo9Zc9spiAH4sSqlTI4nF9Yc1lCiUst4VhzWUKJSy3hSXGUG3al7W4ZrfT1XeLNsiGb-auNv4vuZStevKYL-7g&_nc_ohc=kLQCIcOS7k4AX84wSpP&_nc_ad=z-m&_nc_cid=0&_nc_ht=scontent.fhan2-4.fna&oh=00_AfCCLn3PT2Q6rSNJpn7Zg68jqu654GUgbq1Ft24IiPJr7Q&oe=655CADAA'
+			'https://kenh14cdn.com/thumb_w/660/203336854389633024/2021/5/27/photo2021-05-2712-11-40-1622093561531643326457.jpg'
 	};
 </script>
 
 <div class="relative h-screen">
-	<div class="flex h-14 w-full items-center justify-between px-4 shadow-md">
-		<div class="flex gap-2">
+	<div class="flex h-14 w-full items-center justify-between px-4 shadow-sm">
+		<div class="flex items-center gap-2">
 			<img
-				src="https://scontent.fhan2-4.fna.fbcdn.net/v/t39.30808-1/395517388_3705379936359673_6358498159852438917_n.jpg?stp=dst-jpg_p100x100&_nc_cat=110&ccb=1-7&_nc_sid=5f2048&_nc_eui2=AeEo9Zc9spiAH4sSqlTI4nF9Yc1lCiUst4VhzWUKJSy3hSXGUG3al7W4ZrfT1XeLNsiGb-auNv4vuZStevKYL-7g&_nc_ohc=kLQCIcOS7k4AX84wSpP&_nc_ad=z-m&_nc_cid=0&_nc_ht=scontent.fhan2-4.fna&oh=00_AfCCLn3PT2Q6rSNJpn7Zg68jqu654GUgbq1Ft24IiPJr7Q&oe=655CADAA"
+				src="https://kenh14cdn.com/thumb_w/660/203336854389633024/2021/5/27/photo2021-05-2712-11-40-1622093561531643326457.jpg"
 				alt=""
-				class="h-11 w-11 rounded-full"
+				class="h-8 w-8 rounded-full object-cover"
 			/>
 			<div>
-				<p>{user.name}</p>
+				<p class="font-bold">{user.name}</p>
 				<p class="text-sm text-gray-500">Active now</p>
 			</div>
 		</div>
-		<div class="flex gap-4 text-blue-500">
-			<Phone />
-			<Video />
-			<MoreHorizontal />
+		<div class="flex gap-4 text-transparent">
+			<Phone class="fill-[#AA00FF]" />
+			<Video class="fill-[#AA00FF] text-[#AA00FF]" />
+			<MoreHorizontal class="fill-[#AA00FF]" />
+		</div>
+	</div>
+	<div class="flex h-[calc(100vh-7rem)] w-full flex-col justify-end px-4 py-2">
+		<div class="message-reverse">
+			<p class="test">yeh có cái khay đồ ăn của nó r</p>
+		</div>
+		<div class="message group">
+			<p class="test">yeh có cái khay đồ ăn của nó r</p>
+			<ReactMessageModal />
+		</div>
+		<div class="message-reverse">
+			<p class="test">yeh có cái khay đồ ăn của nó r</p>
+		</div>
+		<div class="message">
+			<p class="test">yeh có cái khay đồ ăn của nó r</p>
+		</div>
+		<div class="message-reverse">
+			<p class="test">yeh có cái khay đồ ăn của nó r</p>
+		</div>
+		<div class="message">
+			<p class="test">yeh có cái khay đồ ăn của nó r</p>
+		</div>
+		<div class="message-reverse">
+			<p class="test">yeh có cái khay đồ ăn của nó r</p>
+		</div>
+		<div class="message">
+			<p class="test">yeh có cái khay đồ ăn của nó r</p>
+		</div>
+		<div class="message-reverse">
+			<p class="test">yeh có cái khay đồ ăn của nó r</p>
+		</div>
+		<div class="message">
+			<p class="test">yeh có cái khay đồ ăn của nó r</p>
+		</div>
+		<div class="message-reverse">
+			<p class="test">yeh có cái khay đồ ăn của nó r</p>
+		</div>
+		<div class="message">
+			<p class="test">yeh có cái khay đồ ăn của nó r</p>
 		</div>
 	</div>
 	<div class="absolute bottom-0 flex h-14 w-full items-center px-2 py-3">
@@ -53,7 +94,7 @@
 			</button>
 		</div>
 		<div class="relative ml-4 w-full">
-			<input class="input rounded-2xl bg-gray-200" placeholder="Aa" />
+			<input class="input rounded-xl border-none bg-gray-100" placeholder="Aa" />
 			<Smile class="absolute bottom-2 right-2 text-blue-500" />
 		</div>
 		<button class="ml-2 rounded-full p-2 text-blue-500 hover:bg-gray-100">
@@ -61,3 +102,15 @@
 		</button>
 	</div>
 </div>
+
+<style>
+	.message {
+		@apply flex w-full gap-2;
+	}
+	.message-reverse {
+		@apply flex w-full flex-row-reverse gap-2;
+	}
+	.test {
+		@apply h-auto max-w-[250px] break-all rounded-full bg-[#F5F5F5] px-4 py-2;
+	}
+</style>
