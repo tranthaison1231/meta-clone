@@ -2,16 +2,15 @@
 	import { usersApi } from '$lib/apis/users';
 	import DefaultAvatar from '$lib/assets/images/default-avatar.jpeg';
 	import { notification } from '$lib/components/ui/notification';
+	import { getUserName } from '$lib/services/user';
 	import { me } from '$lib/stores/me';
-	import { FriendStatus } from '$lib/types';
+	import { FriendStatus, type User } from '$lib/types';
 	import { useMutation } from '@sveltestack/svelte-query';
 	import { CheckIcon, UserCheck2, UserPlus2, XIcon } from 'lucide-svelte';
 
-	export let email: string,
-		avatar: string | undefined = undefined,
-		userId: number,
-		friendStatus: FriendStatus | undefined = undefined,
-		refetchUserList: (() => void) | undefined = undefined;
+	export let friendStatus: FriendStatus | undefined = undefined,
+		refetchUserList: (() => void) | undefined = undefined,
+		user: User;
 
 	const addFriendMutate = useMutation(usersApi.addFriend, {
 		onSuccess() {
@@ -23,6 +22,7 @@
 			});
 		}
 	});
+
 	const acceptFriendMutate = useMutation(usersApi.acceptFriend, {
 		onSuccess() {
 			refetchUserList?.();
@@ -37,17 +37,18 @@
 	const onAddFriend = async () => {
 		if ($me?.id) {
 			await $addFriendMutate.mutate({
-				friendId: userId,
+				friendId: user.id,
 				userId: $me?.id
 			});
 		}
 	};
 
-	const onAcceptFriend = async () => {
+	const onAcceptFriend = async (isRejecting: boolean) => {
 		if ($me?.id) {
 			await $acceptFriendMutate.mutate({
 				friendId: $me?.id,
-				userId: userId
+				userId: user.id,
+				isRejecting
 			});
 		}
 	};
@@ -58,29 +59,38 @@
 >
 	<div class="flex items-center gap-2">
 		<span>
-			<img src={avatar ?? DefaultAvatar} alt="avatar" class="h-12 w-12 rounded-full object-cover" />
+			<img
+				src={user.avatar ?? DefaultAvatar}
+				alt="avatar"
+				class="h-12 w-12 rounded-full object-cover"
+			/>
 		</span>
-		<span>
-			{email}
-		</span>
+		<div class="text-slate-800">
+			<span class="text-lg">
+				{user.email}
+			</span>
+			<div class="text-sm font-medium">
+				{getUserName(user)}
+			</div>
+		</div>
 	</div>
 
 	{#if friendStatus === FriendStatus.Friend}
 		<UserCheck2 class="text-green-600" />
 	{:else if friendStatus === FriendStatus.RequireAccept}
 		<div class="flex gap-4">
-			<button on:click={onAcceptFriend}>
+			<button on:click={() => onAcceptFriend(false)}>
 				<CheckIcon class="rounded-lg bg-green-500 text-white hover:bg-green-600" />
 			</button>
-			<button on:click={onAddFriend}>
+			<button on:click={() => onAcceptFriend(true)}>
 				<XIcon class="rounded-lg bg-red-500 text-white hover:bg-red-600" />
 			</button>
 		</div>
 	{:else if friendStatus === FriendStatus.Pending}
-		<UserCheck2 class="text-slate-400 hover:text-slate-500" />
+		<UserCheck2 class="text-slate-600 hover:text-slate-500" />
 	{:else}
 		<button on:click={onAddFriend}>
-			<UserPlus2 class="text-slate-400 hover:text-slate-500" />
+			<UserPlus2 class="text-slate-600 hover:text-slate-500" />
 		</button>
 	{/if}
 </div>

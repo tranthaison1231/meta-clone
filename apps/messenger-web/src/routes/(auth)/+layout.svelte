@@ -4,10 +4,21 @@
 	import { MessageCircle, MessageSquare, PanelLeft, Store, Trash, Users } from 'lucide-svelte';
 	import ProfilePopover from './ProfilePopover.svelte';
 	import Communities from './Communities.svelte';
+	import { useQuery } from '@sveltestack/svelte-query';
+	import { authApi } from '$lib/apis/auth';
+	import { me } from '$lib/stores/me';
+	import Loading from '$lib/components/ui/Loading/Loading.svelte';
 
 	let isSidebarOpen = false;
 
 	let id = $page.url.pathname.split('/t/')[1];
+
+	const result = useQuery(['me'], () => authApi.getMe(), {
+		onSuccess({ data }) {
+			me.set(data.user);
+		}
+	});
+
 	const SIDEBAR = [
 		{
 			to: `/t/${id}`,
@@ -39,7 +50,7 @@
 
 <div class="flex">
 	<div
-		class={cn('gap-y relative flex h-screen w-14 flex-col items-center border-r-1 p-2', {
+		class={cn('gap-y border-r-1 relative flex h-screen w-14 flex-col items-center p-2', {
 			'w-60': isSidebarOpen
 		})}
 	>
@@ -73,5 +84,9 @@
 			</button>
 		</div>
 	</div>
-	<slot />
+	{#if $result.isLoading}
+		<Loading />
+	{:else}
+		<slot />
+	{/if}
 </div>

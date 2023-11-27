@@ -1,7 +1,7 @@
 import { DEFAULT_PAGE, DEFAULT_PAGE_SIZE } from '$lib/constants/pagination';
 import { request } from '$lib/services/request';
-import type { AcceptFriendInputDto, AddFriendInputDto, GetUserFriendsInputDto } from '$lib/types';
-import type { BasePaginationRequest } from '$lib/types/response';
+import type { AcceptFriendInputDto, AddFriendInputDto, GetFriendsResponse, GetUserFriendsInputDto, GetUsersResponse } from '$lib/types';
+import type { BasePaginationRequest, BasePaginationResponse } from '$lib/types/response';
 
 export const usersApi = {
 	getAll: async ({
@@ -16,8 +16,8 @@ export const usersApi = {
 		if (orderBy) {
 			searchParams.append('order_by', orderBy);
 		}
-		const data = await request(`/users?${searchParams}`);
-		return data;
+		const { data } = await request(`/users?${searchParams}`);
+		return data as BasePaginationResponse<GetUsersResponse>;
 	},
 	getFriends: async ({
 		limit = DEFAULT_PAGE_SIZE,
@@ -32,8 +32,8 @@ export const usersApi = {
 		if (orderBy) {
 			searchParams.append('order_by', orderBy);
 		}
-		const data = await request(`/users/${userId}/friends?${searchParams}`);
-		return data;
+		const { data } = await request(`/users/${userId}/friends?${searchParams}`);
+		return data as BasePaginationResponse<GetFriendsResponse>
 	},
 	addFriend: async ({ friendId, userId }: AddFriendInputDto) => {
 		const data = await request(`/users/add-friend`, {
@@ -45,12 +45,13 @@ export const usersApi = {
 		});
 		return data;
 	},
-	acceptFriend: async ({ friendId, userId }: AcceptFriendInputDto) => {
+	acceptFriend: async ({ friendId, userId, isRejecting }: AcceptFriendInputDto) => {
 		const data = await request('/users/accept-friend', {
 			method: 'POST',
 			body: JSON.stringify({
 				friendId,
-				userId
+				userId,
+				isRejecting
 			})
 		});
 		return data;

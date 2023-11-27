@@ -1,6 +1,7 @@
 package handlers
 
 import (
+	"fmt"
 	"strconv"
 
 	"github.com/gin-gonic/gin"
@@ -12,6 +13,7 @@ import (
 func AddFriend(c *gin.Context) {
 	var req models.AddFriendRequest
 	if err := h.CheckBindAndValidate(&req, c); err != nil {
+		h.Fail400(c, err.Error())
 		return
 	}
 
@@ -19,6 +21,7 @@ func AddFriend(c *gin.Context) {
 
 	if err != nil {
 		h.Fail400(c, err.Error())
+		return
 	}
 
 	h.Success(c, gin.H{
@@ -32,10 +35,11 @@ func AcceptFriend(c *gin.Context) {
 		return
 	}
 
-	message, err := services.AcceptFriend(req.UserID, req.FriendID)
+	message, err := services.AcceptFriend(req.UserID, req.FriendID, req.IsRejecting)
 
 	if err != nil {
 		h.Fail400(c, err.Error())
+		return
 	}
 
 	h.Success(c, gin.H{
@@ -44,6 +48,10 @@ func AcceptFriend(c *gin.Context) {
 }
 
 func GetUserFriends(c *gin.Context) {
+	fmt.Println("Page", c.Param("page"), "Limit", c.Param("limit"), c.Params)
+
+	requestParams := h.ConstructPaginateRequest(c)
+
 	userId, err := strconv.ParseInt(c.Param("userID"), 10, 64)
 
 	if err != nil {
@@ -51,15 +59,14 @@ func GetUserFriends(c *gin.Context) {
 		return
 	}
 
-	users, err := services.GetUserFriends(uint(userId))
+	users, err := services.GetUserFriends(uint(userId), requestParams)
 
 	if err != nil {
 		h.Fail400(c, err.Error())
+		return
 	}
 
-	h.Success(c, gin.H{
-		"users": users,
-	})
+	h.Success(c, users)
 }
 
 func GetUsers(c *gin.Context) {
@@ -71,6 +78,7 @@ func GetUsers(c *gin.Context) {
 
 	if err != nil {
 		h.Fail400(c, err.Error())
+		return
 	}
 	h.Success(c, users)
 }
