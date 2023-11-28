@@ -33,9 +33,9 @@ var (
 
 func initRoutes(r *gin.Engine) {
 	if port != "" {
-		docs.SwaggerInfo.BasePath = "dev"
-	} else {
 		docs.SwaggerInfo.BasePath = "/"
+	} else {
+		docs.SwaggerInfo.BasePath = "/dev"
 	}
 	r.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerFiles.Handler))
 	r.POST("/sign-in", handlers.SignIn)
