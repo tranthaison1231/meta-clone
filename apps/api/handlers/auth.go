@@ -13,6 +13,11 @@ import (
 	"gorm.io/gorm"
 )
 
+// @Summary Sign In
+// @ID sign-in
+// @Param request body models.SignInRequest true "request"
+// @Success 200 {string} {"status": "success", "token": string, "code": 200}
+// @Router /sign-in/ [post]
 func SignIn(c *gin.Context) {
 	var req models.SignInRequest
 	if err := h.CheckBindAndValidate(&req, c); err != nil {
