@@ -21,7 +21,10 @@ func SignIn(c *gin.Context) {
 
 	user, err := services.GetUserByMail(req.Email)
 
-	if err != nil {
+	if err != nil && err == gorm.ErrRecordNotFound {
+		h.Fail400(c, "User doesn't exist")
+		return
+	} else if err != nil {
 		h.Fail400(c, err.Error())
 		return
 	}

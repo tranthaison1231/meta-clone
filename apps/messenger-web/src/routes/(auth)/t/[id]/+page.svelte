@@ -10,7 +10,6 @@
 		Video
 	} from 'lucide-svelte';
 	import ReactMessageModal from './ReactMessageModal.svelte';
-	import MoreHorizontalModal from './MoreHorizontalModal.svelte';
 
 	const user = {
 		id: '2',

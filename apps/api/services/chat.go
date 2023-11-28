@@ -5,9 +5,9 @@ import (
 	"github.com/tranthaison1231/meta-clone/api/models"
 )
 
-func GetChats(userID uint) (*[]models.Chat, error) {
+func GetChats(userID string) (*[]models.Chat, error) {
 	var chats []models.Chat
-	err := db.DB.Model(&models.Chat{}).Preload("LastMessage").Preload("Members").Where("owner_id = ?", userID).Find(&chats).Error
+	err := db.DB.Model(&models.Chat{}).Preload("LastMessage").Preload("Members").Preload("Owner").Where("owner_id = ?", userID).Find(&chats).Error
 
 	if err != nil {
 		return nil, err
@@ -48,11 +48,11 @@ func AddMemberToChat(chatID uint64, memberID uint) (*models.Chat, error) {
 	return &chat, nil
 }
 
-func UpdateLastMessage(chatID uint64, message models.Message) error {
+func UpdateLastMessage(chatID string, message models.Message) error {
 	var chat models.Chat
 	err := db.DB.Model(&chat).Where("id = ?", chatID).First(&chat).Error
 
-	chat.LastMessage = message
+	chat.LastMessageID = message.ID
 
 	err = db.DB.Save(&chat).Error
 

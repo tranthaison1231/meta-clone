@@ -1,27 +1,15 @@
 <script>
-	import * as Popover from '$lib/components/ui/popover';
-	import { cn } from '$lib/utils/cn';
-	import {
-		AlertTriangle,
-		Archive,
-		BellOff,
-		Camera,
-		Check,
-		LogOut,
-		MoreHorizontal,
-		Phone,
-		Trash,
-		Video
-	} from 'lucide-svelte';
 	import {
 		angryIcon,
 		hahaIcon,
-		sadIcon,
-		loveIcon,
-		wowIcon,
+		heartIcon,
 		likeIcon,
-		heartIcon
+		loveIcon,
+		sadIcon,
+		wowIcon
 	} from '$lib/assets/svgs';
+	import * as Popover from '$lib/components/ui/popover';
+	import { MoreHorizontal } from 'lucide-svelte';
 </script>
 
 <Popover.Root>
@@ -30,7 +18,7 @@
 			<MoreHorizontal />
 		</div>
 	</Popover.Trigger>
-	<Popover.Content class="w-90 relative h-14 items-center px-2 py-1">
+	<Popover.Content class="relative h-14 w-90 items-center px-2 py-1">
 		<div class="flex items-start justify-between gap-2">
 			<img
 				src={hahaIcon}

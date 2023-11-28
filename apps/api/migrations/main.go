@@ -15,6 +15,12 @@ func init() {
 }
 
 func main() {
-	db.DB.AutoMigrate(&models.User{}, &models.Chat{}, &models.Message{}, &models.FriendRequest{}, &models.Community{})
+	db.DB.AutoMigrate(
+		&models.User{},
+		&models.Community{},
+		&models.Chat{},
+		&models.Message{},
+		&models.FriendRequest{},
+	)
 	fmt.Println("👍 Migration complete")
 }

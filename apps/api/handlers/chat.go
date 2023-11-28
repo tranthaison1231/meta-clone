@@ -40,11 +40,9 @@ func CreateChat(c *gin.Context) {
 		return
 	}
 
-	user := c.MustGet("user").(*models.User)
-
 	chat, err := services.CreateChat(models.Chat{
 		Name:    req.Name,
-		OwnerID: user.ID,
+		OwnerID: c.MustGet("user").(*models.User).ID,
 	})
 
 	if err != nil {

@@ -33,6 +33,10 @@
 
 ![system-design](docs/system-design.png)
 
+## ERD Diagram
+
+![erd-diagram](docs/erd.png)
+
 ## Start project 
 
 ```

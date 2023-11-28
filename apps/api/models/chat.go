@@ -2,10 +2,12 @@ package models
 
 type Chat struct {
 	Base
-	Name        string  `gorm:"not null;type:varchar(255)" json:"name"`
-	Members     []*User `gorm:"many2many:chat_users;" json:"members"`
-	OwnerID     uint    `gorm:"not null" json:"ownerId"`
-	LastMessage Message `gorm:"foreignKey:ChatID" json:"lastMessage"`
+	Name          string   `gorm:"not null;type:varchar(255)" json:"name"`
+	Members       []*User  `gorm:"many2many:chat_users;" json:"members"`
+	OwnerID       string   `gorm:"not null" json:"ownerId"`
+	Owner         User     `gorm:"foreignKey:OwnerID;references:ID" json:"owner"`
+	LastMessageID string   `json:"lastMessageId"`
+	LastMessage   *Message `gorm:"foreignKey:LastMessageID;references:ID" json:"lastMessage"`
 }
 
 type CreateChatRequest struct {
