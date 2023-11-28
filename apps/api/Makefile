@@ -1,6 +1,8 @@
 clean:
 	rm -rfv ./bin
-dev: 
+swagger:
+	swag init
+dev: swagger
 	env PORT=8080 go run ./main.go
 migration: 
 	go run migrations/main.go
