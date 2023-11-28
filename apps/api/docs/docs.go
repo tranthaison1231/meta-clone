@@ -109,7 +109,7 @@ const docTemplate = `{
 var SwaggerInfo = &swag.Spec{
 	Version:          "1.0",
 	Host:             "",
-	BasePath:         "",
+	BasePath:         "/dev",
 	Schemes:          []string{},
 	Title:            "Meta-Clone",
 	Description:      "API for Meta-Clone",

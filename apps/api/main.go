@@ -22,7 +22,6 @@ import (
 	"github.com/gin-gonic/gin"
 	swaggerFiles "github.com/swaggo/files"
 	ginSwagger "github.com/swaggo/gin-swagger"
-	docs "github.com/tranthaison1231/meta-clone/api/docs"
 )
 
 var (
@@ -42,6 +41,7 @@ func initRoutes(r *gin.Engine) {
 	auth.PUT("/me", handlers.UpdateMe)
 	auth.GET("/chats", handlers.GetChats)
 	auth.POST("/chats", handlers.CreateChat)
+	auth.POST("/news-feed", handlers.GetNewsFeed)
 	auth.GET("/posts", handlers.GetPosts)
 	auth.POST("/posts", handlers.CreatePost)
 	auth.POST("/chats/:chatID/join", handlers.AddMemberToChat)
@@ -97,9 +97,7 @@ func Handler(ctx context.Context, req events.APIGatewayProxyRequest) (events.API
 func main() {
 	if port != "" {
 		server.ListenAndServe()
-		docs.SwaggerInfo.BasePath = "/"
 	} else {
 		lambda.Start(Handler)
-		docs.SwaggerInfo.BasePath = "/dev"
 	}
 }
