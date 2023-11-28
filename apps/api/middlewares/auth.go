@@ -12,7 +12,7 @@ import (
 func Auth(c *gin.Context) {
 	authHeader := c.GetHeader("Authorization")
 	if authHeader == "" {
-		h.Fail403(c, "No authorization header provided")
+		h.Fail401(c, "No authorization header provided")
 		c.Abort()
 		return
 	}

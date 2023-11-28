@@ -21,6 +21,7 @@ func main() {
 		&models.Chat{},
 		&models.Message{},
 		&models.FriendRequest{},
+		&models.Post{},
 	)
 	fmt.Println("👍 Migration complete")
 }

@@ -32,11 +32,6 @@ var (
 )
 
 func initRoutes(r *gin.Engine) {
-	if port != "" {
-		docs.SwaggerInfo.BasePath = "/"
-	} else {
-		docs.SwaggerInfo.BasePath = "/dev"
-	}
 	r.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerFiles.Handler))
 	r.POST("/sign-in", handlers.SignIn)
 	r.POST("/sign-up", handlers.SignUp)
@@ -47,6 +42,8 @@ func initRoutes(r *gin.Engine) {
 	auth.PUT("/me", handlers.UpdateMe)
 	auth.GET("/chats", handlers.GetChats)
 	auth.POST("/chats", handlers.CreateChat)
+	auth.GET("/posts", handlers.GetPosts)
+	auth.POST("/posts", handlers.CreatePost)
 	auth.POST("/chats/:chatID/join", handlers.AddMemberToChat)
 	auth.GET("/communities", handlers.GetCommunities)
 	auth.POST("/communities", handlers.CreateCommunity)
@@ -91,10 +88,18 @@ func Handler(ctx context.Context, req events.APIGatewayProxyRequest) (events.API
 	return ginLambda.ProxyWithContext(ctx, req)
 }
 
+// @title Meta-Clone
+// @version 1.0
+// @description API for Meta-Clone
+// @securityDefinitions.apikey BearerAuth
+// @in header
+// @name Authorization
 func main() {
 	if port != "" {
 		server.ListenAndServe()
+		docs.SwaggerInfo.BasePath = "/"
 	} else {
 		lambda.Start(Handler)
+		docs.SwaggerInfo.BasePath = "/dev"
 	}
 }

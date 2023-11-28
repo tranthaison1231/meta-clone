@@ -7,36 +7,35 @@ import (
 	"github.com/tranthaison1231/meta-clone/api/services"
 )
 
-// @Summary Get Communities
-// @ID get-communities
+// @Summary Get Posts
+// @ID get-posts
 // @Security BearerAuth
-// @Success 200 {string} {"status": "success", data: { "communities": []models.Community }, "code": 200}
-// @Router /communities [get]
-func GetCommunities(c *gin.Context) {
+// @Success 200 {string} {"status": "success", data: { "posts": []models.Post }, "code": 200}
+// @Router /posts [get]
+func GetPosts(c *gin.Context) {
 	user := c.MustGet("user").(*models.User)
 
-	communities, err := services.GetCommunities(user.ID)
+	posts, err := services.GetPosts(user.ID)
 
 	if err != nil {
 		h.Fail400(c, err.Error())
 	}
 
 	h.Success(c, gin.H{
-		"communities": communities,
+		"posts": posts,
 	})
 }
 
-func CreateCommunity(c *gin.Context) {
-	var req models.CreateCommunityRequest
+func CreatePost(c *gin.Context) {
+	var req models.CreatePostRequest
 
 	if err := c.ShouldBindJSON(&req); err != nil {
 		h.Fail400(c, err.Error())
 		return
 	}
 
-	community, err := services.CreateCommunity(models.Community{
-		Name:    req.Name,
-		Logo:    req.Logo,
+	post, err := services.CreatePost(models.Post{
+		Content: req.Content,
 		OwnerID: c.MustGet("user").(*models.User).ID,
 	})
 
@@ -46,6 +45,6 @@ func CreateCommunity(c *gin.Context) {
 	}
 
 	h.Success(c, gin.H{
-		"community": community,
+		"post": post,
 	})
 }

@@ -1,9 +1,50 @@
 {
     "swagger": "2.0",
     "info": {
-        "contact": {}
+        "description": "API for Meta-Clone",
+        "title": "Meta-Clone",
+        "contact": {},
+        "version": "1.0"
     },
     "paths": {
+        "/communities": {
+            "get": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "summary": "Get Communities",
+                "operationId": "get-communities",
+                "responses": {
+                    "200": {
+                        "description": "status\": \"success\", data: { \"communities\": []models.Community }, \"code\": 200}",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                }
+            }
+        },
+        "/posts": {
+            "get": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "summary": "Get Posts",
+                "operationId": "get-posts",
+                "responses": {
+                    "200": {
+                        "description": "status\": \"success\", data: { \"posts\": []models.Post }, \"code\": 200}",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                }
+            }
+        },
         "/sign-in": {
             "post": {
                 "summary": "Sign In",
@@ -45,6 +86,13 @@
                     "type": "string"
                 }
             }
+        }
+    },
+    "securityDefinitions": {
+        "BearerAuth": {
+            "type": "apiKey",
+            "name": "Authorization",
+            "in": "header"
         }
     }
 }

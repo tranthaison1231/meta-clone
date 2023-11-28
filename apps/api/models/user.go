@@ -18,6 +18,7 @@ type User struct {
 	Communities    []*Community    `gorm:"many2many:user_communities;" json:"communities"`
 	Friends        []*User         `gorm:"many2many:user_friends" json:"friends"`
 	FriendRequests []FriendRequest `gorm:"foreignKey:UserID" json:"friendRequests"`
+	Posts          []*Post         `gorm:"foreignKey:OwnerID" json:"posts"`
 }
 
 type UserFriend struct {
