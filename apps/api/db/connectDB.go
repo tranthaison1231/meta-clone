@@ -16,8 +16,7 @@ func ConnectDB() {
 	dsn := fmt.Sprintf("%s&parseTime=True", os.Getenv("DSN"))
 
 	DB, err = gorm.Open(postgres.Open(dsn), &gorm.Config{
-		TranslateError:                           true,
-		DisableForeignKeyConstraintWhenMigrating: true,
+		TranslateError: true,
 	})
 	if err != nil {
 		log.Fatal("failed to open db connection", err)

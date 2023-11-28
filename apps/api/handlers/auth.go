@@ -13,6 +13,11 @@ import (
 	"gorm.io/gorm"
 )
 
+// @Summary Sign In
+// @ID sign-in
+// @Param request body models.SignInRequest true "request"
+// @Success 200 {string} {"status": "success", "token": string, "code": 200}
+// @Router /sign-in [post]
 func SignIn(c *gin.Context) {
 	var req models.SignInRequest
 	if err := h.CheckBindAndValidate(&req, c); err != nil {
@@ -21,7 +26,10 @@ func SignIn(c *gin.Context) {
 
 	user, err := services.GetUserByMail(req.Email)
 
-	if err != nil {
+	if err != nil && err == gorm.ErrRecordNotFound {
+		h.Fail400(c, "User doesn't exist")
+		return
+	} else if err != nil {
 		h.Fail400(c, err.Error())
 		return
 	}

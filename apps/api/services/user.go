@@ -87,7 +87,7 @@ func GetUserFriends(userId uint, request *models.BasePaginationRequest) (*models
 	}, nil
 }
 
-func AddFriend(userId uint, friendId uint) (*models.FriendRequest, error) {
+func AddFriend(userId string, friendId string) (*models.FriendRequest, error) {
 	var friendRequest models.FriendRequest
 	var user models.User
 
@@ -128,7 +128,7 @@ func AddFriend(userId uint, friendId uint) (*models.FriendRequest, error) {
 	return &newFriendRequest, nil
 }
 
-func AcceptFriend(userId uint, friendId uint, isRejecting bool) (string, error) {
+func AcceptFriend(userId string, friendId string, isRejecting bool) (string, error) {
 	var friendRequest models.FriendRequest
 	var user models.User
 	var friend models.User

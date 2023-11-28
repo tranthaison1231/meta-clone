@@ -22,11 +22,9 @@ func SendMessage(c *gin.Context) {
 		return
 	}
 
-	chatID, err := strconv.ParseUint(c.Param("chatID"), 10, 64)
-
 	message, err := services.CreateMessage(models.Message{
 		Content: req.Content,
-		ChatID:  chatID,
+		ChatID:  c.Param("chatID"),
 		OwnerID: c.MustGet("user").(*models.User).ID,
 	})
 
@@ -35,7 +33,7 @@ func SendMessage(c *gin.Context) {
 		return
 	}
 
-	err = services.UpdateLastMessage(chatID, *message)
+	err = services.UpdateLastMessage(c.Param("chatID"), *message)
 
 	if err != nil {
 		h.Fail400(c, err.Error())

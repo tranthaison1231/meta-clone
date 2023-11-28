@@ -15,9 +15,9 @@ type User struct {
 	Password       string          `gorm:"not null" json:"-"`
 	Gender         string          `gorm:"not null" json:"gender"`
 	Chats          []*Chat         `gorm:"many2many:chat_users;" json:"chats"`
-	Communities    []Community     `gorm:"many2many:user_communities;" json:"communities"`
+	Communities    []*Community    `gorm:"many2many:user_communities;" json:"communities"`
 	Friends        []*User         `gorm:"many2many:user_friends" json:"friends"`
-	FriendRequests []FriendRequest `json:"friendRequests"`
+	FriendRequests []FriendRequest `gorm:"foreignKey:UserID" json:"friendRequests"`
 }
 
 type UserFriend struct {

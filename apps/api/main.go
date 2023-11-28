@@ -20,6 +20,9 @@ import (
 	ginadapter "github.com/awslabs/aws-lambda-go-api-proxy/gin"
 	"github.com/gin-contrib/cors"
 	"github.com/gin-gonic/gin"
+	swaggerFiles "github.com/swaggo/files"
+	ginSwagger "github.com/swaggo/gin-swagger"
+	docs "github.com/tranthaison1231/meta-clone/api/docs"
 )
 
 var (
@@ -29,6 +32,12 @@ var (
 )
 
 func initRoutes(r *gin.Engine) {
+	if port != "" {
+		docs.SwaggerInfo.BasePath = "/"
+	} else {
+		docs.SwaggerInfo.BasePath = "/dev"
+	}
+	r.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerFiles.Handler))
 	r.POST("/sign-in", handlers.SignIn)
 	r.POST("/sign-up", handlers.SignUp)
 

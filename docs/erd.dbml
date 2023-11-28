@@ -1,0 +1,131 @@
+//// ------------------------------------------------------
+//// THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
+//// ------------------------------------------------------
+
+Table chats {
+  id String [pk]
+  created_at DateTime
+  updated_at DateTime
+  deleted_at DateTime
+  name String [not null]
+  owner_id String [not null]
+  last_message_id String
+  chat_users chat_users [not null]
+  messages_chats_last_message_idTomessages messages
+  users users [not null]
+  messages_messages_chat_idTochats messages [not null]
+}
+
+Table communities {
+  id String [pk]
+  created_at DateTime
+  updated_at DateTime
+  deleted_at DateTime
+  name String [not null]
+  logo String [not null]
+  owner_id String [not null]
+  users users [not null]
+  user_communities user_communities [not null]
+}
+
+Table chat_users {
+  chat_id String [not null]
+  user_id String [not null]
+  chats chats [not null]
+  users users [not null]
+
+  indexes {
+    (chat_id, user_id) [pk]
+  }
+}
+
+Table friend_requests {
+  id String [pk]
+  created_at DateTime
+  updated_at DateTime
+  deleted_at DateTime
+  user_id String [not null]
+  friend_id String [not null]
+  users users [not null]
+}
+
+Table messages {
+  id String [pk]
+  created_at DateTime
+  updated_at DateTime
+  deleted_at DateTime
+  content String [not null]
+  chat_id String [not null]
+  owner_id String [not null]
+  chats_chats_last_message_idTomessages chats [not null]
+  chats_messages_chat_idTochats chats [not null]
+  users users [not null]
+}
+
+Table user_communities {
+  community_id String [not null]
+  user_id String [not null]
+  communities communities [not null]
+  users users [not null]
+
+  indexes {
+    (community_id, user_id) [pk]
+  }
+}
+
+Table user_friends {
+  user_id String [not null]
+  friend_id String [not null]
+  users_user_friends_friend_idTousers users [not null]
+  users_user_friends_user_idTousers users [not null]
+
+  indexes {
+    (user_id, friend_id) [pk]
+  }
+}
+
+Table users {
+  id String [pk]
+  created_at DateTime
+  updated_at DateTime
+  deleted_at DateTime
+  first_name String
+  last_name String
+  email String [unique, not null]
+  salt String [not null]
+  avatar String
+  password String [not null]
+  gender String [not null]
+  chat_users chat_users [not null]
+  chats chats [not null]
+  communities communities [not null]
+  friend_requests friend_requests [not null]
+  messages messages [not null]
+  user_communities user_communities [not null]
+  user_friends_user_friends_friend_idTousers user_friends [not null]
+  user_friends_user_friends_user_idTousers user_friends [not null]
+}
+
+Ref: chats.last_message_id > messages.id [delete: No Action]
+
+Ref: chats.owner_id > users.id [delete: No Action]
+
+Ref: communities.owner_id > users.id [delete: No Action]
+
+Ref: chat_users.chat_id > chats.id [delete: No Action]
+
+Ref: chat_users.user_id > users.id [delete: No Action]
+
+Ref: friend_requests.user_id > users.id [delete: No Action]
+
+Ref: messages.chat_id - chats.id
+
+Ref: messages.owner_id > users.id [delete: No Action]
+
+Ref: user_communities.community_id > communities.id [delete: No Action]
+
+Ref: user_communities.user_id > users.id [delete: No Action]
+
+Ref: user_friends.friend_id > users.id [delete: No Action]
+
+Ref: user_friends.user_id > users.id [delete: No Action]

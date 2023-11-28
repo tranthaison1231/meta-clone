@@ -1,12 +1,22 @@
 package models
 
-import "time"
+import (
+	"time"
+
+	"github.com/google/uuid"
+	"gorm.io/gorm"
+)
 
 type Base struct {
-	ID        uint       `gorm:"primary_key" json:"id"`
+	ID        string     `gorm:"primary_key" json:"id"`
 	CreatedAt time.Time  `json:"createdAt"`
 	UpdatedAt time.Time  `json:"updatedAt"`
 	DeletedAt *time.Time `sql:"index" json:"deletedAt"`
+}
+
+func (base *Base) BeforeCreate(tx *gorm.DB) (err error) {
+	base.ID = uuid.New().String()
+	return nil
 }
 
 type BasePaginationRequest struct {

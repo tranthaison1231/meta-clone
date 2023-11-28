@@ -5,7 +5,7 @@ import (
 	"github.com/tranthaison1231/meta-clone/api/models"
 )
 
-func GetCommunities(userID uint) (*[]models.Community, error) {
+func GetCommunities(userID string) (*[]models.Community, error) {
 	var communities []models.Community
 	err := db.DB.Model(&models.Community{}).Where("owner_id = ?", userID).Find(&communities).Error
 

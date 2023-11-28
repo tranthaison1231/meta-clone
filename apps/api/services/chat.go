@@ -89,11 +89,11 @@ func AddMemberToChat(chatID uint64, memberID uint) (*models.Chat, error) {
 	return &chat, nil
 }
 
-func UpdateLastMessage(chatID uint64, message models.Message) error {
+func UpdateLastMessage(chatID string, message models.Message) error {
 	var chat models.Chat
 	err := db.DB.Model(&chat).Where("id = ?", chatID).First(&chat).Error
 
-	chat.LastMessage = message
+	chat.LastMessageID = message.ID
 
 	err = db.DB.Save(&chat).Error
 

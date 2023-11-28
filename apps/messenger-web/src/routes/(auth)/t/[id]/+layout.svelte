@@ -131,7 +131,7 @@
 	];
 </script>
 
-<div class="border-r-1 w-90 relative h-screen py-2 transition-all max-lg:w-20">
+<div class="w-90 border-r-1 relative h-screen py-2 transition-all max-lg:w-20">
 	<div class="px-4 max-lg:hidden">
 		<h1 class="my-4 mb-7 text-2xl font-bold">Chats</h1>
 		<input class="input border-none bg-[#F5F5F5] outline-none" placeholder="Search (Ctrl + K)" />
