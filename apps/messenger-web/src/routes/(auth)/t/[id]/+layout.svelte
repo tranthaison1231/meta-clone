@@ -1,6 +1,6 @@
 <script>
 	import { BellOff, MonitorDown } from 'lucide-svelte';
-	import MoreHorizontalModal from './MoreHorizontalModal.svelte';
+	import MoreHorizontalModal from '../../../../lib/components/chat/MoreHorizontalModal.svelte';
 	import { useQuery } from '@sveltestack/svelte-query';
 	import { chatsApi } from '$lib/apis/chats';
 	import { twMerge } from 'tailwind-merge';

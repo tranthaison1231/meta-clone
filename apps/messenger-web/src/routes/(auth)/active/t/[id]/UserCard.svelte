@@ -3,6 +3,7 @@
 	import DefaultAvatar from '$lib/assets/images/default-avatar.jpeg';
 	import { notification } from '$lib/components/ui/notification';
 	import { getUserName } from '$lib/services/user';
+	import { setInboxUser } from '$lib/stores/chat';
 	import { me } from '$lib/stores/me';
 	import { FriendStatus, type User } from '$lib/types';
 	import { useMutation } from '@sveltestack/svelte-query';
@@ -52,10 +53,17 @@
 			});
 		}
 	};
+
+	const onCardClick = () => {
+		setInboxUser(user);
+	};
 </script>
 
+<!-- svelte-ignore a11y-click-events-have-key-events -->
+<!-- svelte-ignore a11y-no-static-element-interactions -->
 <div
 	class="flex cursor-pointer items-center justify-between gap-2 rounded-xl p-2 hover:bg-slate-100"
+	on:click={onCardClick}
 >
 	<div class="flex items-center gap-2">
 		<span>

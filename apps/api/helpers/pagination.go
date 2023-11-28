@@ -1,7 +1,6 @@
 package h
 
 import (
-	"fmt"
 	"math"
 	"strconv"
 	"strings"
@@ -51,9 +50,6 @@ func Paginate(model interface{}, query *gorm.DB, request *models.BasePaginationR
 
 	var totalItems int64
 	query.Count(&totalItems)
-
-	fmt.Println("totalItems", totalItems)
-	fmt.Println("errors", query.Error)
 
 	totalPages := int(math.Ceil(float64(totalItems) / float64(limit)))
 

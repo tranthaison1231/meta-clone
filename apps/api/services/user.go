@@ -1,8 +1,6 @@
 package services
 
 import (
-	"fmt"
-
 	"github.com/jinzhu/copier"
 	"github.com/pkg/errors"
 	h "github.com/tranthaison1231/meta-clone/api/helpers"
@@ -155,8 +153,6 @@ func AcceptFriend(userId uint, friendId uint, isRejecting bool) (string, error) 
 	if err2 != nil {
 		return "", err2
 	}
-
-	fmt.Println(isRejecting)
 
 	if isRejecting {
 		db.DB.Delete(&friendRequest)

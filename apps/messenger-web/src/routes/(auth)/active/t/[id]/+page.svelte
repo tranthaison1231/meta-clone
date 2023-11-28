@@ -1,4 +1,5 @@
-<script lang="ts">
+<script>
+	import Chat from '$lib/components/chat/Chat.svelte';
 </script>
 
-Ngot
+<Chat />
