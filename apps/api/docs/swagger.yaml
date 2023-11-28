@@ -12,7 +12,7 @@ definitions:
 info:
   contact: {}
 paths:
-  /sign-in/:
+  /sign-in:
     post:
       operationId: sign-in
       parameters:

@@ -15,7 +15,7 @@ const docTemplate = `{
     "host": "{{.Host}}",
     "basePath": "{{.BasePath}}",
     "paths": {
-        "/sign-in/": {
+        "/sign-in": {
             "post": {
                 "summary": "Sign In",
                 "operationId": "sign-in",
