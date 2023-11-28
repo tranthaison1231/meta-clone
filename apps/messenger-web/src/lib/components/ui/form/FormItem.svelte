@@ -9,7 +9,7 @@
 
 <div class="flex w-full flex-col gap-2">
 	<div class={labelClass}>
-		<span class="flex items-center gap-1">
+		<span class="flex items-center gap-1 font-medium text-gray-700">
 			{label}
 			{#if required}
 				<span class="text-red-500"> * </span>
