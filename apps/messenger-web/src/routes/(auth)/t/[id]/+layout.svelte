@@ -65,7 +65,7 @@
 	];
 </script>
 
-<div class="w-90 border-r-1 relative h-screen py-2 transition-all max-lg:w-20">
+<div class="relative h-screen w-90 border-r-1 py-2 transition-all max-lg:w-20">
 	<div class="px-4 max-lg:hidden">
 		<h1 class="my-4 mb-7 text-2xl font-bold">Chats</h1>
 		<input class="input border-none bg-[#F5F5F5] outline-none" placeholder="Search (Ctrl + K)" />
@@ -103,7 +103,7 @@
 			</div>
 		{/if}
 	</div>
-	<div class="border-t-1 absolute bottom-0 w-full border px-2 py-3">
+	<div class="absolute bottom-0 w-full border border-t-1 px-2 py-3">
 		<button class="flex w-full justify-center gap-2 rounded-xl px-3 py-2 hover:bg-gray-100">
 			<MonitorDown />
 			Try Messenger for Mac

@@ -49,7 +49,7 @@
 		<MoreHorizontalModal />
 		<BellOff class="text-gray-500" size={20} />
 		{#if !isSeen}
-			<div class="bg-primary h-3 w-3 rounded-full" />
+			<div class="h-3 w-3 rounded-full bg-primary" />
 		{/if}
 	</div>
 </div>
