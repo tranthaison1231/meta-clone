@@ -18,12 +18,12 @@ export const setInboxUser = (user: User) => {
 	return inboxUsers.set([user]);
 };
 
-export const inboxMessages = writable<Message[] >([])
+export const inboxMessages = writable<Message[]>([]);
 
 export const appendNewMessage = (message: Message) => {
-	return inboxMessages.update(prev => [...prev, message]);
-}
+	return inboxMessages.update((prev) => [...prev, message]);
+};
 
 export const setInboxMessages = (messages: Message[]) => {
 	return inboxMessages.set(messages);
-}
+};
