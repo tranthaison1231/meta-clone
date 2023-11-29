@@ -7,18 +7,18 @@ import (
 
 type User struct {
 	Base
-	FirstName      string          `gorm:"type:varchar(255)" json:"firstName"`
-	LastName       string          `gorm:"type:varchar(255)" json:"lastName"`
-	Email          string          `gorm:"uniqueIndex;not null;type:varchar(255)" json:"email"`
-	Salt           string          `gorm:"not null" json:"-"`
-	Avatar         string          `gorm:"type:text" json:"avatar"`
-	Password       string          `gorm:"not null" json:"-"`
-	Gender         string          `gorm:"not null" json:"gender"`
-	Chats          []*Chat         `gorm:"many2many:chat_users;" json:"chats"`
-	Communities    []*Community    `gorm:"many2many:user_communities;" json:"communities"`
-	Friends        []*User         `gorm:"many2many:user_friends" json:"friends"`
-	FriendRequests []FriendRequest `gorm:"foreignKey:UserID" json:"friendRequests"`
-	Posts          []*Post         `gorm:"foreignKey:OwnerID" json:"posts"`
+	FirstName      string           `gorm:"type:varchar(255)" json:"firstName"`
+	LastName       string           `gorm:"type:varchar(255)" json:"lastName"`
+	Email          string           `gorm:"uniqueIndex;not null;type:varchar(255)" json:"email"`
+	Salt           string           `gorm:"not null" json:"-"`
+	Avatar         string           `gorm:"type:text" json:"avatar"`
+	Password       string           `gorm:"not null" json:"-"`
+	Gender         string           `gorm:"not null" json:"gender"`
+	Chats          []*Chat          `gorm:"many2many:chat_users;" json:"chats"`
+	Communities    []*Community     `gorm:"many2many:user_communities;" json:"communities"`
+	Friends        []*User          `gorm:"many2many:user_friends" json:"friends"`
+	FriendRequests []*FriendRequest `gorm:"foreignKey:UserID;association_jointable_foreignkey:friend_id" json:"friendRequests"`
+	Posts          []*Post          `gorm:"foreignKey:OwnerID" json:"posts"`
 }
 
 type UserFriend struct {

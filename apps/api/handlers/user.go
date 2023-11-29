@@ -1,9 +1,6 @@
 package handlers
 
 import (
-	"fmt"
-	"strconv"
-
 	"github.com/gin-gonic/gin"
 	h "github.com/tranthaison1231/meta-clone/api/helpers"
 	"github.com/tranthaison1231/meta-clone/api/models"
@@ -48,18 +45,11 @@ func AcceptFriend(c *gin.Context) {
 }
 
 func GetUserFriends(c *gin.Context) {
-	fmt.Println("Page", c.Param("page"), "Limit", c.Param("limit"), c.Params)
-
 	requestParams := h.ConstructPaginateRequest(c)
 
-	userId, err := strconv.ParseInt(c.Param("userID"), 10, 64)
+	userId := c.Param("userID")
 
-	if err != nil {
-		h.Fail400(c, err.Error())
-		return
-	}
-
-	users, err := services.GetUserFriends(uint(userId), requestParams)
+	users, err := services.GetUserFriends(userId, requestParams)
 
 	if err != nil {
 		h.Fail400(c, err.Error())

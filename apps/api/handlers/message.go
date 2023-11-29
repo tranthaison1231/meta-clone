@@ -5,7 +5,6 @@ import (
 	"encoding/json"
 	"fmt"
 	"net/http"
-	"strconv"
 
 	"github.com/aws/aws-lambda-go/events"
 	"github.com/aws/aws-sdk-go-v2/aws"
@@ -16,43 +15,28 @@ import (
 	"github.com/tranthaison1231/meta-clone/api/services"
 )
 
-func GetMessages(c *gin.Context) {
-	chatID, err := strconv.ParseInt(c.Param("chatID"), 10, 64)
-
-	if err != nil {
-		h.Fail400(c, err.Error())
-		return
-	}
-
-	messages, err := services.GetMessages(chatID)
-
-	if err != nil {
-		h.Fail400(c, err.Error())
-	}
-
-	h.Success(c, gin.H{
-		"messages": messages,
-	})
-}
-
 func SendMessage(c *gin.Context) {
 	var req models.MessageRequest
 	if err := h.CheckBindAndValidate(&req, c); err != nil {
 		return
 	}
 
+	chatID := c.Param("chatID")
+
 	message, err := services.CreateMessage(models.Message{
 		Content: req.Content,
-		ChatID:  c.Param("chatID"),
+		ChatID:  chatID,
 		OwnerID: c.MustGet("user").(*models.User).ID,
 	})
+
+	services.UpdateLastMessage(chatID, message)
 
 	if err != nil {
 		h.Fail400(c, err.Error())
 		return
 	}
 
-	err = services.UpdateLastMessage(c.Param("chatID"), *message)
+	err = services.UpdateLastMessage(c.Param("chatID"), message)
 
 	if err != nil {
 		h.Fail400(c, err.Error())

@@ -37,18 +37,26 @@ func initRoutes(r *gin.Engine) {
 
 	auth := r.Group("", middlewares.Auth)
 
+	// Me
 	auth.GET("/me", handlers.GetMe)
 	auth.PUT("/me", handlers.UpdateMe)
+
+	// Chat
 	auth.GET("/chats", handlers.GetChats)
+	auth.GET("/chats/:chatID/messages", handlers.GetChatMessages)
+	auth.GET("/chats/:chatID", handlers.GetChat)
 	auth.POST("/chats", handlers.CreateChat)
 	auth.POST("/news-feed", handlers.GetNewsFeed)
 	auth.GET("/posts", handlers.GetPosts)
 	auth.POST("/posts", handlers.CreatePost)
 	auth.POST("/chats/:chatID/join", handlers.AddMemberToChat)
+	auth.POST("/chats/:chatID/messages", handlers.SendMessage)
+
+	// Communities
 	auth.GET("/communities", handlers.GetCommunities)
 	auth.POST("/communities", handlers.CreateCommunity)
-	auth.GET("/chats/:chatID/messages", handlers.GetMessages)
-	auth.POST("/chats/:chatID/messages", handlers.SendMessage)
+
+	// Users
 	auth.POST("/users/add-friend", handlers.AddFriend)
 	auth.POST("/users/accept-friend", handlers.AcceptFriend)
 	auth.GET("/users/:userID/friends", handlers.GetUserFriends)

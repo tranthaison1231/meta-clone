@@ -2,6 +2,7 @@ package handlers
 
 import (
 	"strconv"
+	"strings"
 
 	"github.com/gin-gonic/gin"
 	h "github.com/tranthaison1231/meta-clone/api/helpers"
@@ -20,18 +21,44 @@ type Chat struct {
 	LastMessage Message
 }
 
-func GetChats(c *gin.Context) {
-	user := c.MustGet("user").(*models.User)
+func GetChat(c *gin.Context) {
+	chatID := c.Param("chatID")
 
-	chats, err := services.GetChats(user.ID)
+	chat, err := services.GetChat(chatID)
 
 	if err != nil {
 		h.Fail400(c, err.Error())
+		return
+	}
+	h.Success(c, gin.H{
+		"chat": chat,
+	})
+}
+
+func GetChats(c *gin.Context) {
+	pagination := h.ConstructPaginateRequest(c)
+	memberIdsStr := c.Request.URL.Query().Get("memberIds")
+	isSingleChat, err := strconv.ParseBool(c.Request.URL.Query().Get("isSingleChat"))
+
+	if err != nil {
+		h.Fail400(c, err.Error())
+		return
 	}
 
-	h.Success(c, gin.H{
-		"chats": chats,
+	memberIds := strings.Split(memberIdsStr, ",")
+
+	chats, err := services.GetChats(&models.GetChatsRequest{
+		PaginateRequest: *pagination,
+		MemberIds:       memberIds,
+		IsSingleChat:    isSingleChat,
 	})
+
+	if err != nil {
+		h.Fail400(c, err.Error())
+		return
+	}
+
+	h.Success(c, chats)
 }
 
 func CreateChat(c *gin.Context) {
@@ -40,10 +67,7 @@ func CreateChat(c *gin.Context) {
 		return
 	}
 
-	chat, err := services.CreateChat(models.Chat{
-		Name:    req.Name,
-		OwnerID: c.MustGet("user").(*models.User).ID,
-	})
+	chat, err := services.CreateChat(req.MemberIDs)
 
 	if err != nil {
 		h.Fail400(c, err.Error())
@@ -73,4 +97,31 @@ func AddMemberToChat(c *gin.Context) {
 	h.Success(c, gin.H{
 		"chat": chat,
 	})
+}
+
+func GetChatMessages(c *gin.Context) {
+	requestParams := h.ConstructPaginateRequest(c)
+	targetMessageId := c.Request.URL.Query().Get("targetMessageId")
+
+	chatID := c.Param("chatID")
+
+	isUp, err := strconv.ParseBool(c.Request.URL.Query().Get("isUp"))
+	if err != nil {
+		h.Fail400(c, err.Error())
+
+	}
+
+	messages, err := services.GetChatMessages(&models.GetChatMessagesRequest{
+		PaginateRequest: *requestParams,
+		ChatID:          chatID,
+		IsUp:            isUp,
+		TargetMessageID: targetMessageId,
+	})
+
+	if err != nil {
+		h.Fail400(c, err.Error())
+		return
+	}
+
+	h.Success(c, messages)
 }

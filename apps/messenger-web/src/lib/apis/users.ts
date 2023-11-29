@@ -20,7 +20,7 @@ export const usersApi = {
 			page: String(page)
 		});
 		if (orderBy) {
-			searchParams.append('order_by', orderBy);
+			searchParams.append('orderBy', orderBy);
 		}
 		const { data } = await request(`/users?${searchParams}`);
 		return data as BasePaginationResponse<GetUsersResponse>;
@@ -36,7 +36,7 @@ export const usersApi = {
 			page: String(page)
 		});
 		if (orderBy) {
-			searchParams.append('order_by', orderBy);
+			searchParams.append('orderBy', orderBy);
 		}
 		const { data } = await request(`/users/${userId}/friends?${searchParams}`);
 		return data as BasePaginationResponse<GetFriendsResponse>;

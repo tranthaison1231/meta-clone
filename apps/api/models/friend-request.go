@@ -3,7 +3,9 @@ package models
 type FriendRequest struct {
 	Base
 	UserID   string `gorm:"not null" json:"userId"`
+	User     User   `gorm:"foreignKey:UserID;references:ID;not null" json:"user"`
 	FriendID string `gorm:"not null" json:"friendId"`
+	Friend   User   `gorm:"foreignKey:FriendID;references:ID;not null" json:"friend"`
 }
 
 type AddFriendRequest struct {

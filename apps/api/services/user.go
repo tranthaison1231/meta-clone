@@ -24,7 +24,7 @@ func GetUserByMail(mail string) (*models.User, error) {
 func GetUsers(request *models.BasePaginationRequest, currentUser *models.User) (*models.BasePaginationResponse[models.GetUserResponse], error) {
 	var users []models.User
 
-	query := db.DB.Preload("FriendRequests").Where("id <> ?", currentUser.ID)
+	query := db.DB.Model(&models.User{}).Where("id <> ?", currentUser.ID)
 
 	if err := query.Error; err != nil {
 		return nil, err
@@ -45,11 +45,11 @@ func GetUsers(request *models.BasePaginationRequest, currentUser *models.User) (
 				response.FriendStatus = "Pending"
 			}
 		}
+		friendRequestQuery := db.DB.Model(&models.FriendRequest{}).Where("friend_id = ? AND user_id = ?", currentUser.ID, user.ID).First(&models.FriendRequest{})
 
-		for _, friendRequest := range user.FriendRequests {
-			if friendRequest.FriendID == currentUser.ID {
-				response.FriendStatus = "RequireAccept"
-			}
+		if friendRequestQuery.RowsAffected == 1 {
+			response.FriendStatus = "RequireAccept"
+
 		}
 
 		var userFriend models.UserFriend
@@ -67,11 +67,11 @@ func GetUsers(request *models.BasePaginationRequest, currentUser *models.User) (
 		Items:       getUserResponse,
 		CurrentPage: pagination.CurrentPage,
 		Count:       pagination.Count,
-		TotalPage:   pagination.TotalPage,
+		TotalPages:  pagination.TotalPages,
 	}, nil
 }
 
-func GetUserFriends(userId uint, request *models.BasePaginationRequest) (*models.BasePaginationResponse[models.User], error) {
+func GetUserFriends(userId string, request *models.BasePaginationRequest) (*models.BasePaginationResponse[models.User], error) {
 	var users []models.User
 	query := db.DB.Model(&users).Joins("LEFT JOIN user_friends ON user_friends.user_id = users.id").Where("friend_id = ?", userId)
 
@@ -81,13 +81,11 @@ func GetUserFriends(userId uint, request *models.BasePaginationRequest) (*models
 
 	pagination := h.Paginate(&users, query, request)
 
-	fmt.Println("users", users)
-
 	return &models.BasePaginationResponse[models.User]{
 		Items:       users,
 		CurrentPage: pagination.CurrentPage,
 		Count:       pagination.Count,
-		TotalPage:   pagination.TotalPage,
+		TotalPages:  pagination.TotalPages,
 	}, nil
 }
 
@@ -126,7 +124,6 @@ func AddFriend(userId string, friendId string) (*models.FriendRequest, error) {
 
 	if err != nil {
 		return nil, err
-
 	}
 
 	return &newFriendRequest, nil
@@ -135,7 +132,7 @@ func AddFriend(userId string, friendId string) (*models.FriendRequest, error) {
 func AcceptFriend(userId string, friendId string, isRejecting bool) (string, error) {
 	var friendRequest models.FriendRequest
 	var user models.User
-	var friend models.User
+	var friend *models.User
 
 	result := db.DB.Where("user_id = ? AND friend_id = ?", userId, friendId).First(&friendRequest)
 
@@ -158,21 +155,26 @@ func AcceptFriend(userId string, friendId string, isRejecting bool) (string, err
 		return "", err2
 	}
 
-	fmt.Println(isRejecting)
-
-	if isRejecting {
+	if !isRejecting {
+		err1 := db.DB.Exec("INSERT INTO user_friends (user_id, friend_id) VALUES(?, ?)", userId, friendId).Error
+		if err1 != nil {
+			fmt.Println(err1)
+			return "", err1
+		}
+		err2 := db.DB.Exec("INSERT INTO user_friends (user_id, friend_id) VALUES(?, ?)", friendId, userId).Error
+		if err2 != nil {
+			fmt.Println(err1)
+			return "", err2
+		}
 		db.DB.Delete(&friendRequest)
-	} else {
-		user.Friends = append(user.Friends, &friend)
-		friend.Friends = append(friend.Friends, &user)
-		db.DB.Save(&user)
-		db.DB.Save(&friend)
+		return "Added Friend", nil
 	}
 
-	return "Added Friend", nil
+	db.DB.Delete(&friendRequest)
+	return "Rejected Friend", nil
 }
 
-func GetUserByID(id uint) (*models.User, error) {
+func GetUserByID(id string) (*models.User, error) {
 	var user models.User
 	result := db.DB.Where("id = ?", id).First(&user)
 

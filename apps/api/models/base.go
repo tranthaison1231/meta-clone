@@ -29,5 +29,5 @@ type BasePaginationResponse[T any] struct {
 	Items       []T `json:"items"`
 	CurrentPage int `json:"currentPage"`
 	Count       int `json:"count"`
-	TotalPage   int `json:"totalPage"`
+	TotalPages  int `json:"totalPages"`
 }

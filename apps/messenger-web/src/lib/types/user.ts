@@ -3,7 +3,7 @@ import type { BasePaginationRequest } from './response';
 export interface User {
 	email: string;
 	name: string;
-	id: number;
+	id: string;
 	avatar: string;
 	createdAt: string;
 	updatedAt: string;
@@ -15,9 +15,9 @@ export interface User {
 }
 
 export interface FriendRequest {
-	id: number;
-	userId: number;
-	friendId: number;
+	id: string;
+	userId: string;
+	friendId: string;
 }
 
 export enum FriendStatus {
@@ -36,12 +36,12 @@ export interface GetFriendsResponse {
 }
 
 export interface GetUserFriendsInputDto extends BasePaginationRequest {
-	userId: number;
+	userId: string;
 }
 
 export interface AddFriendInputDto {
-	userId: number;
-	friendId: number;
+	userId: string;
+	friendId: string;
 }
 
 export interface AcceptFriendInputDto extends AddFriendInputDto {
