@@ -21,6 +21,20 @@ type Chat struct {
 	LastMessage Message
 }
 
+func GetChat(c *gin.Context) {
+	chatID := c.Param("chatID")
+
+	chat, err := services.GetChat(chatID)
+
+	if err != nil {
+		h.Fail400(c, err.Error())
+		return
+	}
+	h.Success(c, gin.H{
+		"chat": chat,
+	})
+}
+
 func GetChats(c *gin.Context) {
 	pagination := h.ConstructPaginateRequest(c)
 	memberIdsStr := c.Request.URL.Query().Get("memberIds")

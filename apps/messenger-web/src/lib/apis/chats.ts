@@ -9,17 +9,14 @@ export const chatsApi = {
 		limit = DEFAULT_PAGE_SIZE,
 		orderBy,
 		page = DEFAULT_PAGE,
-		isSingleChat
+		isSingleChat = false
 	}: GetChatsInputDto) => {
 		const searchParams = new URLSearchParams({
 			limit: String(limit),
 			page: String(page),
-			memberIds: memberIds.join(',')
+			memberIds: memberIds.join(','),
+			isSingleChat: String(isSingleChat)
 		});
-
-		if (isSingleChat) {
-			searchParams.append('isSingleChat', String(isSingleChat));
-		}
 
 		if (orderBy) {
 			searchParams.append('orderBy', orderBy);
@@ -36,6 +33,10 @@ export const chatsApi = {
 				memberIds
 			})
 		});
+		return data as { chat: Chat };
+	},
+	getChatById: async (id: string) => {
+		const { data } = await request(`/chats/${id}`);
 		return data as { chat: Chat };
 	}
 };

@@ -9,6 +9,18 @@ import (
 	"github.com/tranthaison1231/meta-clone/api/models"
 )
 
+func GetChat(chatID string) (*models.Chat, error) {
+	var chat models.Chat
+
+	err := db.DB.Where("id = ?", chatID).Preload("LastMessage").Preload("Members").First(&chat).Error
+
+	if err != nil {
+		return nil, err
+	}
+
+	return &chat, nil
+}
+
 func GetChats(request *models.GetChatsRequest) (*models.BasePaginationResponse[models.Chat], error) {
 	var chats []models.Chat
 

@@ -7,7 +7,8 @@ export interface Chat {
 	name?: string;
 	members: User[];
 	ownerId: string;
-	lastMessage: Message;
+	lastMessageId?: string;
+	lastMessage?: Message;
 	createdAt: string;
 	updatedAt: string;
 }

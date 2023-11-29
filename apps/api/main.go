@@ -44,6 +44,7 @@ func initRoutes(r *gin.Engine) {
 	// Chat
 	auth.GET("/chats", handlers.GetChats)
 	auth.GET("/chats/:chatID/messages", handlers.GetChatMessages)
+	auth.GET("/chats/:chatID", handlers.GetChat)
 	auth.POST("/chats", handlers.CreateChat)
 	auth.POST("/news-feed", handlers.GetNewsFeed)
 	auth.GET("/posts", handlers.GetPosts)

@@ -1,11 +1,11 @@
 <script lang="ts">
-	import { BellOff, MonitorDown } from 'lucide-svelte';
-	import MoreHorizontalModal from '../../../../lib/components/chat/MoreHorizontalModal.svelte';
+	import { MonitorDown } from 'lucide-svelte';
 	import { useQuery } from '@sveltestack/svelte-query';
 	import { chatsApi } from '$lib/apis/chats';
-	import { twMerge } from 'tailwind-merge';
 	import { me } from '$lib/stores/me';
 	import Loading from '$lib/components/ui/Loading/Loading.svelte';
+	import Inbox from './Inbox.svelte';
+	import { setInboxChatData, setInboxUsers } from '$lib/stores/chat';
 
 	$: getChatByMemberIds = useQuery(
 		['chats', $me?.id],
@@ -17,6 +17,14 @@
 			enabled: !!$me?.id
 		}
 	);
+
+	$: chats = $getChatByMemberIds.data?.items;
+
+	const onInboxClick = async (id: string) => {
+		const { chat } = await chatsApi.getChatById(id);
+		setInboxChatData(chat);
+		setInboxUsers(chat.members);
+	};
 
 	const CONTACTS_ONLINE = [
 		{
@@ -55,96 +63,9 @@
 			}
 		}
 	];
-
-	const CONTACTS = [
-		{
-			user: {
-				id: '1',
-				name: 'Minh Mõm',
-				avatar:
-					'https://kenh14cdn.com/thumb_w/660/203336854389633024/2021/5/27/photo2021-05-2712-11-40-1622093561531643326457.jpg'
-			},
-			lastMessage: {
-				text: 'bạn dạo ni sao r',
-				timestamp: '1700204276',
-				sender: {
-					id: '1'
-				}
-			},
-			isActive: true
-		},
-		{
-			user: {
-				id: '1',
-				name: 'Minh Mõm',
-				avatar:
-					'https://kenh14cdn.com/thumb_w/660/203336854389633024/2021/5/27/photo2021-05-2712-11-40-1622093561531643326457.jpg'
-			},
-			lastMessage: {
-				text: 'bạn dạo ni sao r',
-				timestamp: '1700204276',
-				sender: {
-					id: '1'
-				}
-			},
-			isActive: false,
-			isSeenMessage: false
-		},
-		{
-			user: {
-				id: '1',
-				name: 'Minh Mõm',
-				avatar:
-					'https://kenh14cdn.com/thumb_w/660/203336854389633024/2021/5/27/photo2021-05-2712-11-40-1622093561531643326457.jpg'
-			},
-			lastMessage: {
-				text: 'bạn dạo ni sao r',
-				timestamp: '1700204276',
-				sender: {
-					id: '1'
-				}
-			},
-			isActive: false,
-			isSeenMessage: true
-		},
-		{
-			user: {
-				id: '1',
-				name: 'Minh Mõm',
-				avatar:
-					'https://kenh14cdn.com/thumb_w/660/203336854389633024/2021/5/27/photo2021-05-2712-11-40-1622093561531643326457.jpg'
-			},
-			lastMessage: {
-				text: 'bạn dạo ni sao r',
-				timestamp: '1700204276',
-				sender: {
-					id: '1'
-				}
-			},
-			isActive: false,
-			isSeenMessage: false
-		},
-		{
-			user: {
-				id: '1',
-				name: 'Minh Mõm',
-				avatar:
-					'https://kenh14cdn.com/thumb_w/660/203336854389633024/2021/5/27/photo2021-05-2712-11-40-1622093561531643326457.jpg'
-			},
-			lastMessage: {
-				text: 'bạn dạo ni sao r',
-				timestamp: '1700204276',
-				sender: {
-					id: '1'
-				}
-			},
-			isActive: false,
-			isSeenMessage: true
-		}
-	];
 </script>
 
-<div class="relative h-screen w-90 border-r-1 py-2 transition-all max-lg:w-20">
+<div class="w-90 border-r-1 relative h-screen py-2 transition-all max-lg:w-20">
 	<div class="px-4 max-lg:hidden">
 		<h1 class="my-4 mb-7 text-2xl font-bold">Chats</h1>
 		<input class="input border-none bg-[#F5F5F5] outline-none" placeholder="Search (Ctrl + K)" />
@@ -172,33 +93,9 @@
 	<div class="mt-5">
 		{#if $getChatByMemberIds.isLoading}
 			<Loading />
-		{:else if $getChatByMemberIds.data?.items && $getChatByMemberIds.data?.items?.length > 0}
-			{#each CONTACTS as { user, lastMessage, isActive, isSeenMessage }}
-				<div
-					class={twMerge(
-						'group flex cursor-pointer items-center justify-between gap-3 p-2 hover:bg-[#F5F5F5] max-lg:bg-transparent',
-						isActive && 'bg-[#F5F5F5]'
-					)}
-				>
-					<div class="flex gap-3">
-						<img src={user.avatar} alt="" class="h-12 w-12 rounded-full object-cover" />
-						<div class="max-lg:hidden">
-							<p class="font-bold">{user.name}</p>
-							<p
-								class={twMerge('text-sm font-bold ', isSeenMessage && 'font-normal text-gray-500')}
-							>
-								You: {lastMessage.text}
-							</p>
-						</div>
-					</div>
-					<div class="flex items-center gap-2 max-lg:hidden">
-						<MoreHorizontalModal />
-						<BellOff class="text-gray-500" size={20} />
-						{#if !isSeenMessage}
-							<div class="h-3 w-3 rounded-full bg-primary" />
-						{/if}
-					</div>
-				</div>
+		{:else if chats && chats?.length > 0}
+			{#each chats as chat}
+				<Inbox {chat} onClick={onInboxClick} />
 			{/each}
 		{:else}
 			<div class="flex h-full items-center justify-center px-4 text-lg">
@@ -206,7 +103,7 @@
 			</div>
 		{/if}
 	</div>
-	<div class="absolute bottom-0 w-full border border-t-1 px-2 py-3">
+	<div class="border-t-1 absolute bottom-0 w-full border px-2 py-3">
 		<button class="flex w-full justify-center gap-2 rounded-xl px-3 py-2 hover:bg-gray-100">
 			<MonitorDown />
 			Try Messenger for Mac
