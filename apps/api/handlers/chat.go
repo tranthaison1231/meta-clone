@@ -1,7 +1,6 @@
 package handlers
 
 import (
-	"fmt"
 	"strconv"
 	"strings"
 
@@ -23,24 +22,22 @@ type Chat struct {
 }
 
 func GetChats(c *gin.Context) {
-	requestParams := h.ConstructPaginateRequest(c)
+	pagination := h.ConstructPaginateRequest(c)
 	memberIdsStr := c.Request.URL.Query().Get("memberIds")
-	memberIds := strings.Split(memberIdsStr, ",")
+	isSingleChat, err := strconv.ParseBool(c.Request.URL.Query().Get("isSingleChat"))
 
-	var parsedMemberIds []uint
-
-	if len(memberIds) > 1 {
-		for _, value := range memberIds {
-			parsedValue, err := strconv.ParseInt(value, 10, 64)
-			if err != nil {
-				h.Fail400(c, err.Error())
-				return
-			}
-			parsedMemberIds = append(parsedMemberIds, uint(parsedValue))
-		}
+	if err != nil {
+		h.Fail400(c, err.Error())
+		return
 	}
 
-	chats, err := services.GetChats(requestParams, parsedMemberIds)
+	memberIds := strings.Split(memberIdsStr, ",")
+
+	chats, err := services.GetChats(&models.GetChatsRequest{
+		PaginateRequest: *pagination,
+		MemberIds:       memberIds,
+		IsSingleChat:    isSingleChat,
+	})
 
 	if err != nil {
 		h.Fail400(c, err.Error())
@@ -90,21 +87,9 @@ func AddMemberToChat(c *gin.Context) {
 
 func GetChatMessages(c *gin.Context) {
 	requestParams := h.ConstructPaginateRequest(c)
-	targetMessageId, err := strconv.ParseInt(c.Request.URL.Query().Get("targetMessageId"), 10, 64)
+	targetMessageId := c.Request.URL.Query().Get("targetMessageId")
 
-	if err != nil {
-		h.Fail400(c, err.Error())
-		return
-	}
-
-	chatID, err := strconv.ParseUint(c.Param("chatID"), 10, 64)
-
-	fmt.Println("chatId", chatID)
-
-	if err != nil {
-		h.Fail400(c, err.Error())
-		return
-	}
+	chatID := c.Param("chatID")
 
 	isUp, err := strconv.ParseBool(c.Request.URL.Query().Get("isUp"))
 	if err != nil {
@@ -114,9 +99,9 @@ func GetChatMessages(c *gin.Context) {
 
 	messages, err := services.GetChatMessages(&models.GetChatMessagesRequest{
 		PaginateRequest: *requestParams,
-		ChatID:          uint(chatID),
+		ChatID:          chatID,
 		IsUp:            isUp,
-		TargetMessageID: uint(targetMessageId),
+		TargetMessageID: targetMessageId,
 	})
 
 	if err != nil {

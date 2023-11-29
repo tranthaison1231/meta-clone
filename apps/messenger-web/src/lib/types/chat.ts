@@ -3,7 +3,7 @@ import type { BasePaginationRequest } from './response';
 import type { User } from './user';
 
 export interface Chat {
-	id: number;
+	id: string;
 	name?: string;
 	members: User[];
 	ownerId: string;
@@ -13,9 +13,10 @@ export interface Chat {
 }
 
 export interface CreateChatInputDto {
-	memberIds: number[];
+	memberIds: string[];
 }
 
 export interface GetChatsInputDto extends BasePaginationRequest {
 	memberIds?: string[];
+	isSingleChat?: boolean;
 }

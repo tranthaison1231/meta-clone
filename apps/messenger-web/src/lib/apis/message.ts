@@ -24,7 +24,7 @@ export const messagesApi = {
 		const searchParams = new URLSearchParams({
 			limit: String(limit),
 			page: String(page),
-			isUp: String(isUp),
+			isUp: String(isUp)
 		});
 
 		if (targetMessageId) {

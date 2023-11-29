@@ -1,9 +1,10 @@
 <script lang="ts">
+	import { chatsApi } from '$lib/apis/chats';
 	import { usersApi } from '$lib/apis/users';
 	import DefaultAvatar from '$lib/assets/images/default-avatar.jpeg';
 	import { notification } from '$lib/components/ui/notification';
 	import { getUserName } from '$lib/services/user';
-	import { setInboxUser } from '$lib/stores/chat';
+	import { setInboxChatData, setInboxUser } from '$lib/stores/chat';
 	import { me } from '$lib/stores/me';
 	import { FriendStatus, type User } from '$lib/types';
 	import { useMutation } from '@sveltestack/svelte-query';
@@ -54,8 +55,18 @@
 		}
 	};
 
-	const onCardClick = () => {
-		setInboxUser(user);
+	const onCardClick = async () => {
+		if ($me?.id) {
+			const result = await chatsApi.getAll({ memberIds: [user.id, $me?.id], isSingleChat: true });
+
+			const firstChat = result.items[0];
+
+			if (firstChat) {
+				setInboxChatData(firstChat);
+			}
+
+			setInboxUser(user);
+		}
 	};
 </script>
 

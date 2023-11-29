@@ -8,13 +8,19 @@ export const chatsApi = {
 		memberIds = [],
 		limit = DEFAULT_PAGE_SIZE,
 		orderBy,
-		page = DEFAULT_PAGE
+		page = DEFAULT_PAGE,
+		isSingleChat
 	}: GetChatsInputDto) => {
 		const searchParams = new URLSearchParams({
 			limit: String(limit),
 			page: String(page),
 			memberIds: memberIds.join(',')
 		});
+
+		if (isSingleChat) {
+			searchParams.append('isSingleChat', String(isSingleChat));
+		}
+
 		if (orderBy) {
 			searchParams.append('orderBy', orderBy);
 		}

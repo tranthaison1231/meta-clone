@@ -26,5 +26,5 @@ export const signUpSchema = z
 	});
 
 export const sendMessageSchema = z.object({
-	content: z.string().optional(),
-})
+	content: z.string().optional()
+});

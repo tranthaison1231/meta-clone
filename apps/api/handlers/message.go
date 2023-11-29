@@ -5,7 +5,6 @@ import (
 	"encoding/json"
 	"fmt"
 	"net/http"
-	"strconv"
 
 	"github.com/aws/aws-lambda-go/events"
 	"github.com/aws/aws-sdk-go-v2/aws"
@@ -22,18 +21,22 @@ func SendMessage(c *gin.Context) {
 		return
 	}
 
+	chatID := c.Param("chatID")
+
 	message, err := services.CreateMessage(models.Message{
 		Content: req.Content,
-		ChatID:  c.Param("chatID"),
+		ChatID:  chatID,
 		OwnerID: c.MustGet("user").(*models.User).ID,
 	})
+
+	services.UpdateLastMessage(chatID, message)
 
 	if err != nil {
 		h.Fail400(c, err.Error())
 		return
 	}
 
-	err = services.UpdateLastMessage(c.Param("chatID"), *message)
+	err = services.UpdateLastMessage(c.Param("chatID"), message)
 
 	if err != nil {
 		h.Fail400(c, err.Error())

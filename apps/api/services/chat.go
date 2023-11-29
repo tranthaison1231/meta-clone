@@ -9,23 +9,27 @@ import (
 	"github.com/tranthaison1231/meta-clone/api/models"
 )
 
-func GetChats(request *models.BasePaginationRequest, memberIds []uint) (*models.BasePaginationResponse[models.Chat], error) {
+func GetChats(request *models.GetChatsRequest) (*models.BasePaginationResponse[models.Chat], error) {
 	var chats []models.Chat
 
 	query := db.DB.Model(&models.Chat{}).Preload("LastMessage").Preload("Members")
-	if memberIds != nil {
+	if request.MemberIds != nil {
 		var chatId string
-
-		chatUserQuery := db.DB.Raw("SELECT chat_id FROM chat_users WHERE user_id IN (?) GROUP BY chat_id HAVING COUNT(*) = ?", memberIds, len(memberIds)).First(&chatId)
-
-		if err := chatUserQuery.Error; err != nil {
-			return nil, err
+		var lengthCheck int
+		if request.IsSingleChat {
+			lengthCheck = 2
+		} else {
+			lengthCheck = len(request.MemberIds)
 		}
 
-		err := query.Where("id = ?", chatId).Find(&chats).Error
+		db.DB.Raw("SELECT chat_id FROM chat_users WHERE user_id IN (?) GROUP BY chat_id HAVING COUNT(*) = ?", request.MemberIds, lengthCheck).First(&chatId)
 
-		if err != nil {
-			return nil, err
+		if chatId != "" {
+			err := query.Where("id = ?", chatId).Find(&chats).Error
+
+			if err != nil {
+				return nil, err
+			}
 		}
 	}
 
@@ -34,7 +38,7 @@ func GetChats(request *models.BasePaginationRequest, memberIds []uint) (*models.
 		return nil, err
 	}
 
-	pagination := h.Paginate(&chats, query, request)
+	pagination := h.Paginate(&chats, query, &request.PaginateRequest)
 
 	return &models.BasePaginationResponse[models.Chat]{
 		Items:       chats,
@@ -44,7 +48,7 @@ func GetChats(request *models.BasePaginationRequest, memberIds []uint) (*models.
 	}, nil
 }
 
-func CreateChat(memberIds []uint) (*models.Chat, error) {
+func CreateChat(memberIds []string) (*models.Chat, error) {
 	var users []*models.User
 
 	err := db.DB.Where("id IN (?)", memberIds).Find(&users).Error
@@ -53,19 +57,29 @@ func CreateChat(memberIds []uint) (*models.Chat, error) {
 		return nil, err
 	}
 
-	newChat := &models.Chat{
-		Members: users,
-	}
+	newChat := &models.Chat{}
 
-	createErr := db.DB.Create(newChat).Error
+	createErr := db.DB.Omit("owner_id", "last_message_id").Create(newChat).Error
 
 	if createErr != nil {
+		fmt.Println("createErr", createErr)
+
 		return nil, createErr
 	}
+
+	for _, user := range users {
+		err := db.DB.Exec("INSERT INTO chat_users(chat_id, user_id) VALUES (?,?)", newChat.ID, user.ID).Error
+
+		if err != nil {
+			fmt.Println("range err", err)
+			return nil, err
+		}
+	}
+
 	return newChat, nil
 }
 
-func AddMemberToChat(chatID uint64, memberID uint) (*models.Chat, error) {
+func AddMemberToChat(chatID uint64, memberID string) (*models.Chat, error) {
 	user, err := GetUserByID(memberID)
 
 	if err != nil {
@@ -89,13 +103,17 @@ func AddMemberToChat(chatID uint64, memberID uint) (*models.Chat, error) {
 	return &chat, nil
 }
 
-func UpdateLastMessage(chatID string, message models.Message) error {
+func UpdateLastMessage(chatID string, message *models.Message) error {
 	var chat models.Chat
 	err := db.DB.Model(&chat).Where("id = ?", chatID).First(&chat).Error
 
+	if err != nil {
+		return err
+	}
+
 	chat.LastMessageID = message.ID
 
-	err = db.DB.Save(&chat).Error
+	err = db.DB.Omit("owner_id").Save(&chat).Error
 
 	return err
 }

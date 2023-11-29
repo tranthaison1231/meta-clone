@@ -6,32 +6,12 @@
 	import { useQuery } from '@sveltestack/svelte-query';
 	import { chatsApi } from '$lib/apis/chats';
 	import { me } from '$lib/stores/me';
-
-	$: currentUserIds = ($inboxUsers ?? []).map((user) => user.id);
-	$: memberIds = $me.id ? currentUserIds.concat([$me.id]) : [];
-
-	$: getChatByMemberIds = useQuery(
-		['chats', { memberIds }],
-		() =>
-			chatsApi.getAll({
-				memberIds
-			}),
-		{
-			enabled: memberIds.length > 1,
-			onSuccess(data) {
-				const firstChat = data.items?.[0];
-				if (firstChat) {
-					setInboxChatData(firstChat);
-				}
-			}
-		}
-	);
 </script>
 
 {#if $inboxUsers.length > 0}
 	<div class="relative h-screen">
 		<Header />
-		<Body loading={$getChatByMemberIds.isFetching} />
+		<Body />
 		<Footer />
 	</div>
 {:else}

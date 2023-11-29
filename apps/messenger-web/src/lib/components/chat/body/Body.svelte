@@ -8,15 +8,15 @@
 	export let loading: boolean = false;
 
 	$: getMessagesResult = useQuery(
-		['messages', { targetMessageId: $inboxChat?.lastMessage.id }],
+		['messages', { targetMessageId: $inboxChat?.lastMessage?.id }],
 		() =>
 			messagesApi.getMessages({
 				targetMessageId: $inboxChat?.lastMessage.id,
 				isUp: true,
-				chatId: Number($inboxChat?.id)
+				chatId: String($inboxChat?.id)
 			}),
 		{
-			enabled: !!$inboxChat?.lastMessage.id
+			enabled: !!$inboxChat?.lastMessage?.id && !!$inboxChat.id
 		}
 	);
 	$: messages = $getMessagesResult.data?.items;

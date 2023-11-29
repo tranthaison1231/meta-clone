@@ -1,14 +1,26 @@
 <script lang="ts">
+	import { chatsApi } from '$lib/apis/chats';
 	import DefaultAvatar from '$lib/assets/images/default-avatar.jpeg';
 	import { getUserName } from '$lib/services/user';
-	import { setInboxUser } from '$lib/stores/chat';
+	import { setInboxChatData, setInboxUser } from '$lib/stores/chat';
+	import { me } from '$lib/stores/me';
 	import type { User } from '$lib/types';
 	import { MessageCircleIcon } from 'lucide-svelte';
 
 	export let user: User;
 
-	const onOpenChat = () => {
-		setInboxUser(user);
+	const onOpenChat = async () => {
+		if ($me?.id) {
+			const result = await chatsApi.getAll({ memberIds: [user.id, $me?.id], isSingleChat: true });
+
+			const firstChat = result.items[0];
+
+			if (firstChat) {
+				setInboxChatData(firstChat);
+			}
+
+			setInboxUser(user);
+		}
 	};
 </script>
 

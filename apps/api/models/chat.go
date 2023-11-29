@@ -2,21 +2,21 @@ package models
 
 type Chat struct {
 	Base
-	Name          string   `gorm:"not null;type:varchar(255)" json:"name"`
+	Name          string   `gorm:"type:varchar(255)" json:"name"`
 	Members       []*User  `gorm:"many2many:chat_users;" json:"members"`
-	OwnerID       string   `gorm:"not null" json:"ownerId"`
+	OwnerID       string   `json:"ownerId"`
 	Owner         User     `gorm:"foreignKey:OwnerID;references:ID" json:"owner"`
 	LastMessageID string   `json:"lastMessageId"`
 	LastMessage   *Message `gorm:"foreignKey:LastMessageID;references:ID" json:"lastMessage"`
 }
 
 type ChatUser struct {
-	ChatID uint `json:"chatId"`
-	UserID uint `json:"userId"`
+	ChatID string `json:"chatId"`
+	UserID string `json:"userId"`
 }
 
 type CreateChatRequest struct {
-	MemberIDs []uint `json:"memberIds"`
+	MemberIDs []string `json:"memberIds"`
 }
 
 type GetChatByMemberIdsRequest struct {
@@ -24,12 +24,18 @@ type GetChatByMemberIdsRequest struct {
 }
 
 type AddMemberToChatRequest struct {
-	UserID uint `json:"userId" validate:"required"`
+	UserID string `json:"userId" validate:"required"`
+}
+
+type GetChatsRequest struct {
+	PaginateRequest BasePaginationRequest `json:"paginateRequest"`
+	MemberIds       []string              `json:"memberIds"`
+	IsSingleChat    bool                  `json:"isSingleChat"`
 }
 
 type GetChatMessagesRequest struct {
 	PaginateRequest BasePaginationRequest `json:"paginateRequest"`
-	ChatID          uint                  `json:"chatId"`
+	ChatID          string                `json:"chatId"`
 	IsUp            bool                  `json:"isUp"`
-	TargetMessageID uint                  `json:"targetMessageId"`
+	TargetMessageID string                `json:"targetMessageId"`
 }

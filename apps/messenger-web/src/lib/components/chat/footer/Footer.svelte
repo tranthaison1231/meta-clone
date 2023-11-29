@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { chatsApi } from '$lib/apis/chats';
 	import { messagesApi } from '$lib/apis/message';
-	import { inboxUsers, inboxChat } from '$lib/stores/chat';
+	import { inboxUsers, inboxChat, setInboxChatData } from '$lib/stores/chat';
 	import { me } from '$lib/stores/me';
 	import { sendMessageSchema } from '$lib/utils/schema';
 	import { useMutation } from '@sveltestack/svelte-query';
@@ -33,9 +33,9 @@
 						memberIds: ($inboxUsers.map((user) => user.id) ?? []).concat([$me.id])
 					});
 
-					console.log('createChatResult', createChatResult);
-
 					const chatId = createChatResult.chat.id;
+
+					setInboxChatData(createChatResult.chat);
 
 					const result = await $sendMessageMutate.mutateAsync({
 						chatId,
