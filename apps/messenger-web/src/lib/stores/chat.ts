@@ -1,4 +1,4 @@
-import type { User } from '$lib/types';
+import type { Message, User } from '$lib/types';
 import type { Chat } from '$lib/types/chat';
 import { writable } from 'svelte/store';
 
@@ -11,9 +11,19 @@ export const setInboxChatData = (chat: Chat | null) => {
 export const inboxUsers = writable<User[]>([]);
 
 export const setInboxUsers = (users: User[]) => {
-	return inboxUsers.update(() => users);
+	return inboxUsers.set(users);
 };
 
 export const setInboxUser = (user: User) => {
-	return inboxUsers.update(() => [user]);
+	return inboxUsers.set([user]);
+};
+
+export const inboxMessages = writable<Message[]>([]);
+
+export const appendNewMessage = (message: Message) => {
+	return inboxMessages.update((prev) => [...prev, message]);
+};
+
+export const setInboxMessages = (messages: Message[]) => {
+	return inboxMessages.set(messages);
 };

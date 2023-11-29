@@ -1,14 +1,19 @@
 <script lang="ts">
 	import { chatsApi } from '$lib/apis/chats';
 	import { messagesApi } from '$lib/apis/message';
-	import { inboxUsers, inboxChat, setInboxChatData } from '$lib/stores/chat';
+	import { inboxUsers, inboxChat, setInboxChatData, appendNewMessage } from '$lib/stores/chat';
 	import { me } from '$lib/stores/me';
 	import { sendMessageSchema } from '$lib/utils/schema';
 	import { useMutation } from '@sveltestack/svelte-query';
 	import { Image, PlusCircle, SendIcon, Smile, StickyNote, ThumbsUp } from 'lucide-svelte';
-	import { superForm, superValidateSync } from 'sveltekit-superforms/client';
+	import { fieldProxy, superForm, superValidateSync } from 'sveltekit-superforms/client';
 
-	const sendMessageMutate = useMutation(messagesApi.sendMessage);
+	const sendMessageMutate = useMutation(messagesApi.sendMessage, {
+		onSuccess({ message }) {
+			appendNewMessage(message);
+			$content = '';
+		}
+	});
 	const createChatMutate = useMutation(chatsApi.createChat);
 
 	const { form, enhance } = superForm(superValidateSync(sendMessageSchema), {
@@ -16,18 +21,17 @@
 		validators: sendMessageSchema,
 		taintedMessage: false,
 		onUpdate: async ({ form }) => {
+			if ($sendMessageMutate.isLoading) return;
 			if (!$me?.id) return;
 
 			if (form.valid) {
 				const content = form.data.content ?? '👍';
 				const currentChatId = $inboxChat?.id;
 				if (currentChatId) {
-					const result = await $sendMessageMutate.mutateAsync({
+					$sendMessageMutate.mutateAsync({
 						chatId: currentChatId,
 						content
 					});
-
-					console.log('result', result);
 				} else {
 					const createChatResult = await $createChatMutate.mutateAsync({
 						memberIds: ($inboxUsers.map((user) => user.id) ?? []).concat([$me.id])
@@ -37,16 +41,16 @@
 
 					setInboxChatData(createChatResult.chat);
 
-					const result = await $sendMessageMutate.mutateAsync({
+					$sendMessageMutate.mutateAsync({
 						chatId,
 						content
 					});
-
-					console.log('result', result);
 				}
 			}
 		}
 	});
+
+	const content = fieldProxy(form, 'content');
 </script>
 
 <form
