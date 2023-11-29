@@ -2,7 +2,7 @@
 	import Loading from '$lib/components/ui/Loading/Loading.svelte';
 	import { useQuery } from '@sveltestack/svelte-query';
 	import Message from './Message.svelte';
-	import { inboxChat } from '$lib/stores/chat';
+	import { inboxChat, setInboxMessages, inboxMessages } from '$lib/stores';
 	import { messagesApi } from '$lib/apis/message';
 
 	export let loading: boolean = false;
@@ -11,15 +11,19 @@
 		['messages', { targetMessageId: $inboxChat?.lastMessage?.id }],
 		() =>
 			messagesApi.getMessages({
-				targetMessageId: $inboxChat?.lastMessage.id,
+				targetMessageId: $inboxChat?.lastMessage?.id,
 				isUp: true,
 				chatId: String($inboxChat?.id)
 			}),
 		{
 			enabled: !!$inboxChat?.lastMessage?.id && !!$inboxChat.id,
-			keepPreviousData: false
+			keepPreviousData: false,
+			onSuccess(data) {
+				setInboxMessages(data.items);
+			}
 		}
 	);
+
 	$: messages = !$inboxChat?.id ? [] : $getMessagesResult.data?.items;
 </script>
 
@@ -30,7 +34,7 @@
 		<Loading />
 	{:else if messages && messages.length > 0}
 		<div class="flex flex-col gap-4">
-			{#each messages as message}
+			{#each $inboxMessages as message}
 				<Message {message} />
 			{/each}
 		</div>
