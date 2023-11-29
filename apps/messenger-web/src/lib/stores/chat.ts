@@ -4,7 +4,7 @@ import { writable } from 'svelte/store';
 
 export const inboxChat = writable<Chat | null>(null);
 
-export const setInboxChatData = (chat: Chat) => {
+export const setInboxChatData = (chat: Chat | null) => {
 	return inboxChat.update(() => chat);
 };
 

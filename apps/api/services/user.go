@@ -156,11 +156,6 @@ func AcceptFriend(userId string, friendId string, isRejecting bool) (string, err
 	}
 
 	if !isRejecting {
-		fmt.Println("params userId", userId)
-		fmt.Println("params friendId", friendId)
-
-		fmt.Println("friendId", friend)
-
 		err1 := db.DB.Exec("INSERT INTO user_friends (user_id, friend_id) VALUES(?, ?)", userId, friendId).Error
 		if err1 != nil {
 			fmt.Println(err1)
@@ -171,11 +166,12 @@ func AcceptFriend(userId string, friendId string, isRejecting bool) (string, err
 			fmt.Println(err1)
 			return "", err2
 		}
+		db.DB.Delete(&friendRequest)
+		return "Added Friend", nil
 	}
 
 	db.DB.Delete(&friendRequest)
-
-	return "Added Friend", nil
+	return "Rejected Friend", nil
 }
 
 func GetUserByID(id string) (*models.User, error) {

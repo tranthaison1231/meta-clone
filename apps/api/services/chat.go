@@ -12,9 +12,9 @@ import (
 func GetChats(request *models.GetChatsRequest) (*models.BasePaginationResponse[models.Chat], error) {
 	var chats []models.Chat
 
-	query := db.DB.Model(&models.Chat{}).Preload("LastMessage").Preload("Members")
+	query := db.DB.Debug().Model(&models.Chat{}).Preload("LastMessage").Preload("Members")
 	if request.MemberIds != nil {
-		var chatId string
+		var chatIds []string
 		var lengthCheck int
 		if request.IsSingleChat {
 			lengthCheck = 2
@@ -22,21 +22,25 @@ func GetChats(request *models.GetChatsRequest) (*models.BasePaginationResponse[m
 			lengthCheck = len(request.MemberIds)
 		}
 
-		db.DB.Raw("SELECT chat_id FROM chat_users WHERE user_id IN (?) GROUP BY chat_id HAVING COUNT(*) = ?", request.MemberIds, lengthCheck).First(&chatId)
+		chatQuery := db.DB.Raw("SELECT chat_id FROM chat_users WHERE user_id IN ? GROUP BY chat_id HAVING COUNT(*) = ?", request.MemberIds, lengthCheck).Find(&chatIds)
 
-		if chatId != "" {
-			err := query.Where("id = ?", chatId).Find(&chats).Error
+		fmt.Println("query.RowsAffected", query.RowsAffected)
 
+		if chatQuery.RowsAffected > 0 {
+			err := query.Where("id IN ?", chatIds).Find(&chats).Error
 			if err != nil {
 				return nil, err
 			}
+		} else {
+			query.Where("id = ?", "-")
 		}
 	}
 
 	if err := query.Error; err != nil {
-		fmt.Println("errors", err)
 		return nil, err
 	}
+
+	fmt.Println("chats", chats)
 
 	pagination := h.Paginate(&chats, query, &request.PaginateRequest)
 
@@ -62,8 +66,6 @@ func CreateChat(memberIds []string) (*models.Chat, error) {
 	createErr := db.DB.Omit("owner_id", "last_message_id").Create(newChat).Error
 
 	if createErr != nil {
-		fmt.Println("createErr", createErr)
-
 		return nil, createErr
 	}
 
@@ -71,7 +73,6 @@ func CreateChat(memberIds []string) (*models.Chat, error) {
 		err := db.DB.Exec("INSERT INTO chat_users(chat_id, user_id) VALUES (?,?)", newChat.ID, user.ID).Error
 
 		if err != nil {
-			fmt.Println("range err", err)
 			return nil, err
 		}
 	}

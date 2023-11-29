@@ -56,6 +56,8 @@
 	};
 
 	const onCardClick = async () => {
+		console.log(user);
+		
 		if ($me?.id) {
 			const result = await chatsApi.getAll({ memberIds: [user.id, $me?.id], isSingleChat: true });
 
@@ -63,6 +65,8 @@
 
 			if (firstChat) {
 				setInboxChatData(firstChat);
+			} else {
+				setInboxChatData(null)
 			}
 
 			setInboxUser(user);

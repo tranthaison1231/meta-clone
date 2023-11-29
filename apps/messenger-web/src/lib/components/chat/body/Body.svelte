@@ -16,16 +16,17 @@
 				chatId: String($inboxChat?.id)
 			}),
 		{
-			enabled: !!$inboxChat?.lastMessage?.id && !!$inboxChat.id
+			enabled: !!$inboxChat?.lastMessage?.id && !!$inboxChat.id,
+			keepPreviousData: false
 		}
 	);
-	$: messages = $getMessagesResult.data?.items;
+	$: messages = !$inboxChat?.id ? [] : $getMessagesResult.data?.items;
 </script>
 
 <div
 	class="flex h-[calc(100vh-7rem)] w-full flex-col justify-end overflow-y-auto overflow-x-hidden px-4 py-4"
 >
-	{#if loading || $getMessagesResult.isLoading}
+	{#if loading || $getMessagesResult.isFetching}
 		<Loading />
 	{:else if messages && messages.length > 0}
 		<div class="flex flex-col gap-4">
