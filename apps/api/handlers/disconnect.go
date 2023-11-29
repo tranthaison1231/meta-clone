@@ -8,7 +8,7 @@ import (
 	"github.com/aws/aws-lambda-go/events"
 )
 
-func Disconnect(ctx context.Context, event events.APIGatewayWebsocketProxyRequest) (events.APIGatewayProxyResponse, error) {
+func Disconnect(_ context.Context, event events.APIGatewayWebsocketProxyRequest) (events.APIGatewayProxyResponse, error) {
 	log.Printf("new disconnection. id: %s", event.RequestContext.ConnectionID)
 
 	return events.APIGatewayProxyResponse{

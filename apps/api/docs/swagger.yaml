@@ -11,7 +11,34 @@ definitions:
     type: object
 info:
   contact: {}
+  description: API for Meta-Clone
+  title: Meta-Clone
+  version: "1.0"
 paths:
+  /communities:
+    get:
+      operationId: get-communities
+      responses:
+        "200":
+          description: 'status": "success", data: { "communities": []models.Community
+            }, "code": 200}'
+          schema:
+            type: string
+      security:
+      - BearerAuth: []
+      summary: Get Communities
+  /posts:
+    get:
+      operationId: get-posts
+      responses:
+        "200":
+          description: 'status": "success", data: { "posts": []models.Post }, "code":
+            200}'
+          schema:
+            type: string
+      security:
+      - BearerAuth: []
+      summary: Get Posts
   /sign-in:
     post:
       operationId: sign-in
@@ -28,4 +55,9 @@ paths:
           schema:
             type: string
       summary: Sign In
+securityDefinitions:
+  BearerAuth:
+    in: header
+    name: Authorization
+    type: apiKey
 swagger: "2.0"

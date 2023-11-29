@@ -22,7 +22,6 @@ import (
 	"github.com/gin-gonic/gin"
 	swaggerFiles "github.com/swaggo/files"
 	ginSwagger "github.com/swaggo/gin-swagger"
-	docs "github.com/tranthaison1231/meta-clone/api/docs"
 )
 
 var (
@@ -32,11 +31,6 @@ var (
 )
 
 func initRoutes(r *gin.Engine) {
-	if port != "" {
-		docs.SwaggerInfo.BasePath = "/"
-	} else {
-		docs.SwaggerInfo.BasePath = "/dev"
-	}
 	r.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerFiles.Handler))
 	r.POST("/sign-in", handlers.SignIn)
 	r.POST("/sign-up", handlers.SignUp)
@@ -51,6 +45,9 @@ func initRoutes(r *gin.Engine) {
 	auth.GET("/chats", handlers.GetChats)
 	auth.GET("/chats/:chatID/messages", handlers.GetChatMessages)
 	auth.POST("/chats", handlers.CreateChat)
+	auth.POST("/news-feed", handlers.GetNewsFeed)
+	auth.GET("/posts", handlers.GetPosts)
+	auth.POST("/posts", handlers.CreatePost)
 	auth.POST("/chats/:chatID/join", handlers.AddMemberToChat)
 	auth.POST("/chats/:chatID/messages", handlers.SendMessage)
 
@@ -98,6 +95,12 @@ func Handler(ctx context.Context, req events.APIGatewayProxyRequest) (events.API
 	return ginLambda.ProxyWithContext(ctx, req)
 }
 
+// @title Meta-Clone
+// @version 1.0
+// @description API for Meta-Clone
+// @securityDefinitions.apikey BearerAuth
+// @in header
+// @name Authorization
 func main() {
 	if port != "" {
 		server.ListenAndServe()

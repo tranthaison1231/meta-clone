@@ -15,6 +15,44 @@ const docTemplate = `{
     "host": "{{.Host}}",
     "basePath": "{{.BasePath}}",
     "paths": {
+        "/communities": {
+            "get": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "summary": "Get Communities",
+                "operationId": "get-communities",
+                "responses": {
+                    "200": {
+                        "description": "status\": \"success\", data: { \"communities\": []models.Community }, \"code\": 200}",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                }
+            }
+        },
+        "/posts": {
+            "get": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "summary": "Get Posts",
+                "operationId": "get-posts",
+                "responses": {
+                    "200": {
+                        "description": "status\": \"success\", data: { \"posts\": []models.Post }, \"code\": 200}",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                }
+            }
+        },
         "/sign-in": {
             "post": {
                 "summary": "Sign In",
@@ -57,17 +95,24 @@ const docTemplate = `{
                 }
             }
         }
+    },
+    "securityDefinitions": {
+        "BearerAuth": {
+            "type": "apiKey",
+            "name": "Authorization",
+            "in": "header"
+        }
     }
 }`
 
 // SwaggerInfo holds exported Swagger Info so clients can modify it
 var SwaggerInfo = &swag.Spec{
-	Version:          "",
+	Version:          "1.0",
 	Host:             "",
-	BasePath:         "",
+	BasePath:         "/dev",
 	Schemes:          []string{},
-	Title:            "",
-	Description:      "",
+	Title:            "Meta-Clone",
+	Description:      "API for Meta-Clone",
 	InfoInstanceName: "swagger",
 	SwaggerTemplate:  docTemplate,
 	LeftDelim:        "{{",

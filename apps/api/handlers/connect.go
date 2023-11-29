@@ -8,7 +8,7 @@ import (
 	"github.com/aws/aws-lambda-go/events"
 )
 
-func Connect(ctx context.Context, event events.APIGatewayWebsocketProxyRequest) (events.APIGatewayProxyResponse, error) {
+func Connect(_ context.Context, event events.APIGatewayWebsocketProxyRequest) (events.APIGatewayProxyResponse, error) {
 	log.Printf("new connection. id: %s", event.RequestContext.ConnectionID)
 
 	return events.APIGatewayProxyResponse{
