@@ -8,6 +8,8 @@
 	import { authApi } from '$lib/apis/auth';
 	import { me } from '$lib/stores/me';
 	import Loading from '$lib/components/ui/Loading/Loading.svelte';
+	import { onMount } from 'svelte';
+	import { ws } from '$lib/stores/websocket';
 
 	let isSidebarOpen = false;
 
@@ -17,6 +19,21 @@
 		onSuccess({ data }) {
 			me.set(data.user);
 		}
+	});
+
+	onMount(() => {
+		$ws.onmessage = async (event) => {
+			console.log('event.data', event.data);
+
+			const data = JSON.parse(event.data);
+			const { action } = data;
+
+			if (action === 'MESSAGE') {
+				const { message } = data;
+
+				console.log('message', message);
+			}
+		};
 	});
 
 	const SIDEBAR = [

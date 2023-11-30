@@ -1,6 +1,19 @@
 service: messenger-clone
 frameworkVersion: "3"
 
+useDotenv: true
+
+plugins:
+  - serverless-offline
+
+custom:
+  serverless-offline:
+    noPrependStageInUrl: true  
+    useDocker: true
+    httpPort: 8080
+    lambdaPort: 8081
+    websocketPort: 8082
+
 provider:
   environment:
     DSN: ${env:DSN}

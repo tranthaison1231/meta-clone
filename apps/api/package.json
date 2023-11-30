@@ -6,7 +6,8 @@
   "scripts": {
     "dev": "make dev",
     "deploy": "make deploy",
-    "migration": "make migration"
+    "migration": "make migration",
+    "swagger": "make swagger"
   },
   "keywords": [],
   "author": "Son Tran",
@@ -14,6 +15,7 @@
   "devDependencies": {
     "cross-env": "^7.0.3",
     "env-cmd": "^10.1.0",
-    "serverless": "^3.37.0"
+    "serverless": "^3.37.0",
+    "serverless-offline": "^13.3.0"
   }
 }

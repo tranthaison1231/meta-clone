@@ -22,19 +22,29 @@ func Handler(ctx context.Context, event events.APIGatewayWebsocketProxyRequest) 
 	if err != nil {
 		fmt.Println(err.Error())
 	}
+	fmt.Println("================== SOCKET HANDLER | MESSAGE CASE ==================", event.RequestContext.RouteKey)
 
 	switch event.RequestContext.RouteKey {
 	case "$connect":
 		return handlers.Connect(ctx, event)
 	case "$disconnect":
 		return handlers.Disconnect(ctx, event)
+	case "MESSAGE":
+		fmt.Println("================== SOCKET HANDLER | MESSAGE CASE | ROUTE KEY ==================", event.RequestContext.RouteKey)
+		fmt.Println("================== SOCKET HANDLER | MESSAGE CASE | BODY ACTION ==================", body.Action)
+
+		return handlers.SendMessageSocket(ctx, event)
 	case "$default":
-		switch body.Action {
-		case "SEND_MESSAGE":
-			return handlers.SendMessageSocket(ctx, event)
-		default:
-			return events.APIGatewayProxyResponse{Body: "no handler", StatusCode: 200}, nil
-		}
+		// fmt.Println("================== SOCKET HANDLER | DEFAULT CASE | BODY ACTION ==================", body.Action)
+		// switch body.Action {
+		// case "MESSAGE":
+		// 	fmt.Println("================== SOCKET HANDLER | MESSAGE CASE ==================", event.RequestContext.RouteKey)
+		// 	return handlers.SendMessageSocket(ctx, event)
+		// default:
+		// 	return events.APIGatewayProxyResponse{Body: "no handler", StatusCode: 200}, nil
+		// }
+		return events.APIGatewayProxyResponse{Body: "no handler", StatusCode: 200}, nil
+
 	default:
 		return events.APIGatewayProxyResponse{Body: "no handler", StatusCode: 200}, nil
 	}

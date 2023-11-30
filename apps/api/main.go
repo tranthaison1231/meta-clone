@@ -103,9 +103,5 @@ func Handler(ctx context.Context, req events.APIGatewayProxyRequest) (events.API
 // @in header
 // @name Authorization
 func main() {
-	if port != "" {
-		server.ListenAndServe()
-	} else {
-		lambda.Start(Handler)
-	}
+	lambda.Start(Handler)
 }

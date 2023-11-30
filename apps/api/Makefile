@@ -2,8 +2,8 @@ clean:
 	rm -rfv ./bin
 swagger:
 	swag init
-dev: swagger
-	env PORT=8080 go run ./main.go
+dev: clean build-api build-ws
+	sls offline start
 migration: 
 	go run migrations/main.go
 build-api:
