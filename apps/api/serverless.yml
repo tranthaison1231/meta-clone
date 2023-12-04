@@ -8,7 +8,7 @@ plugins:
 
 custom:
   serverless-offline:
-    noPrependStageInUrl: true  
+    noPrependStageInUrl: true
     useDocker: true
     httpPort: 8080
     lambdaPort: 8081
@@ -17,15 +17,6 @@ custom:
 provider:
   environment:
     DSN: ${env:DSN}
-    APIG_ENDPOINT:
-      Fn::Join:
-        - ""
-        - - https://
-          - Ref: WebsocketsApi
-          - .execute-api.
-          - Ref: AWS::Region
-          - .amazonaws.com/
-          - ${self:provider.stage}
   websocketsApiName: websockets-api
   websocketsApiRouteSelectionExpression: $request.body.action
   name: aws
@@ -44,8 +35,8 @@ functions:
       - http:
           path: "/{proxy+}"
           method: any
-          cors: 
-            origin: '*'
+          cors:
+            origin: "*"
             headers:
               - Content-Type
               - X-Amz-Date
@@ -54,7 +45,7 @@ functions:
               - X-Amz-Security-Token
               - X-Amz-User-Agent
             allowCredentials: false
-  ws: 
+  ws:
     handler: bin/ws
     package:
       artifact: bin/ws.zip
@@ -75,7 +66,6 @@ functions:
     events:
       - websocket:
           route: $disconnect
-
 
 package:
   individually: true

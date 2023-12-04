@@ -13,7 +13,9 @@
 			messagesApi.getMessages({
 				targetMessageId: $inboxChat?.lastMessage?.id,
 				isUp: true,
-				chatId: String($inboxChat?.id)
+				chatId: String($inboxChat?.id),
+				orderBy: 'created_at:DESC',
+				limit: 20
 			}),
 		{
 			enabled: !!$inboxChat?.lastMessage?.id && !!$inboxChat.id,
@@ -24,7 +26,7 @@
 		}
 	);
 
-	$: messages = !$inboxChat?.id ? [] : $getMessagesResult.data?.items;
+	$: messages = !$inboxChat?.id ? [] : ($getMessagesResult.data?.items ?? []).reverse();
 </script>
 
 <div

@@ -1,8 +1,6 @@
 package services
 
 import (
-	"fmt"
-
 	"github.com/jinzhu/copier"
 	"github.com/pkg/errors"
 	h "github.com/tranthaison1231/meta-clone/api/helpers"
@@ -30,7 +28,11 @@ func GetUsers(request *models.BasePaginationRequest, currentUser *models.User) (
 		return nil, err
 	}
 
-	pagination := h.Paginate(&users, query, request)
+	pagination, err := h.Paginate(&users, query, request)
+
+	if err != nil {
+		return nil, err
+	}
 
 	var getUserResponse []models.GetUserResponse
 	for _, user := range users {
@@ -79,7 +81,11 @@ func GetUserFriends(userId string, request *models.BasePaginationRequest) (*mode
 		return nil, err
 	}
 
-	pagination := h.Paginate(&users, query, request)
+	pagination, err := h.Paginate(&users, query, request)
+
+	if err != nil {
+		return nil, err
+	}
 
 	return &models.BasePaginationResponse[models.User]{
 		Items:       users,
@@ -158,12 +164,10 @@ func AcceptFriend(userId string, friendId string, isRejecting bool) (string, err
 	if !isRejecting {
 		err1 := db.DB.Exec("INSERT INTO user_friends (user_id, friend_id) VALUES(?, ?)", userId, friendId).Error
 		if err1 != nil {
-			fmt.Println(err1)
 			return "", err1
 		}
 		err2 := db.DB.Exec("INSERT INTO user_friends (user_id, friend_id) VALUES(?, ?)", friendId, userId).Error
 		if err2 != nil {
-			fmt.Println(err1)
 			return "", err2
 		}
 		db.DB.Delete(&friendRequest)

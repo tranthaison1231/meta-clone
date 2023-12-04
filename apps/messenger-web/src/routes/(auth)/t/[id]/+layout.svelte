@@ -103,8 +103,8 @@
 			</div>
 		{/if}
 	</div>
-	<div class="absolute bottom-0 w-full border border-t-1 px-2 py-3">
-		<button class="flex w-full justify-center gap-2 rounded-xl px-3 py-2 hover:bg-gray-100">
+	<div class="absolute bottom-0 flex h-14 w-full items-center border-t-1 px-2">
+		<button class="flex w-full justify-center gap-2 rounded-xl px-3 hover:bg-gray-100">
 			<MonitorDown />
 			Try Messenger for Mac
 		</button>

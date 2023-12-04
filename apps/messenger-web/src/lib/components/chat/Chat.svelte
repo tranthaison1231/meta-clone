@@ -9,7 +9,7 @@
 </script>
 
 {#if $inboxUsers.length > 0}
-	<div class="relative h-screen">
+	<div class="flex h-screen flex-col">
 		<Header />
 		<Body />
 		<Footer />
