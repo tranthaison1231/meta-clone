@@ -10,24 +10,51 @@ import (
 	"github.com/aws/aws-sdk-go-v2/aws"
 	g "github.com/aws/aws-sdk-go-v2/service/apigatewaymanagementapi"
 	"github.com/gin-gonic/gin"
+	"github.com/pkg/errors"
 	"github.com/tranthaison1231/meta-clone/api/db"
 	h "github.com/tranthaison1231/meta-clone/api/helpers"
 	"github.com/tranthaison1231/meta-clone/api/models"
 	"github.com/tranthaison1231/meta-clone/api/services"
 )
 
+func SeenMessage(c *gin.Context) {
+	var req models.SeenMessageInputDto
+	if err := h.CheckBindAndValidate(&req, c); err != nil {
+		return
+	}
+
+	message, err := services.SeenMessage(req.MessageID)
+
+	if err != nil {
+		h.Fail400(c, err.Error())
+		return
+	}
+
+	h.Success(c, gin.H{
+		"message": message,
+	})
+}
+
 func SendMessage(c *gin.Context) {
-	var req models.MessageRequest
+	var req models.SendMessageInputDto
 	if err := h.CheckBindAndValidate(&req, c); err != nil {
 		return
 	}
 
 	chatID := c.Param("chatID")
 
+	if req.MessageType == "" {
+		h.Fail400(c, errors.New("MessageType is required!").Error())
+
+		return
+	}
+
 	message, err := services.CreateMessage(models.Message{
-		Content: req.Content,
-		ChatID:  chatID,
-		OwnerID: c.MustGet("user").(*models.User).ID,
+		Content:        req.Content,
+		ChatID:         chatID,
+		OwnerID:        c.MustGet("user").(*models.User).ID,
+		ReplyMessageID: req.ReplyMessageID,
+		MessageType:    req.ReplyMessageID,
 	})
 
 	services.UpdateLastMessage(chatID, message)

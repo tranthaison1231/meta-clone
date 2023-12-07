@@ -17,6 +17,8 @@ custom:
 provider:
   environment:
     DSN: ${env:DSN}
+    S3_BUCKET_NAME: ${env:S3_BUCKET_NAME}
+    S3_BUCKET_REGION: ${env:S3_BUCKET_REGION}
   websocketsApiName: websockets-api
   websocketsApiRouteSelectionExpression: $request.body.action
   name: aws

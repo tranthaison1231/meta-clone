@@ -13,3 +13,13 @@ func CreateMessage(newMessage models.Message) (*models.Message, error) {
 	}
 	return &newMessage, nil
 }
+
+func SeenMessage(messageID string) (string, error) {
+	err := db.DB.Model(&models.Message{}).Update("is_seen", true).Error
+
+	if err != nil {
+		return "", nil
+	}
+
+	return "Success", nil
+}

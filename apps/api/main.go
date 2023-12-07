@@ -61,6 +61,9 @@ func initRoutes(r *gin.Engine) {
 	auth.POST("/users/accept-friend", handlers.AcceptFriend)
 	auth.GET("/users/:userID/friends", handlers.GetUserFriends)
 	auth.GET("/users", handlers.GetUsers)
+
+	// S3
+	auth.POST("/presigned-url", handlers.GetPresignedUrl)
 }
 
 func init() {
