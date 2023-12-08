@@ -1,8 +1,10 @@
 <script lang="ts">
 	import { chatsApi } from '$lib/apis/chats';
 	import { messagesApi } from '$lib/apis/message';
+	import { constructPayload } from '$lib/services/websocket';
 	import { inboxUsers, inboxChat, setInboxChatData, appendNewMessage } from '$lib/stores/chat';
 	import { me } from '$lib/stores/me';
+	import { ws } from '$lib/stores/websocket';
 	import { sendMessageSchema } from '$lib/utils/schema';
 	import { useMutation } from '@sveltestack/svelte-query';
 	import { Image, PlusCircle, SendIcon, Smile, StickyNote, ThumbsUp } from 'lucide-svelte';
@@ -12,6 +14,7 @@
 		onSuccess({ message }) {
 			appendNewMessage(message);
 			$content = '';
+			$ws.send(constructPayload('SEND_MESSAGE', { message }));
 		}
 	});
 	const createChatMutate = useMutation(chatsApi.createChat);
@@ -56,7 +59,7 @@
 <form
 	method="POST"
 	use:enhance
-	class="absolute bottom-0 flex w-full items-center border-t px-2 py-3"
+	class="absolute bottom-0 flex h-14 w-full items-center border-t bg-white px-2 py-3"
 >
 	<div class="flex text-blue-500">
 		<button class="rounded-full p-2 hover:bg-gray-100">

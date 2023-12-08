@@ -61,6 +61,9 @@ func initRoutes(r *gin.Engine) {
 	auth.POST("/users/accept-friend", handlers.AcceptFriend)
 	auth.GET("/users/:userID/friends", handlers.GetUserFriends)
 	auth.GET("/users", handlers.GetUsers)
+
+	// S3
+	auth.POST("/presigned-url", handlers.GetPresignedUrl)
 }
 
 func init() {
@@ -103,9 +106,5 @@ func Handler(ctx context.Context, req events.APIGatewayProxyRequest) (events.API
 // @in header
 // @name Authorization
 func main() {
-	if port != "" {
-		server.ListenAndServe()
-	} else {
-		lambda.Start(Handler)
-	}
+	lambda.Start(Handler)
 }

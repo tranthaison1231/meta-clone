@@ -1,8 +1,6 @@
 package services
 
 import (
-	"fmt"
-
 	"github.com/pkg/errors"
 	"github.com/tranthaison1231/meta-clone/api/db"
 	h "github.com/tranthaison1231/meta-clone/api/helpers"
@@ -36,8 +34,6 @@ func GetChats(request *models.GetChatsRequest) (*models.BasePaginationResponse[m
 
 		chatQuery := db.DB.Raw("SELECT chat_id FROM chat_users WHERE user_id IN ? GROUP BY chat_id HAVING COUNT(*) = ?", request.MemberIds, lengthCheck).Find(&chatIds)
 
-		fmt.Println("query.RowsAffected", query.RowsAffected)
-
 		if chatQuery.RowsAffected > 0 {
 			err := query.Where("id IN ?", chatIds).Find(&chats).Error
 			if err != nil {
@@ -52,9 +48,11 @@ func GetChats(request *models.GetChatsRequest) (*models.BasePaginationResponse[m
 		return nil, err
 	}
 
-	fmt.Println("chats", chats)
+	pagination, err := h.Paginate(&chats, query, &request.PaginateRequest)
 
-	pagination := h.Paginate(&chats, query, &request.PaginateRequest)
+	if err != nil {
+		return nil, err
+	}
 
 	return &models.BasePaginationResponse[models.Chat]{
 		Items:       chats,
@@ -153,7 +151,11 @@ func GetChatMessages(request *models.GetChatMessagesRequest) (*models.BasePagina
 		query.Where("created_at => ?", targetMessage.CreatedAt)
 	}
 
-	pagination := h.Paginate(&messages, query, &request.PaginateRequest)
+	pagination, err := h.Paginate(&messages, query, &request.PaginateRequest)
+
+	if err != nil {
+		return nil, err
+	}
 
 	return &models.BasePaginationResponse[models.Message]{
 		Items:       messages,

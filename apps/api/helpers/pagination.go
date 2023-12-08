@@ -1,6 +1,7 @@
 package h
 
 import (
+	"fmt"
 	"math"
 	"strconv"
 	"strings"
@@ -41,7 +42,7 @@ func ConstructPaginateRequest(c *gin.Context) *models.BasePaginationRequest {
 	}
 }
 
-func Paginate(model interface{}, query *gorm.DB, request *models.BasePaginationRequest) *PaginateRequestResult {
+func Paginate(dest interface{}, query *gorm.DB, request *models.BasePaginationRequest) (*PaginateRequestResult, error) {
 	setRequestDefaultValue(request)
 
 	page := request.Page
@@ -56,17 +57,25 @@ func Paginate(model interface{}, query *gorm.DB, request *models.BasePaginationR
 	result := query.Offset((page - 1) * limit).Limit(limit)
 
 	if orderBy != "" {
+		fmt.Println("========== ORDER BY ==========", orderBy)
+
 		orderByField := strings.Split(request.OrderBy, ":")[0]
-		order := strings.Split(request.OrderBy, ":")[0]
+		order := strings.Split(request.OrderBy, ":")[1]
+
+		fmt.Println("========== FIELD + ORDER ==========", orderByField, order)
 
 		result = query.Order(orderByField + " " + order)
 	}
 
-	result.Find(model)
+	err := result.Find(dest).Error
+
+	if err != nil {
+		return nil, err
+	}
 
 	return &PaginateRequestResult{
 		CurrentPage: page,
 		Count:       int(result.RowsAffected),
 		TotalPages:  int(totalPages),
-	}
+	}, nil
 }
