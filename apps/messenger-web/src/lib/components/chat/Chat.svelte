@@ -1,15 +1,12 @@
-<script>
+<script lang="ts">
 	import Header from './header/Header.svelte';
 	import Footer from './footer/Footer.svelte';
 	import Body from './body/Body.svelte';
-	import { inboxUsers, setInboxChatData } from '$lib/stores/chat';
-	import { useQuery } from '@sveltestack/svelte-query';
-	import { chatsApi } from '$lib/apis/chats';
-	import { me } from '$lib/stores/me';
+	import { inboxUsers } from '$lib/stores/chat';
 </script>
 
 {#if $inboxUsers.length > 0}
-	<div class="flex h-screen flex-col">
+	<div class="relative h-screen">
 		<Header />
 		<Body />
 		<Footer />
